@@ -1,5 +1,7 @@
 package com.example.pflanzenhandel.service;
 
+import com.example.pflanzenhandel.entity.Benutzer;
+import com.example.pflanzenhandel.entity.Rolle;
 import com.example.pflanzenhandel.service.RoleService;
 import com.example.pflanzenhandel.service.UserService;
 import org.slf4j.Logger;

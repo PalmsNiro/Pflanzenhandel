@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class RolleService {
+public class RoleService {
 
     @Autowired
     private RolleRepository roleRepository;
 
-    public Rolle saveRole(Rolle role) {
-        return roleRepository.save(role);
+    public Rolle saveRole(Rolle rolle) {
+        return roleRepository.save(rolle);
     }
 
     public List<Rolle> findAllUsers() {

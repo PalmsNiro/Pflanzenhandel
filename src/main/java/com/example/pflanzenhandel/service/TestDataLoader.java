@@ -1,7 +1,7 @@
 package com.example.pflanzenhandel.service;
 
-import com.example.pflanzenhandel.entity.Benutzer;
-import com.example.pflanzenhandel.entity.Rolle;
+import com.example.pflanzenhandel.entity.*;
+import com.example.pflanzenhandel.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +14,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Component
-public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent>{
+public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent> {
+
     private static final Logger logger = LoggerFactory.getLogger(TestDataLoader.class);
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    private RolleService rolleService;
+    private RoleService roleService;
 
     @Autowired
     private UserService userService;
@@ -37,8 +38,8 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         // Initialisieren Sie Beispielobjekte und speichern Sie diese über Ihre Services
         Rolle userRole = new Rolle("ROLE_USER");
         Rolle adminRole = new Rolle("ROLE_ADMIN");
-        rolleService.saveRole(userRole);
-        rolleService.saveRole(adminRole);
+        roleService.saveRole(userRole);
+        roleService.saveRole(adminRole);
 
         Set<Rolle> userRoles = new HashSet<>();
         userRoles.add(userRole);

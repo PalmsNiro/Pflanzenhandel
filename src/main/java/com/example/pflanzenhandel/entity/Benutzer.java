@@ -21,7 +21,7 @@ public class Benutzer {
     private boolean enabled = true;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Rolle> roles;
+    private Set<Rolle> rolles;
 
     public Benutzer () {
         // empty constructor for Hibernate
@@ -60,10 +60,10 @@ public class Benutzer {
     }
 
     public Set<Rolle> getRoles() {
-        return roles;
+        return rolles;
     }
 
     public void setRoles(Set<Rolle> rollen) {
-        this.roles = rollen;
+        this.rolles = rollen;
     }
 }

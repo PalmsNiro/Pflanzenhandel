@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
+    <!-- Einbindung eines Fragments -->
+    <th:block th:insert="~{fragments/htmlHead :: head}"></th:block>
 </head>
 <body>
 <p th:text="'Dies ist Ihre initiale Startseite'"></p>

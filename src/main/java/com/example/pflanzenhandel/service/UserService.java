@@ -83,10 +83,10 @@ public class UserService implements UserDetailsService {
                 user.isEnabled(), true, true, user.isEnabled(), grantedAuthorities);
     }
 
-    private List<GrantedAuthority> getUserAuthorities(Set<Rolle> roleSet) {
+    private List<GrantedAuthority> getUserAuthorities(Set<Rolle> rolleSet) {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        for (Rolle role : roleSet) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getRolename()));
+        for (Rolle rolle : rolleSet) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(rolle.getRolename()));
         }
         return grantedAuthorities;
     }

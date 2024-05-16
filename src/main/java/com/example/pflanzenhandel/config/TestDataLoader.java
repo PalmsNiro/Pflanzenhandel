@@ -1,4 +1,4 @@
-package com.example.pflanzenhandel.service;
+package com.example.pflanzenhandel.config;
 
 import com.example.pflanzenhandel.entity.*;
 import com.example.pflanzenhandel.service.*;

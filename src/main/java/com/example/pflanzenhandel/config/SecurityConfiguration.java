@@ -1,5 +1,4 @@
 package com.example.pflanzenhandel.config;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,10 +11,20 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+/**
+ * Configures web security for the application.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
 
+    /**
+     * Configures the security filter chain.
+     *
+     * @param http the HttpSecurity object to configure
+     * @return the configured SecurityFilterChain
+     * @throws Exception in case of configuration errors
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
@@ -52,7 +61,11 @@ public class SecurityConfiguration {
 
         return http.build();
     }
-
+    /**
+     * Configures web security to ignore requests to certain paths.
+     *
+     * @return a WebSecurityCustomizer that configures the ignored requests
+     */
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web
@@ -62,9 +75,9 @@ public class SecurityConfiguration {
     }
 
     /**
-     * Password-encoder Bean der Spring Security. Wird zum Verschlüsseln von Passwörtern benötigt.
+     * Password encoder bean for Spring Security. Required for encrypting passwords.
      *
-     * @return BCryptPasswordEncoder bean.
+     * @return a BCryptPasswordEncoder bean
      */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

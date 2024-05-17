@@ -22,10 +22,21 @@ public class UserService implements UserDetailsService {
     @Autowired
     private BenutzerRepository userRepository;
 
-    public Benutzer saveUser(Benutzer user) {
-        return userRepository.save(user);
+    /**
+     * Saves a Benutzer entity to the database.
+     *
+     * @param benutzer the Benutzer entity to save.
+     * @return the saved Benutzer entity.
+     */
+    public Benutzer saveUser(Benutzer benutzer) {
+        return userRepository.save(benutzer);
     }
 
+    /**
+     * Retrieves all Benutzer entities from the database.
+     *
+     * @return a list of all Benutzer entities.
+     */
     public List<Benutzer> findAllUsers() {
         return userRepository.findAll();
     }
@@ -74,15 +85,21 @@ public class UserService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Benutzer user = userRepository.findByUsername(username);
-        if (Objects.isNull(user)) {
+        Benutzer benutzer = userRepository.findByUsername(username);
+        if (Objects.isNull(benutzer)) {
             throw new UsernameNotFoundException("Could not find the user for username " + username);
         }
-        List<GrantedAuthority> grantedAuthorities = getUserAuthorities(user.getRoles());
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                user.isEnabled(), true, true, user.isEnabled(), grantedAuthorities);
+        List<GrantedAuthority> grantedAuthorities = getUserAuthorities(benutzer.getRoles());
+        return new org.springframework.security.core.userdetails.User(benutzer.getUsername(), benutzer.getPassword(),
+                benutzer.isEnabled(), true, true, benutzer.isEnabled(), grantedAuthorities);
     }
 
+    /**
+     * Converts a set of Rolle entities to a list of GrantedAuthority objects for Spring Security.
+     *
+     * @param rolleSet the set of Rolle entities.
+     * @return a list of GrantedAuthority objects.
+     */
     private List<GrantedAuthority> getUserAuthorities(Set<Rolle> rolleSet) {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         for (Rolle rolle : rolleSet) {

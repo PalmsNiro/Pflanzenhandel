@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
     /**
-     * Zeigt die Startseite Ihrer Anwendung.
-     * @param model enthält alle ModelAttribute.
-     * @return home-Seite.
+     * Displays the home page of your application.
+     *
+     * @param model the Model containing all model attributes
+     * @return the home page view
      */
     @GetMapping("/")
 
     public String showHome(Model model) {
         model.addAttribute("message", "Und hier sehen Sie ein ModelAttribut");
-        return "home"; // return-Wert der Methode ist der Name der View (HTML-Seite), die angezeigt werden soll
+        return "home"; // The return value of the method is the name of the view (HTML page) zo be displayed
     }
 }

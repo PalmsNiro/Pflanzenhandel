@@ -12,7 +12,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
-
+/**
+ * This class is responsible for loading test data into the database upon application startup.
+ * The method 'onApplicationEvent' is triggered when the Spring context is initialized or refreshed.
+ */
 @Component
 public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -28,35 +31,35 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
     private UserService userService;
 
     /**
-     * Diese Methode wird zum Aufsetzen von Testdaten für die Datenbank verwendet werden. Die Methode wird immer dann
-     * ausgeführt, wenn der Spring Kontext initialisiert wurde, d.h. wenn Sie Ihren Server (neu-)starten.
+     * Initializes the database with test data when the application context is initialized or refreshed.
+     * This method creates sample objects and saves them using respective services.
      */
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         logger.info("Initialisiere Datenbank mit Testdaten...");
 
-        // Initialisieren Sie Beispielobjekte und speichern Sie diese über Ihre Services
-        Rolle userRole = new Rolle("ROLE_USER");
-        Rolle adminRole = new Rolle("ROLE_ADMIN");
-        roleService.saveRole(userRole);
-        roleService.saveRole(adminRole);
+        // Initialize example objects and save them using respective services
+        Rolle userRolle = new Rolle("ROLE_USER");
+        Rolle adminRolle = new Rolle("ROLE_ADMIN");
+        roleService.saveRole(userRolle);
+        roleService.saveRole(adminRolle);
 
-        Set<Rolle> userRoles = new HashSet<>();
-        userRoles.add(userRole);
+        Set<Rolle> userRolles = new HashSet<>();
+        userRolles.add(userRolle);
 
-        Set<Rolle> adminRoles = new HashSet<>();
-        adminRoles.add(adminRole);
+        Set<Rolle> adminRolles = new HashSet<>();
+        adminRolles.add(adminRolle);
 
-        Benutzer normalUser = new Benutzer();
-        normalUser.setUsername("user");
-        normalUser.setPassword(passwordEncoder.encode("1234"));
-        normalUser.setRoles(userRoles);
-        userService.saveUser(normalUser);
+        Benutzer normalBenutzer = new Benutzer();
+        normalBenutzer.setUsername("user");
+        normalBenutzer.setPassword(passwordEncoder.encode("1234"));
+        normalBenutzer.setRoles(userRolles);
+        userService.saveUser(normalBenutzer);
 
         Benutzer admin = new Benutzer();
         admin.setUsername("admin");
         admin.setPassword(passwordEncoder.encode("admin"));
-        admin.setRoles(adminRoles);
+        admin.setRoles(adminRolles);
         userService.saveUser(admin);
     }
 }

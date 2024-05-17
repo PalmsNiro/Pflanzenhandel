@@ -23,8 +23,9 @@ public class Benutzer {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Rolle> rolles;
 
-    public Benutzer () {
-        // empty constructor for Hibernate
+    public Benutzer() {
+        // emp
+        // ty constructor for Hibernate
     }
 
     public Integer getUserId() {

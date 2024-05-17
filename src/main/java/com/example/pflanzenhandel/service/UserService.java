@@ -22,8 +22,8 @@ public class UserService implements UserDetailsService {
     @Autowired
     private BenutzerRepository userRepository;
 
-    public Benutzer saveUser(Benutzer user) {
-        return userRepository.save(user);
+    public Benutzer saveUser(Benutzer benutzer) {
+        return userRepository.save(benutzer);
     }
 
     public List<Benutzer> findAllUsers() {
@@ -74,13 +74,13 @@ public class UserService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Benutzer user = userRepository.findByUsername(username);
-        if (Objects.isNull(user)) {
+        Benutzer benutzer = userRepository.findByUsername(username);
+        if (Objects.isNull(benutzer)) {
             throw new UsernameNotFoundException("Could not find the user for username " + username);
         }
-        List<GrantedAuthority> grantedAuthorities = getUserAuthorities(user.getRoles());
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                user.isEnabled(), true, true, user.isEnabled(), grantedAuthorities);
+        List<GrantedAuthority> grantedAuthorities = getUserAuthorities(benutzer.getRoles());
+        return new org.springframework.security.core.userdetails.User(benutzer.getUsername(), benutzer.getPassword(),
+                benutzer.isEnabled(), true, true, benutzer.isEnabled(), grantedAuthorities);
     }
 
     private List<GrantedAuthority> getUserAuthorities(Set<Rolle> rolleSet) {

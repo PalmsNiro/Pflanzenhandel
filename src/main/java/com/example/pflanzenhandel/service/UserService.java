@@ -22,10 +22,21 @@ public class UserService implements UserDetailsService {
     @Autowired
     private BenutzerRepository userRepository;
 
+    /**
+     * Saves a Benutzer entity to the database.
+     *
+     * @param benutzer the Benutzer entity to save.
+     * @return the saved Benutzer entity.
+     */
     public Benutzer saveUser(Benutzer benutzer) {
         return userRepository.save(benutzer);
     }
 
+    /**
+     * Retrieves all Benutzer entities from the database.
+     *
+     * @return a list of all Benutzer entities.
+     */
     public List<Benutzer> findAllUsers() {
         return userRepository.findAll();
     }
@@ -83,6 +94,12 @@ public class UserService implements UserDetailsService {
                 benutzer.isEnabled(), true, true, benutzer.isEnabled(), grantedAuthorities);
     }
 
+    /**
+     * Converts a set of Rolle entities to a list of GrantedAuthority objects for Spring Security.
+     *
+     * @param rolleSet the set of Rolle entities.
+     * @return a list of GrantedAuthority objects.
+     */
     private List<GrantedAuthority> getUserAuthorities(Set<Rolle> rolleSet) {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         for (Rolle rolle : rolleSet) {

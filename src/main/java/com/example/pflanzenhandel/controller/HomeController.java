@@ -16,7 +16,7 @@ public class HomeController {
     @GetMapping("/")
 
     public String showHome(Model model) {
-        model.addAttribute("message", "Und hier sehen Sie ein ModelAttribut");
+        model.addAttribute("message", "Die Webseite befindet sich noch in der Entwicklung. Bitte besuchen sie unsere Webseite zu einem späteren Zeitpunkt erneut.");
         return "home"; // The return value of the method is the name of the view (HTML page) zo be displayed
     }
 }

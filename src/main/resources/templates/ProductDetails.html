@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:insert="~{fragments/htmlHead :: head}"></th:block>
+</head>
+<body>
+<div class="container">
+    <h1 th:text="${product.name}"></h1>
+    <p th:text="${product.description}"></p>
+    <p th:text="'Price: ' + ${product.price}"></p>
+</div>
+</body>
+</html>

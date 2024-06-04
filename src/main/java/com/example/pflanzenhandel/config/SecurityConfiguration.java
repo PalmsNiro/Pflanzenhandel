@@ -71,7 +71,7 @@ public class SecurityConfiguration {
         return (web) -> web
                 .ignoring()
                 // gewähre immer Zugriff auf Dateien in den folgenden Ordnern
-                .requestMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
+                .requestMatchers("/resources/**", "/static/**", "/static/css/**", "/js/**", "/images/**");
     }
 
     /**

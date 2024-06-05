@@ -74,5 +74,41 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product1.setShippingCosts(5.50);
         product1.setDescription("This a Pflanze and it does Pflanzen things");
         productService.saveProduct(product1);
+
+        Product product2 = new Product();
+        product2.setName("Baum");
+        product2.setPrice(69.69);
+        product2.setHeight(10.5);
+        product2.setOverPot(false);
+        product2.setShippingCosts(5.50);
+        product2.setDescription("Baum zu verschenken");
+        productService.saveProduct(product2);
+
+        Product product3 = new Product();
+        product3.setName("Palme");
+        product3.setPrice(30);
+        product3.setHeight(1.5);
+        product3.setOverPot(false);
+        product3.setShippingCosts(5.50);
+        product3.setDescription("Palme sehr schöm");
+        productService.saveProduct(product3);
+
+        Product product4 = new Product();
+        product4.setName("Orchidee");
+        product4.setPrice(5.5);
+        product4.setHeight(0.5);
+        product4.setOverPot(true);
+        product4.setShippingCosts(5.50);
+        product4.setDescription("Toll");
+        productService.saveProduct(product4);
+
+        Product product5 = new Product();
+        product5.setName("Kaktus");
+        product5.setPrice(0.15);
+        product5.setHeight(2.4);
+        product5.setOverPot(true);
+        product5.setShippingCosts(5.50);
+        product5.setDescription("Achtung spit");
+        productService.saveProduct(product5);
     }
 }

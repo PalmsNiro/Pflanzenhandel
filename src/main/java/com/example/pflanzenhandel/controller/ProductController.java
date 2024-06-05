@@ -16,17 +16,11 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/products")
-    public String showProducts(Model model) {
-        List<Product> products = productService.getAllProducts();
-        model.addAttribute("products", products);
-        return "product-list";
-    }
 
     @GetMapping("/product/{id}")
-    public String showProductDetail(@PathVariable("id") Integer id, Model model) {
+    public String getProductById(@PathVariable Integer id, Model model) {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
-        return "product-detail";
+        return "productDetails"; // Name of your product detail view
     }
 }

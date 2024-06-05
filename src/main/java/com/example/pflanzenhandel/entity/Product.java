@@ -17,6 +17,12 @@ public class Product {
     private boolean overPot;
     private double shippingCosts;
     private String description;
+    /*
+    Currently for testing purposes only a String
+    Needs to be replaced with a Set of Strings for Image Urls
+    If you change his, make sur ethe home controller/home.htlm only pics one image
+     */
+    private String imageUrl;
 
     public Product(){
 
@@ -78,5 +84,13 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

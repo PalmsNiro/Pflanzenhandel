@@ -97,23 +97,33 @@
         </div>
         <!--Content Section-->
         <div class="col bg-dark-subtle py-3 d-flex flex-column">
+
           <!-- _productList.html -->
-          <div th:if="${products != null}">
-            <ul>
-              <li th:each="product : ${products}">
-                <div class="card mb-3 " style="width: 18rem;">
+          <div th:if="${products != null && !products.isEmpty()}">
+            <div class="row" th:each="product : ${products}">
+              <div class="col-md-6 mb-4">
+                <a th:href="@{/product/{id}(id=${product.id})}" class="card" style="width: 100%; text-decoration: none; color: inherit;">
+                  <div th:if="${product.imageUrl != null}">
+                    <img th:src="${product.imageUrl}" class="card-img-top" alt="Product Image" style="width: 100%; height: 200px; object-fit: cover;">
+                  </div>
+                  <div th:if="${product.imageUrl == null}">
+                    <div class="card-img-top bg-secondary text-center" style="width: 100%; height: 200px; display: flex; align-items: center; justify-content: center; color: white;">
+                      Image cap
+                    </div>
+                  </div>
                   <div class="card-body">
                     <h5 class="card-title" th:text="${product.name}">Product Name</h5>
                     <p class="card-text" th:text="${product.description}">Product Description</p>
                     <p class="card-text"><small class="text-muted" th:text="${product.price}">Product Price</small></p>
                   </div>
-                </div>
-              </li>
-            </ul>
+                </a>
+              </div>
+            </div>
           </div>
           <div th:if="${products == null || products.isEmpty()}">
             <p>No products available.</p>
           </div>
+
         </div>
       </div>
     </div>

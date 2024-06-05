@@ -21,7 +21,11 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public String registerUser(Benutzer benutzer) {
+    public String registerUser(Benutzer benutzer, String repeatPassword, Model model) {
+        if (!benutzer.getPassword().equals(repeatPassword)) {
+            model.addAttribute("error", "Passwords do not match");
+            return "register";
+        }
         userService.saveUser(benutzer);
         return "redirect:/login";
     }

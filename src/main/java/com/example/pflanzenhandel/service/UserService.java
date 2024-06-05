@@ -2,16 +2,19 @@ package com.example.pflanzenhandel.service;
 
 import com.example.pflanzenhandel.entity.*;
 import com.example.pflanzenhandel.repository.BenutzerRepository;
+import com.example.pflanzenhandel.repository.RolleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -22,6 +25,12 @@ public class UserService implements UserDetailsService {
     @Autowired
     private BenutzerRepository userRepository;
 
+    @Autowired
+    private RolleRepository roleRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     /**
      * Saves a Benutzer entity to the database.
      *
@@ -29,6 +38,19 @@ public class UserService implements UserDetailsService {
      * @return the saved Benutzer entity.
      */
     public Benutzer saveUser(Benutzer benutzer) {
+        // Encrypt the password before saving
+        benutzer.setPassword(passwordEncoder.encode(benutzer.getPassword()));
+
+        // Assign default role USER to the new user
+        Rolle userRole = roleRepository.findByRolename("ROLE_USER");
+        if (userRole == null) {
+            userRole = new Rolle("ROLE_USER");
+            roleRepository.save(userRole);
+        }
+        Set<Rolle> roles = new HashSet<>();
+        roles.add(userRole);
+        benutzer.setRoles(roles);
+
         return userRepository.save(benutzer);
     }
 
@@ -77,7 +99,7 @@ public class UserService implements UserDetailsService {
     }
 
     /**
-     * Überschreibt die Methode, welche für den Login der Spring Security benötigt wird..
+     * Überschreibt die Methode, welche für den Login der Spring Security benötigt wird.
      *
      * @param username the username des Benutzers.
      * @return UserDetails Objekt des Spring Security Frameworks.
@@ -108,4 +130,3 @@ public class UserService implements UserDetailsService {
         return grantedAuthorities;
     }
 }
-

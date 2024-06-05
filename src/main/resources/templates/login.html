@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- Einbindung eines Fragments -->
     <th:block th:insert="~{fragments/htmlHead :: head}"></th:block>
 </head>
 <body>
@@ -19,18 +18,19 @@
                 <div class="row form-group">
                     <div class="col-12 col-md-6">
                         <label>Username</label>
-                        <input type="text" id="username" name="username"  th:placeholder="'Username'" class="form-control"/><br/>
+                        <input type="text" id="username" name="username" th:placeholder="'Username'" class="form-control"/><br/>
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-12 col-md-6">
                         <label>Password</label>
-                        <input type="password"  th:placeholder="'Password'" id="password" name="password" class="form-control"/><br/>
+                        <input type="password" th:placeholder="'Password'" id="password" name="password" class="form-control"/><br/>
                     </div>
                 </div>
             </div>
             <div class="card-footer">
                 <button name="Submit" value="Login" type="Submit" th:text="'Login'" class="btn btn-primary"></button>
+                <p><a th:href="@{/register}">Noch keinen Account?</a></p>
             </div>
         </div>
     </form>

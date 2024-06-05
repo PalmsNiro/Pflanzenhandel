@@ -1,0 +1,40 @@
+.dropdown-menu {
+    min-width: 10rem;
+}
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+.navbar-nav {
+    flex-direction: row;
+    align-items: center;
+}
+.navbar-nav .nav-link {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+}
+.navbar .container-fluid {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.navbar .form-control {
+    width: 300px;
+}
+.navbar-right {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+.navbar-right .nav-item {
+    margin-left: 15px;
+}
+
+#userDropdown::after {
+    display: none;
+}
+
+/* Größere Icon-Größe */
+.icon-size {
+    width: 25px !important;
+    height: 25px !important;
+}

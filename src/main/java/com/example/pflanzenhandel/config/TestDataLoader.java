@@ -30,6 +30,9 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ProductService productService;
+
     /**
      * Initializes the database with test data when the application context is initialized or refreshed.
      * This method creates sample objects and saves them using respective services.
@@ -61,5 +64,15 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         admin.setPassword(passwordEncoder.encode("admin"));
         admin.setRoles(adminRolles);
         userService.saveUser(admin);
+
+        //Add new Product listings here
+        Product product1 = new Product();
+        product1.setName("Pflanze lol");
+        product1.setPrice(6.90);
+        product1.setHeight(10.5);
+        product1.setOverPot(false);
+        product1.setShippingCosts(5.50);
+        product1.setDescription("This a Pflanze and it does Pflanzen things");
+        productService.saveProduct(product1);
     }
 }

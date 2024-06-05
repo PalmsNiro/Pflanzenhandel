@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class RegistrationController {
@@ -21,12 +22,13 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public String registerUser(Benutzer benutzer, String repeatPassword, Model model) {
+    public String registerUser(Benutzer benutzer, String repeatPassword, Model model, RedirectAttributes redirectAttributes) {
         if (!benutzer.getPassword().equals(repeatPassword)) {
             model.addAttribute("error", "Passwords do not match");
             return "register";
         }
         userService.saveUser(benutzer);
+        redirectAttributes.addFlashAttribute("successMessage", "Account successfully created. You can now log in.");
         return "redirect:/login";
     }
 }

@@ -8,6 +8,7 @@ phillipSiegel - Phillip Siegel
 
 ### To Do:
 
+Implement Check for existing Username in registration
 Design Profile-page  
 -Make /profile reachable with buttons on /home
 Design Product-Page (single product)  

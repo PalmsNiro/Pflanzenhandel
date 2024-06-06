@@ -25,4 +25,7 @@ public class ProductService {
         return productRepository.findById(id).orElse(null);
     }
 
+    public List<Product> searchProducts(String query) {
+        return productRepository.findByNameContainingOrDescriptionContaining(query, query);
+    }
 }

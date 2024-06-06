@@ -35,6 +35,7 @@ public class HomeController {
             products = productService.getAllProducts();
         }
         model.addAttribute("products", products);
+        model.addAttribute("query", query);
         return "home"; // The return value of the method is the name of the view (HTML page) to be displayed
     }
 }

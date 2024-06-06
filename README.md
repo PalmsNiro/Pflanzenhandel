@@ -13,8 +13,7 @@ Design Profile-page
 -Make /profile reachable with buttons on /home
 Design Product-Page (single product)  
 Chat  
--Confirm Purchase  
-Search Function  
+-Confirm Purchase   
 Sign-out Button  
 Create Listing Function (incl. Picture upload)  
 Plant-Care Page  

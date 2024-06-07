@@ -59,6 +59,12 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         normalBenutzer.setRoles(userRolles);
         userService.saveUser(normalBenutzer);
 
+        Benutzer debbyBenutzer = new Benutzer();
+        debbyBenutzer.setUsername("Debby");
+        debbyBenutzer.setPassword("debo");
+        debbyBenutzer.setRoles(userRolles);
+        userService.saveUser(debbyBenutzer);
+
         Benutzer admin = new Benutzer();
         admin.setUsername("admin");
         admin.setPassword("admin");

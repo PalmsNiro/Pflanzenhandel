@@ -21,12 +21,17 @@ public class RegistrationController {
         return "register";
     }
 
+
+
     @PostMapping("/register")
-    public String registerUser(Benutzer benutzer, String repeatPassword, Model model, RedirectAttributes redirectAttributes) {
+    public String registerUser(Benutzer benutzer, String repeatPassword,String firstName, String lastName, String email, Model model, RedirectAttributes redirectAttributes) {
         if (!benutzer.getPassword().equals(repeatPassword)) {
             model.addAttribute("error", "Passwords do not match");
             return "register";
         }
+        benutzer.setFirstName(firstName);
+        benutzer.setLastName(lastName);
+        benutzer.setEmail(email);
         userService.saveUser(benutzer);
         redirectAttributes.addFlashAttribute("successMessage", "Account successfully created. You can now log in.");
         return "redirect:/login";

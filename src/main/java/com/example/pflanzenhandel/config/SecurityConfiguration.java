@@ -25,42 +25,42 @@ public class SecurityConfiguration {
      * @return the configured SecurityFilterChain
      * @throws Exception in case of configuration errors
      */
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(
-                        // define all URLs which should be accessible without login
-                        auth -> auth
-                                .requestMatchers("/register", "/login").permitAll()
-                                // define all URLs which require an authenticated user with a certain role
-                                // NOTE: Spring Security automatically adds "ROLE_" while performing this check. For this reason we do not
-                                // have to use "ROLE_ADMIN" here, which we define in the TestDatabaseLoader.
-                                .requestMatchers("/admin/**").hasRole("ADMIN")
-                                // all other URLs (except the ones above) require authentication too
-                                .anyRequest().authenticated())
-                // include CSRF token, which may be required while performing AJAX-requests
-                .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        .ignoringRequestMatchers("/console/**"))
-                // define the login-page, which is also accessible for everyone
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+            http.csrf(AbstractHttpConfigurer::disable)
+                    .authorizeHttpRequests(
+                            // define all URLs which should be accessible without login
+                            auth -> auth
+                                    .requestMatchers("/register", "/login").permitAll()
+                                    // define all URLs which require an authenticated user with a certain role
+                                    // NOTE: Spring Security automatically adds "ROLE_" while performing this check. For this reason we do not
+                                    // have to use "ROLE_ADMIN" here, which we define in the TestDatabaseLoader.
+                                    .requestMatchers("/admin/**").hasRole("ADMIN")
+                                    // all other URLs (except the ones above) require authentication too
+                                    .anyRequest().authenticated())
+                    // include CSRF token, which may be required while performing AJAX-requests
+                    .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                            .ignoringRequestMatchers("/console/**"))
+                    // define the login-page, which is also accessible for everyone
 
-                .formLogin( formLogin -> formLogin
-                        .loginPage("/login").failureUrl("/login?error=true").permitAll()
-                        .defaultSuccessUrl("/", true)
-                        .usernameParameter("username")
-                        .passwordParameter("password"))
-                // everyone may logout
+                    .formLogin(formLogin -> formLogin
+                            .loginPage("/login").failureUrl("/login?error=true").permitAll()
+                            .defaultSuccessUrl("/", true)
+                            .usernameParameter("username")
+                            .passwordParameter("password"))
+                    // everyone may logout
 
-                .logout(logout -> logout.permitAll()
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/login?logout"))
+                    .logout(logout -> logout.permitAll()
+                            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                            .logoutSuccessUrl("/login?logout"))
 
-                //Disables header security. This allows the use of the h2 console.
-                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .accessDeniedPage("/access-denied"));
+                    //Disables header security. This allows the use of the h2 console.
+                    .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+                    .exceptionHandling(exceptionHandling -> exceptionHandling
+                            .accessDeniedPage("/access-denied"));
 
-        return http.build();
-    }
+            return http.build();
+        }
     /**
      * Configures web security to ignore requests to certain paths.
      *
@@ -83,4 +83,5 @@ public class SecurityConfiguration {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }

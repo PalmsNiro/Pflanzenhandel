@@ -30,9 +30,6 @@
     <li class="nav-item">
       <a class="nav-link" th:href="@{/itemUpload}">Neues Angebot</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" th:href="@{/plantCare}">Plant-Care Page</a> <!-- Plant-Care Page Link -->
-    </li>
   </ul>
   <div class="d-flex align-items-center">
     <a href="/logout" class="btn btn-primary me-3">Sign Out</a> <!-- Blauer Logout-Button -->
@@ -46,6 +43,7 @@
         <li><a class="dropdown-item" href="/profile">Profile</a></li>
         <li><a class="dropdown-item" href="/settings">Settings</a></li>
         <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="@{/plantCare}">Plant-Care Page</a></li> <!-- Plant-Care Page Link -->
         <li><a class="dropdown-item" href="/logout">Sign Out</a></li> <!-- Sign-Out Button -->
       </ul>
     </div>

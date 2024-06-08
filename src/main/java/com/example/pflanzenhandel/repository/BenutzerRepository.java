@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Repository interface for accessing Benutzer entities from the database.
  * Extends JpaRepository to provide CRUD operations and custom query methods.
  */
-public interface BenutzerRepository extends JpaRepository<Benutzer, Integer>{
+public interface BenutzerRepository extends JpaRepository<Benutzer, Long>{
 
     /**
      * Finds a Benutzer entity by its username.

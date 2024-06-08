@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Messages</title>
+</head>
+<body>
+<h1>Messages</h1>
+<h2>Start a new conversation</h2>
+<ul>
+    <li th:each="user : ${users}">
+        <span th:text="${user.username}">Username</span>
+        <form th:action="@{/messages/start}" method="post" style="display:inline;">
+            <input type="hidden" name="recipientId" th:value="${user.id}" />
+            <button type="submit">Start Conversation</button>
+        </form>
+    </li>
+</ul>
+
+<h2>Existing Conversations</h2>
+<ul>
+    <li th:each="message : ${messages}">
+        <a th:href="@{/messages/conversation/{id}(id=${message.sender.id})}">
+            <span th:text="${message.sender.username}">Sender</span>
+            <span th:text="${message.content}">Message Content</span>
+            <span th:text="${message.timestamp}">Timestamp</span>
+        </a>
+    </li>
+</ul>
+</body>
+</html>

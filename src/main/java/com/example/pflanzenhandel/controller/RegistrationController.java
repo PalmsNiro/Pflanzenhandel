@@ -29,6 +29,11 @@ public class RegistrationController {
             model.addAttribute("error", "Passwords do not match");
             return "register";
         }
+        if (!userService.isUsernameUnique(benutzer.getUsername())) {
+            model.addAttribute("error", "Username already exists");
+            return "register";
+        }
+
         benutzer.setFirstName(firstName);
         benutzer.setLastName(lastName);
         benutzer.setEmail(email);

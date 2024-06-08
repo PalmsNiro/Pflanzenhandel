@@ -129,4 +129,16 @@ public class UserService implements UserDetailsService {
         }
         return grantedAuthorities;
     }
+
+    /**
+     * Checks if a username is unique.
+     *
+     * @param username the username to check.
+     * @return true if the username is unique, false otherwise.
+     */
+    public boolean isUsernameUnique(String username) {
+        // Perform the uniqueness check using the repository method
+        Benutzer existingUser = userRepository.findByUsername(username);
+        return existingUser == null;
+    }
 }

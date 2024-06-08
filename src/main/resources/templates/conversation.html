@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Conversation</title>
+</head>
+<body>
+<h1>Conversation with <span th:text="${recipient.username}">Recipient</span></h1>
+<ul>
+    <li th:each="message : ${conversation}">
+        <span th:text="${message.sender.username}">Sender</span>
+        <span th:text="${message.content}">Message Content</span>
+        <span th:text="${message.timestamp}">Timestamp</span>
+    </li>
+</ul>
+<form action="#" th:action="@{/messages/send}" method="post">
+    <input type="hidden" name="recipientId" th:value="${recipient.id}" />
+    <textarea name="content" placeholder="Type your message here"></textarea>
+    <button type="submit">Send</button>
+</form>
+</body>
+</html>

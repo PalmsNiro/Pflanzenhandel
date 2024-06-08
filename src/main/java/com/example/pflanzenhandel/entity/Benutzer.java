@@ -16,7 +16,7 @@ public class Benutzer {
 
     @Id
     @GeneratedValue
-    private Integer userId;
+    private Long id;
 
     private String username;
 
@@ -40,12 +40,12 @@ public class Benutzer {
         // ty constructor for Hibernate
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setId(Long userId) {
+        this.id = userId;
     }
 
     public String getUsername() {

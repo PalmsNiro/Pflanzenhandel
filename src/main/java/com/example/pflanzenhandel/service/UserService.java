@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.example.pflanzenhandel.entity.Benutzer;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -63,6 +64,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
+    public Benutzer findById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
     /**
      * Sucht nach einem User mit einem bestimmten Usernamen.
      *
@@ -83,8 +88,9 @@ public class UserService implements UserDetailsService {
      * @return User.
      */
     public Benutzer getCurrentUser() {
-        return getUserByUsername(((org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal()).getUsername());
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        return userRepository.findByUsername(username);
     }
 
     /**

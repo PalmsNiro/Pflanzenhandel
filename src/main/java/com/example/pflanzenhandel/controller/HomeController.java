@@ -25,7 +25,7 @@ public class HomeController {
      * @param model the Model containing all model attributes
      * @return the home page view
      */
-    @GetMapping("/")
+    @GetMapping({"/", "/hauptmenu"})
 
     public String showProductsOnHome(@RequestParam(value = "query", required = false) String query, Model model) {
         List<Product> products;

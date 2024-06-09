@@ -18,6 +18,9 @@ public class Message {
     @ManyToOne
     private Benutzer recipient;
 
+    @ManyToOne
+    private Product product;
+
     private String content;
 
     private LocalDateTime timestamp;
@@ -60,6 +63,14 @@ public class Message {
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
 

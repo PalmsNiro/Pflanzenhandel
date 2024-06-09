@@ -79,6 +79,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product1.setOverPot(false);
         product1.setShippingCosts(5.50);
         product1.setDescription("This a Pflanze and it does Pflanzen things");
+        product1.setVerkaufer(debbyBenutzer);
         productService.saveProduct(product1);
 
         Product product2 = new Product();
@@ -88,6 +89,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product2.setOverPot(false);
         product2.setShippingCosts(5.50);
         product2.setDescription("Baum zu verschenken");
+        product2.setVerkaufer(normalBenutzer);
         productService.saveProduct(product2);
 
         Product product3 = new Product();

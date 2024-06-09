@@ -3,6 +3,7 @@ package com.example.pflanzenhandel.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Product {
@@ -23,6 +24,14 @@ public class Product {
     If you change his, make sur ethe home controller/home.htlm only pics one image
      */
     private String imageUrl;
+
+
+    public boolean isOverPot() {
+        return overPot;
+    }
+
+    @ManyToOne
+    private Benutzer verkaufer;
 
     public Product(){
 
@@ -92,5 +101,13 @@ public class Product {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public Benutzer getVerkaufer() {
+        return verkaufer;
+    }
+
+    public void setVerkaufer(Benutzer verkaufer) {
+        this.verkaufer = verkaufer;
     }
 }

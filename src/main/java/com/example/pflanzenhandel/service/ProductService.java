@@ -21,11 +21,17 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product getProductById(Integer id) {
+    public Product getProductById(Long id) {
         return productRepository.findById(id).orElse(null);
+    }
+
+    public List<Product> findAll() {
+        return productRepository.findAll();
     }
 
     public List<Product> searchProducts(String query) {
         return productRepository.findByNameContainingOrDescriptionContaining(query, query);
     }
+
+
 }

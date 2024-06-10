@@ -106,11 +106,13 @@
             <form th:action="@{/product/new}" th:object="${product}" method="post" class="row g-3">
                 <div class="col-md-6">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" id="name" th:field="*{name}" class="form-control" />
+                    <input type="text" id="name" th:field="*{name}" class="form-control" required />
+                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
                 </div>
                 <div class="col-md-6">
                     <label for="price" class="form-label">Price</label>
-                    <input type="text" id="price" th:field="*{price}" class="form-control" />
+                    <input type="number" id="price" th:field="*{price}" class="form-control" required min="0.01" step="0.01" />
+                    <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price Error</span>
                 </div>
                 <div class="col-md-12">
                     <label for="description" class="form-label">Description</label>
@@ -118,11 +120,13 @@
                 </div>
                 <div class="col-md-6">
                     <label for="height" class="form-label">Height</label>
-                    <input type="text" id="height" th:field="*{height}" class="form-control" />
+                    <input type="number" id="height" th:field="*{height}" class="form-control" required min="0.01" step="0.01" />
+                    <span th:if="${#fields.hasErrors('height')}" th:errors="*{height}">Height Error</span>
                 </div>
                 <div class="col-md-6">
                     <label for="shippingCosts" class="form-label">Shipping Costs</label>
-                    <input type="text" id="shippingCosts" th:field="*{shippingCosts}" class="form-control" />
+                    <input type="number" id="shippingCosts" th:field="*{shippingCosts}" class="form-control" required min="0.01" step="0.01" />
+                    <span th:if="${#fields.hasErrors('shippingCosts')}" th:errors="*{shippingCosts}">Shipping Costs Error</span>
                 </div>
                 <div class="col-md-12">
                     <div class="form-check">
@@ -138,6 +142,8 @@
                     <button type="submit" class="btn btn-primary">Add Product</button>
                 </div>
             </form>
+            <span th:if="${error}" th:text="${error}">Error</span>
+            <span th:if="${successMessage}" th:text="${successMessage}">Success</span>
         </div>
     </div>
 </div>

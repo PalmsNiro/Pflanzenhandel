@@ -29,8 +29,29 @@ public class ProductController {
     }
 
     @PostMapping("/product/new")
-    public String addProduct(@ModelAttribute Product product) {
+    public String addProduct(@ModelAttribute Product product,Model model) {
+        String errorMessage = validateProduct(product);
+        if (errorMessage != null) {
+            model.addAttribute("error", errorMessage);
+            return "addProduct";
+        }
         productService.saveProduct(product);
         return "redirect:/product/" + product.getId();
+    }
+
+    private String validateProduct(Product product) {
+        if (product.getName() == null || product.getName().isEmpty()) {
+            return "Name is mandatory";
+        }
+        if (product.getPrice() <= 0) {
+            return "Price must be greater than or equal to 0";
+        }
+        if (product.getHeight() <= 0) {
+            return "Height is mandatory and must be greater than or equal to 0";
+        }
+        if (product.getShippingCosts() <= 0) {
+            return "Shopping costs must be greater than or equal to 0";
+        }
+        return null;
     }
 }

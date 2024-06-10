@@ -5,8 +5,7 @@ import com.example.pflanzenhandel.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +20,17 @@ public class ProductController {
     public String getProductById(@PathVariable Long id, Model model) {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
-        return "productDetails"; // Name of your product detail view
+        return "productDetails";
+    }
+    @GetMapping("/product/new")
+    public String showAddProductForm(Model model) {
+        model.addAttribute("product", new Product());
+        return "addProduct";
+    }
+
+    @PostMapping("/product/new")
+    public String addProduct(@ModelAttribute Product product) {
+        productService.saveProduct(product);
+        return "redirect:/product/" + product.getId();
     }
 }

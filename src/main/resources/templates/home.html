@@ -3,6 +3,16 @@
 <head>
   <!-- Einbindung eines Fragments -->
   <th:block th:insert="~{fragments/htmlHead :: head}"></th:block>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <style>
+    .clickable-row {
+      cursor: pointer;
+    }
+    .clickable-row:hover {
+      background-color: #f5f5f5;
+    }
+  </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <!--Header-->
@@ -15,7 +25,6 @@
           <path d="M8.416.223a.5.5 0 0 0-.832 0l-3 4.5A.5.5 0 0 0 5 5.5h.098L3.076 8.735A.5.5 0 0 0 3.5 9.5h.191l-1.638 3.276a.5.5 0 0 0 .447.724H7V16h2v-2.5h4.5a.5.5 0 0 0 .447-.724L12.31 9.5h.191a.5.5 0 0 0 .424-.765L10.902 5.5H11a.5.5 0 0 0 .416-.777zM6.437 4.758A.5.5 0 0 0 6 4.5h-.066L8 1.401 10.066 4.5H10a.5.5 0 0 0-.424.765L11.598 8.5H11.5a.5.5 0 0 0-.447.724L12.69 12.5H3.309l1.638-3.276A.5.5 0 0 0 4.5 8.5h-.098l2.022-3.235a.5.5 0 0 0 .013-.507"/>
         </svg>
       </a>
-      <!-- <img src="path/to/your/logo.png" alt="Logo" class="img" /> -->
     </div>
   </div>
 </div>
@@ -32,7 +41,7 @@
     </li>
   </ul>
   <div class="d-flex align-items-center">
-    <a href="/logout" class="btn btn-primary me-3">Sign Out</a> <!-- Blauer Logout-Button -->
+    <a href="/logout" class="btn btn-primary me-3">Sign Out</a>
     <div class="dropdown">
       <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
         <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-person-fill icon-size" viewBox="0 0 16 16">
@@ -42,11 +51,11 @@
       <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="userDropdown">
         <li><a class="dropdown-item" th:href="@{/profile}">Profile</a></li>
         <li><a class="dropdown-item" th:href="@{/settings}">Settings</a></li>
-        <li><a class="dropdown-item" th:href="@{/messages}">Messages</a>
-        <li><a class="dropdown-item" href="@{/plantCare}">Plant-Care Page</a></li> <!-- Plant-Care Page Link -->
+        <li><a class="dropdown-item" th:href="@{/messages}">Messages</a></li>
+        <li><a class="dropdown-item" href="@{/plantCare}">Plant-Care Page</a></li>
         <li><a class="dropdown-item" th:href="@{/hauptmenu}">Hauptmenü</a></li>
         <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" th:href="@{/logout}">Sign Out</a></li> <!-- Sign-Out Button -->
+        <li><a class="dropdown-item" th:href="@{/logout}">Sign Out</a></li>
       </ul>
     </div>
   </div>
@@ -55,17 +64,11 @@
 <!--Main Content Area-->
 <div class="container flex-grow-1 d-flex flex-column">
   <div class="row flex-grow-1 mt-3">
-    <!--Side Overview-->
     <div class="col-auto bg-secondary flex-shrink-0 p-3" style="width: 200px;">
       <span class="fs-5 fw-semibold">Side Overview</span>
       <ul class="list-unstyled ps-0">
         <li class="mb-1">
-          <button
-                  class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#orders-collapse"
-                  aria-expanded="false"
-          >
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
             Orders
           </button>
           <div class="collapse" id="orders-collapse">
@@ -79,12 +82,7 @@
         </li>
         <li class="border-top my-3"></li>
         <li class="mb-1">
-          <button
-                  class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#account-collapse"
-                  aria-expanded="false"
-          >
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
             Account
           </button>
           <div class="collapse" id="account-collapse">
@@ -98,106 +96,80 @@
         </li>
       </ul>
     </div>
-    <!--Content Section with Products-->
-
-    <!--Überschrift über den Inseraten.-->
     <div class="col bg-dark-subtle py-3 d-flex flex-column">
       <div>
-        <!--Here, an error could appear on the Ternary operator. No worries it still works somehow.-->
         <h2 th:text="*{#strings.isEmpty(param.query) ? 'Neueste Angebote' : 'Ergebnisse für: ' + param.query}">
           Neueste Angebote
         </h2>
       </div>
 
-
-      <!--productList-->
+      <!--productList in a table-->
       <div th:if="${products != null && !products.isEmpty()}">
-        <div class="row" th:each="product : ${products}">
-          <div class="col-md-6 mb-4">
-            <a th:href="@{/product/{id}(id=${product.id})}" class="card" style="width: 100%; text-decoration: none; color: inherit;">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th scope="col">Image</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Price</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="product : ${products}" class="clickable-row" th:onclick="'window.location.href=\'/product/' + ${product.id} + '\';'">
+            <td>
               <div th:if="${product.imageUrl != null}">
-                <img th:src="${product.imageUrl}" class="card-img-top" alt="Product Image" style="width: 100%; height: 200px; object-fit: cover;">
+                <img th:src="${product.imageUrl}" alt="Product Image" style="width: 150px; height: 150px; object-fit: cover;">
               </div>
               <div th:if="${product.imageUrl == null}">
-                <div class="card-img-top bg-secondary text-center" style="width: 100%; height: 200px; display: flex; align-items: center; justify-content: center; color: white;">
-                  Image cap
+                <div class="bg-secondary text-center" style="width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; color: white;">
+                  No Image
                 </div>
               </div>
-              <div class="card-body">
-                <h5 class="card-title" th:text="${product.name}">Product Name</h5>
-                <p class="card-text" th:text="${product.description}">Product Description</p>
-                <p class="card-text"><small class="text-muted" th:text="${product.price}">Product Price</small></p>
-              </div>
-            </a>
-          </div>
-        </div>
+            </td>
+            <td th:text="${product.name}">Product Name</td>
+            <td th:text="${product.description}">Product Description</td>
+            <td th:text="${product.price}">Product Price</td>
+          </tr>
+          </tbody>
+        </table>
       </div>
       <div th:if="${products == null || products.isEmpty()}">
         <p>No products available.</p>
       </div>
-
     </div>
   </div>
 </div>
 
 <!-- Footer -->
 <div class="container-fluid footer bg-body-secondary">
-  <footer
-          class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top bg-secondary"
-  >
+  <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top bg-secondary">
     <div class="col mb-3">
-      <a
-              href="/"
-              class="d-flex align-items-center mb-3 link-body-emphasis text-decoration-none"
-      >
+      <a href="/" class="d-flex align-items-center mb-3 link-body-emphasis text-decoration-none">
         <svg class="bi me-2" width="40" height="32">
           <use xlink:href="#bootstrap" />
         </svg>
       </a>
       <p class="text-body-secondary">&copy; 2024</p>
     </div>
-
     <div class="col mb-3"></div>
-
     <div class="col mb-3">
       <h5>Section</h5>
       <ul class="nav flex-column">
-        <li class="nav-item mb-2">
-          <a href="#" class="nav-link p-0 text-body-secondary">Home</a>
-        </li>
-        <li class="nav-item mb-2">
-          <a href="#" class="nav-link p-0 text-body-secondary">Features</a>
-        </li>
-        <li class="nav-item mb-2">
-          <a href="#" class="nav-link p-0 text-body-secondary">Pricing</a>
-        </li>
-        <li class="nav-item mb-2">
-          <a href="#" class="nav-link p-0 text-body-secondary">FAQs</a>
-        </li>
-        <li class="nav-item mb-2">
-          <a href="#" class="nav-link p-0 text-body-secondary">About</a>
-        </li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
       </ul>
     </div>
-
     <div class="col mb-3">
       <h5>Section</h5>
       <ul class="nav flex-column">
-        <li class="nav-item mb-2">
-          <a href="#" class="nav-link p-0 text-body-secondary">Home</a>
-        </li>
-        <li class="nav-item mb-2">
-          <a href="#" class="nav-link p-0 text-body-secondary">Features</a>
-        </li>
-        <li class="nav-item mb-2">
-          <a href="#" class="nav-link p-0 text-body-secondary">Pricing</a>
-        </li>
-        <li class="nav-item mb-2">
-          <a href="#" class="nav-link p-0 text-body-secondary">FAQs</a>
-        </li>
-        <li class="nav-item mb-2">
-          <a href="#" class="nav-link p-0 text-body-secondary">About</a>
-        </li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
       </ul>
     </div>
   </footer>

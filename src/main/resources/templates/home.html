@@ -28,7 +28,7 @@
   </form>
   <ul class="navbar-nav">
     <li class="nav-item">
-      <a class="nav-link" th:href="@{/itemUpload}">Neues Angebot</a>
+      <a class="nav-link" th:href="@{/product/new}">Neues Angebot</a>
     </li>
   </ul>
   <div class="d-flex align-items-center">
@@ -108,6 +108,7 @@
           Neueste Angebote
         </h2>
       </div>
+
 
       <!--productList-->
       <div th:if="${products != null && !products.isEmpty()}">

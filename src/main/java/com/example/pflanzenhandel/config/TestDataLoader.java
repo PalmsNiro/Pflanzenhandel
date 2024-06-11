@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
+
 /**
  * This class is responsible for loading test data into the database upon application startup.
  * The method 'onApplicationEvent' is triggered when the Spring context is initialized or refreshed.
@@ -71,7 +72,9 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         admin.setRoles(adminRolles);
         userService.saveUser(admin);
 
-        //Add new Product listings here
+
+
+        // create and save products
         Product product1 = new Product();
         product1.setName("Pflanze lol");
         product1.setPrice(6.90);
@@ -99,6 +102,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product3.setOverPot(false);
         product3.setShippingCosts(5.50);
         product3.setDescription("Palme sehr schöm");
+        product3.setVerkaufer(debbyBenutzer);
         productService.saveProduct(product3);
 
         Product product4 = new Product();
@@ -108,6 +112,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product4.setOverPot(true);
         product4.setShippingCosts(5.50);
         product4.setDescription("Toll");
+        product4.setVerkaufer(debbyBenutzer);
         productService.saveProduct(product4);
 
         Product product5 = new Product();
@@ -116,7 +121,8 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product5.setHeight(2.4);
         product5.setOverPot(true);
         product5.setShippingCosts(5.50);
-        product5.setDescription("Achtung spit");
+        product5.setDescription("Achtung spitz");
+        product5.setVerkaufer(normalBenutzer);
         productService.saveProduct(product5);
     }
 }

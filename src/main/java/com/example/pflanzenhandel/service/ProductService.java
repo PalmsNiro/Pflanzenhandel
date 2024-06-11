@@ -13,7 +13,7 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public Product saveProduct(Product product){
+    public Product saveProduct(Product product) {
         return productRepository.save(product);
     }
 
@@ -31,7 +31,22 @@ public class ProductService {
 
     public List<Product> searchProducts(String query) {
         return productRepository.findByNameContainingOrDescriptionContaining(query, query);
+
+
     }
 
-
+    public void updateProduct(Product product) {
+        Product existingProduct = productRepository.findById(product.getId()).orElse(null);
+        if (existingProduct != null) {
+            existingProduct.setName(product.getName());
+            existingProduct.setDescription(product.getDescription());
+            existingProduct.setPrice(product.getPrice());
+            existingProduct.setHeight(product.getHeight());
+            existingProduct.setOverPot(product.getOverPot());
+            existingProduct.setShippingCosts(product.getShippingCosts());
+            existingProduct.setImageUrl(product.getImageUrl());
+            existingProduct.setVerkaufer(product.getVerkaufer());
+            productRepository.save(existingProduct);
+        }
+    }
 }

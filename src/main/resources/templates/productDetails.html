@@ -55,7 +55,12 @@
     <p th:text="'Price: ' + ${product.price}">Price: 0.00</p>
     <p th:text="'Height: ' + ${product.height}">Height: 0.00</p>
     <p th:text="'Shipping Costs: ' + ${product.shippingCosts}">Shipping Costs: 0.00</p>
-
+    <!-- Edit button only visible to the seller -->
+    <div th:if="${product.verkaufer!= null}">
+        <div th:if="${product.verkaufer.username == currentUser.username}">
+            <a th:href="@{/product/edit/{id}(id=${product.id})}" class="btn btn-primary">Edit Product</a>
+        </div>
+    </div>
     <!-- Message Form -->
     <form th:action="@{/messages/start}" method="post">
         <input type="hidden" name="productId" th:value="${product.id}" />

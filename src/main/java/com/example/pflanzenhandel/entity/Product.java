@@ -20,10 +20,9 @@ public class Product {
     /*
     Currently for testing purposes only a String
     Needs to be replaced with a Set of Strings for Image Urls
-    If you change his, make sur ethe home controller/home.htlm only pics one image
+    If you change his, make sure the home controller/home.htlm only pics one image
      */
     private String imageUrl;
-
 
     public boolean isOverPot() {
         return overPot;

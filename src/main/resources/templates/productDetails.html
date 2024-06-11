@@ -51,9 +51,11 @@
 <!--Main Area for Product Details-->
 <div class="container">
     <h1 th:text="${product.name}">Product Name</h1>
+
+    <img th:src="${product.imageUrl}" alt="Bild" width="400">
     <p th:text="${product.description}">Product Description</p>
     <p th:text="'Price: ' + ${product.price}">Price: 0.00</p>
-    <p th:text="'Height: ' + ${product.height}">Height: 0.00</p>
+    <p th:text="'Height: ' + ${product.height}">Height: 0.00 </p>
     <p th:text="'Shipping Costs: ' + ${product.shippingCosts}">Shipping Costs: 0.00</p>
 
     <!-- Message Form -->

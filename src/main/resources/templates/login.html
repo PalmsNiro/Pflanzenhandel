@@ -2,16 +2,66 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <th:block th:replace="~{fragments/htmlHead :: head}"></th:block>
+    <style>
+        body {
+            background-color: #f4f9f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column; /* Änderung: Zentriert den Inhalt und stellt die Richtung auf Spalte ein */
+            text-align: center; /* Text horizontal zentrieren */
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            margin-bottom: 20px; /* Neu: Verringerte Margin zwischen Karten */
+        }
+        .card-title {
+            color: #2d572c;
+            font-weight: bold;
+        }
+        .form-control {
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            }
+        .btn-primary {
+            background-color: #2d572c;
+            border: none;
+            border-radius: 5px;
+        }
+        .btn-primary:hover {
+            background-color: #244d23;
+        }
+        a {
+            color: #2d572c;
+        }
+        .alert {
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
+    <div class="header"> <!-- Änderung: Neuer Header-Abschnitt -->
+    <h1 class="title">BlattBazar</h1> <!-- Änderung: Großer Titel -->
+    <p class="subtitle">Willkommen bei BlattBazar, Ihrem Secondhand-Online-Pflanzenhandel!
+        Entdecken Sie gebrauchte Pflanzen, die ein neues Zuhause suchen, und tragen Sie zur Nachhaltigkeit bei.
+        Von pflegeleichten Sukkulenten bis zu luftreinigenden Monsteras –
+        bei BlattBazar finden Sie die perfekte Ergänzung für Ihr grünes Zuhause.</p> <!-- Änderung: Untertitel -->
+    </div>
+
     <div th:if="${successMessage}" class="alert alert-success" role="alert">
         <span th:text="${successMessage}"></span>
     </div>
     <form th:action="@{/login}" method="POST" class="form-horizontal">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title" th:text="'Pflanzenhandel Login'"></h4>
                 <div th:if="${param.error}" class="alert alert-danger">
                     <span th:text="'Login fehlgeschlagen.'"></span>
                 </div>
@@ -20,19 +70,19 @@
                 </div>
                 <div class="row form-group">
                     <div class="col-12 col-md-6">
-                        <label>Username</label>
+                        <label for="username">Username</label> <!-- Hinzugefügt: for-Attribut -->
                         <input type="text" id="username" name="username" th:placeholder="'Username'" class="form-control"/><br/>
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-12 col-md-6">
-                        <label>Password</label>
+                        <label for="password">Password</label> <!-- Hinzugefügt: for-Attribut -->
                         <input type="password" th:placeholder="'Password'" id="password" name="password" class="form-control"/><br/>
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
-                <button name="Submit" value="Login" type="Submit" th:text="'Login'" class="btn btn-primary"></button>
+            <div class="card-footer text-center"> <!-- Änderung: Text zentriert -->
+                <button name="Submit" value="Login" type="Submit" th:text="'Login'" class="btn btn-primary"></button> <!-- Änderung: Button-Stil -->
                 <p><a th:href="@{/register}">Noch keinen Account?</a></p>
             </div>
         </div>

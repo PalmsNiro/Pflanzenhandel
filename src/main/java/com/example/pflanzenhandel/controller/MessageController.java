@@ -29,38 +29,16 @@ public class MessageController {
 
     @Autowired
     private ProductRepository productRepository;
+    
     @Autowired
     BenutzerRepository benutzerService;
-
-    @PostMapping("/send")
-    public String sendMessage(@RequestParam Long recipientId, @RequestParam String content, Principal principal) {
-
-        Benutzer sender = benutzerService.findByUsername(principal.getName());
-        Benutzer recipient = benutzerService.findById(recipientId).orElse(null);
-
-        if (recipient == null) {
-            return "error";
-        }
-
-        messageService.sendMessage(sender, recipient, content);
-        return "redirect:/messages/conversation?recipientId=" + recipientId;
-    }
 
     @GetMapping
     public String viewMessages(Model model, Principal principal) {
         Benutzer user = benutzerRepository.findByUsername(principal.getName());
-        List<Message> messages = messageService.getMessages(user);
-        model.addAttribute("messages", messages);
+        List<Benutzer> conversationPartners = messageService.getConversationPartners(user);
+        model.addAttribute("conversationPartners", conversationPartners);
         return "messages";
-    }
-
-    @PostMapping("/start")
-    public String startConversation(@RequestParam Long productId, Principal principal) {
-        Benutzer sender = benutzerRepository.findByUsername(principal.getName());
-        Product product = productRepository.findById(productId).orElseThrow();
-        Benutzer recipient = product.getSeller();
-        messageService.sendMessage(sender, recipient, "Hi, I'm interested in your product.");
-        return "redirect:/messages/conversation?recipientId=" + recipient.getId();
     }
 
     @GetMapping("/conversation")
@@ -71,5 +49,25 @@ public class MessageController {
         model.addAttribute("conversation", conversation);
         model.addAttribute("recipient", recipient);
         return "conversation";
+    }
+
+    @PostMapping("/send")
+    public String sendMessage(@RequestParam Long recipientId, @RequestParam String content, Principal principal) {
+        Benutzer sender = benutzerRepository.findByUsername(principal.getName());
+        Benutzer recipient = benutzerRepository.findById(recipientId).orElse(null);
+        if (recipient == null) {
+            return "error";
+        }
+        messageService.sendMessage(sender, recipient, content);
+        return "redirect:/messages/conversation?recipientId=" + recipientId;
+    }
+
+    @PostMapping("/start")
+    public String startConversation(@RequestParam Long productId, Principal principal) {
+        Benutzer sender = benutzerRepository.findByUsername(principal.getName());
+        Product product = productRepository.findById(productId).orElseThrow();
+        Benutzer recipient = product.getSeller();
+        messageService.sendMessage(sender, recipient, "Hi, I'm interested in your product.");
+        return "redirect:/messages/conversation?recipientId=" + recipient.getId();
     }
 }

@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class MessageService {
@@ -29,7 +32,20 @@ public class MessageService {
     }
 
     public List<Message> getConversation(Benutzer sender, Benutzer recipient) {
-        return messageRepository.findBySenderIdAndRecipientIdOrRecipientIdAndSenderId(
-                sender.getId(), recipient.getId(), sender.getId(), recipient.getId());
+        return messageRepository.findConversation(sender.getId(), recipient.getId());
+    }
+
+    public List<Benutzer> getConversationPartners(Benutzer user) {
+        List<Message> messages = getMessages(user);
+        Set<Benutzer> partners = new HashSet<>();
+        for (Message message : messages) {
+            if (message.getSender().equals(user)) {
+                partners.add(message.getRecipient());
+            } else {
+                partners.add(message.getSender());
+            }
+        }
+        return new ArrayList<>(partners);
     }
 }
+

@@ -30,7 +30,11 @@ public class ProductController {
     @GetMapping("/product/{id}")
     public String getProductById(@PathVariable Long id, Model model) {
         Product product = productService.getProductById(id);
+        Benutzer verkaufer = product.getVerkaufer();
+        Benutzer currentUser = userService.getCurrentUser();
+        model.addAttribute("verkaufer", verkaufer);
         model.addAttribute("product", product);
+        model.addAttribute("currentUser", currentUser);
         return "productDetails";
     }
 
@@ -75,4 +79,25 @@ public class ProductController {
         }
         return null;
     }
+    @GetMapping("/product/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        Product product = productService.getProductById(id);
+        model.addAttribute("product", product);
+        return "editProduct";
+    }
+
+    @PostMapping("/product/edit/{id}")
+    public String updateProduct(@PathVariable Long id, @ModelAttribute Product product, Model model) {
+        Product existingProduct = productService.getProductById(id);
+        existingProduct.setName(product.getName());
+        existingProduct.setDescription(product.getDescription());
+        existingProduct.setPrice(product.getPrice());
+        existingProduct.setHeight(product.getHeight());
+        existingProduct.setOverPot(product.isOverPot());
+        existingProduct.setShippingCosts(product.getShippingCosts());
+        existingProduct.setImageUrl(product.getImageUrl());
+        productService.saveProduct(existingProduct);
+        return "redirect:/product/" + existingProduct.getId();
+    }
+
 }

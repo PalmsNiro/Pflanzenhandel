@@ -88,7 +88,7 @@ Product product1 = new Product();
         product1.setOverPot(false);
         product1.setShippingCosts(5.50);
         product1.setDescription("This a Pflanze and it does Pflanzen things");
-        product1.setSeller(debbyBenutzer);
+        product1.setVerkaufer(debbyBenutzer);
         productService.saveProduct(product1);
 
         Product product2 = new Product();
@@ -98,7 +98,7 @@ Product product1 = new Product();
         product2.setOverPot(false);
         product2.setShippingCosts(5.50);
         product2.setDescription("Baum zu verschenken");
-        product2.setSeller(normalBenutzer);
+        product2.setVerkaufer(normalBenutzer);
         productService.saveProduct(product2);
 
         Product product3 = new Product();
@@ -108,7 +108,7 @@ Product product1 = new Product();
         product3.setOverPot(false);
         product3.setShippingCosts(5.50);
         product3.setDescription("Palme sehr schöm");
-        product3.setSeller(debbyBenutzer);
+        product3.setVerkaufer(debbyBenutzer);
         productService.saveProduct(product3);
 
         Product product4 = new Product();
@@ -118,7 +118,7 @@ Product product1 = new Product();
         product4.setOverPot(true);
         product4.setShippingCosts(5.50);
         product4.setDescription("Toll");
-        product4.setSeller(debbyBenutzer);
+        product4.setVerkaufer(debbyBenutzer);
         productService.saveProduct(product4);
 
         Product product5 = new Product();
@@ -128,7 +128,7 @@ Product product1 = new Product();
         product5.setOverPot(true);
         product5.setShippingCosts(5.50);
         product5.setDescription("Achtung spit");
-        product5.setSeller(normalBenutzer);
+        product5.setVerkaufer(normalBenutzer);
         productService.saveProduct(product5);
     }
 }

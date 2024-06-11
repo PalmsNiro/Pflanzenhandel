@@ -7,17 +7,18 @@ phillipSiegel - Phillip Siegel
 
 
 ### To Do:
-
+Image Upload (Direct Client Upload)
+Homepage Bottom Section is double
+Messages to sellers arent saved after loguout
+New Product Page Description-Box should be one line 
 Implement Check for existing Username in registration
 Design Profile-page  
 -Make /profile reachable with buttons on /home
 Design Product-Page (single product)  
 Chat  
 -Confirm Purchase   
-Sign-out Button  
 Create Listing Function (incl. Picture upload)  
-Plant-Care Page  
-Save Email, firstName, lastname while registering (User already set up)  
+Plant-Care Page   
 Navigation-Bar should be extracted as a fragment
 
 (not complete!!)

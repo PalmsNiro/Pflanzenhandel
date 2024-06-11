@@ -29,7 +29,7 @@ public class Benutzer {
 
     @ManyToOne
     @JoinColumn(name = "seller_id")
-    private Benutzer seller;
+    private Benutzer verkaufer;
 
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -110,11 +110,11 @@ public class Benutzer {
     }
 
     public Benutzer getSeller() {
-        return seller;
+        return verkaufer;
     }
 
     public void setSeller(Benutzer seller) {
-        this.seller = seller;
+        this.verkaufer = seller;
     }
 }
 

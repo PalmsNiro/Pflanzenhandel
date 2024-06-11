@@ -75,7 +75,7 @@ public class MessageController {
     public String startConversation(@RequestParam Long productId, Principal principal) {
         Benutzer sender = userService.getUserByUsername(principal.getName());
         Product product = productService.getProductById(productId);
-        Benutzer recipient = product.getSeller();
+        Benutzer recipient = product.getVerkaufer();
         messageService.sendMessage(sender, recipient, "Hi, I'm interested in your product.");
         return "redirect:/messages/conversation?recipientId=" + recipient.getId();
     }

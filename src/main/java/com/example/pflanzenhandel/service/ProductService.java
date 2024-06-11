@@ -47,6 +47,12 @@ public class ProductService {
             existingProduct.setImageUrl(product.getImageUrl());
             existingProduct.setVerkaufer(product.getVerkaufer());
             productRepository.save(existingProduct);
+            // Debug-Ausgabe
+            System.out.println("Produkt nach dem Update: " + existingProduct);
+        } else {
+            // Debug-Ausgabe
+            System.out.println("Produkt nicht gefunden: " + product.getId());
+
         }
     }
 }

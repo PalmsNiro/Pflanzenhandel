@@ -70,7 +70,7 @@ public class ProductController {
     public String editProduct(@ModelAttribute Product product, Model model) {
 
         Benutzer userCurrent = userService.getCurrentUser();
-        if (!product.getVerkaufer().equals(userCurrent)) {
+        if (product.getVerkaufer() == null || !product.getVerkaufer().equals(userCurrent)) {
             return "redirect:/product/" + product.getId();
         }
         String errorMessage = validateProduct(product);
@@ -78,7 +78,13 @@ public class ProductController {
             model.addAttribute("error", errorMessage);
             return "editProduct";
         }
+        System.out.println("Produkt vor dem Update im Controller: " + product);
+
         productService.updateProduct(product);
+
+        // Debug-Ausgabe
+        Product updatedProduct = productService.getProductById(product.getId());
+        System.out.println("Produkt nach dem Update im Controller: " + updatedProduct);
         return "redirect:/product/" + product.getId();
     }
 

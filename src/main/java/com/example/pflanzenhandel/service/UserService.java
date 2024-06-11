@@ -39,9 +39,7 @@ public class UserService implements UserDetailsService {
      * @return the saved Benutzer entity.
      */
     public Benutzer saveUser(Benutzer benutzer) {
-        // Encrypt the password before saving
         benutzer.setPassword(passwordEncoder.encode(benutzer.getPassword()));
-
         // Assign default role USER to the new user
         Rolle userRole = roleRepository.findByRolename("ROLE_USER");
         if (userRole == null) {
@@ -146,5 +144,9 @@ public class UserService implements UserDetailsService {
         // Perform the uniqueness check using the repository method
         Benutzer existingUser = userRepository.findByUsername(username);
         return existingUser == null;
+    }
+
+    public List<Benutzer> getConversations(Long userId) {
+        return userRepository.findConversationsByUserId(userId);
     }
 }

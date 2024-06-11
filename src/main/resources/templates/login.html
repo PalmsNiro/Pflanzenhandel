@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <!-- Einbindung des Kopfzeilenfragments -->
-    <th:block th:replace="fragments/htmlHead :: head"></th:block>
+    <th:block th:replace="~{fragments/htmlHead :: head}"></th:block>
 </head>
 <body>
 <div class="container">

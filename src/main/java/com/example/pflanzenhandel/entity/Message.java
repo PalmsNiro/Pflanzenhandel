@@ -13,18 +13,17 @@ public class Message {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "sender_id")
     private Benutzer sender;
 
     @ManyToOne
+    @JoinColumn(name = "recipient_id")
     private Benutzer recipient;
 
-    @ManyToOne
-    private Product product;
-
     private String content;
-
     private LocalDateTime timestamp;
 
+    // Getter und Setter
     public Long getId() {
         return id;
     }
@@ -64,14 +63,4 @@ public class Message {
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-
 }

@@ -12,10 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
-/**
- * This class is responsible for loading test data into the database upon application startup.
- * The method 'onApplicationEvent' is triggered when the Spring context is initialized or refreshed.
- */
+
 @Component
 public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -33,15 +30,10 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
     @Autowired
     private ProductService productService;
 
-    /**
-     * Initializes the database with test data when the application context is initialized or refreshed.
-     * This method creates sample objects and saves them using respective services.
-     */
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         logger.info("Initialisiere Datenbank mit Testdaten...");
 
-        // Initialize example objects and save them using respective services
         Rolle userRolle = new Rolle("ROLE_USER");
         Rolle adminRolle = new Rolle("ROLE_ADMIN");
         roleService.saveRole(userRolle);
@@ -59,11 +51,23 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         normalBenutzer.setRoles(userRolles);
         userService.saveUser(normalBenutzer);
 
+        if (normalBenutzer.getId() == null) {
+            logger.error("Fehler beim Speichern des Benutzers 'user'");
+        } else {
+            logger.info("Benutzer 'user' erfolgreich gespeichert mit ID: " + normalBenutzer.getId());
+        }
+
         Benutzer debbyBenutzer = new Benutzer();
         debbyBenutzer.setUsername("Debby");
         debbyBenutzer.setPassword("1234");
         debbyBenutzer.setRoles(userRolles);
         userService.saveUser(debbyBenutzer);
+
+        if (debbyBenutzer.getId() == null) {
+            logger.error("Fehler beim Speichern des Benutzers 'Debby'");
+        } else {
+            logger.info("Benutzer 'Debby' erfolgreich gespeichert mit ID: " + debbyBenutzer.getId());
+        }
 
         Benutzer admin = new Benutzer();
         admin.setUsername("admin");
@@ -71,15 +75,20 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         admin.setRoles(adminRolles);
         userService.saveUser(admin);
 
-        //Add new Product listings here
-        Product product1 = new Product();
+        if (admin.getId() == null) {
+            logger.error("Fehler beim Speichern des Benutzers 'admin'");
+        } else {
+            logger.info("Benutzer 'admin' erfolgreich gespeichert mit ID: " + admin.getId());
+        }
+
+Product product1 = new Product();
         product1.setName("Pflanze lol");
         product1.setPrice(6.90);
         product1.setHeight(10.5);
         product1.setOverPot(false);
         product1.setShippingCosts(5.50);
         product1.setDescription("This a Pflanze and it does Pflanzen things");
-        product1.setVerkaufer(debbyBenutzer);
+        product1.setSeller(debbyBenutzer);
         productService.saveProduct(product1);
 
         Product product2 = new Product();
@@ -89,16 +98,17 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product2.setOverPot(false);
         product2.setShippingCosts(5.50);
         product2.setDescription("Baum zu verschenken");
-        product2.setVerkaufer(normalBenutzer);
+        product2.setSeller(normalBenutzer);
         productService.saveProduct(product2);
 
         Product product3 = new Product();
         product3.setName("Palme");
-        product3.setPrice(30);
+        product3.setPrice(30.00);
         product3.setHeight(1.5);
         product3.setOverPot(false);
         product3.setShippingCosts(5.50);
         product3.setDescription("Palme sehr schöm");
+        product3.setSeller(debbyBenutzer);
         productService.saveProduct(product3);
 
         Product product4 = new Product();
@@ -108,6 +118,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product4.setOverPot(true);
         product4.setShippingCosts(5.50);
         product4.setDescription("Toll");
+        product4.setSeller(debbyBenutzer);
         productService.saveProduct(product4);
 
         Product product5 = new Product();
@@ -117,6 +128,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product5.setOverPot(true);
         product5.setShippingCosts(5.50);
         product5.setDescription("Achtung spit");
+        product5.setSeller(normalBenutzer);
         productService.saveProduct(product5);
     }
 }

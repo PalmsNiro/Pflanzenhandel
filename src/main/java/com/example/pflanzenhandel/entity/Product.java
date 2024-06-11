@@ -1,9 +1,6 @@
 package com.example.pflanzenhandel.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class Product {
@@ -23,6 +20,10 @@ public class Product {
     If you change his, make sur ethe home controller/home.htlm only pics one image
      */
     private String imageUrl;
+
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
+    private Benutzer seller;
 
 
     public boolean isOverPot() {
@@ -108,5 +109,12 @@ public class Product {
 
     public void setVerkaufer(Benutzer verkaufer) {
         this.verkaufer = verkaufer;
+    }
+    public Benutzer getSeller() {
+        return seller;
+    }
+
+    public void setSeller(Benutzer seller) {
+        this.seller = seller;
     }
 }

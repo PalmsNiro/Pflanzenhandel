@@ -1,10 +1,7 @@
 package com.example.pflanzenhandel.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
+
 import java.util.Set;
 
 /**
@@ -30,10 +27,18 @@ public class Benutzer {
 
     private boolean enabled = true;
 
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
+    private Benutzer seller;
 
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Rolle> rolles;
+    @JoinTable(
+            name = "benutzer_rolle",
+            joinColumns = @JoinColumn(name = "benutzer_id"),
+            inverseJoinColumns = @JoinColumn(name = "rolle_id")
+    )
+    private Set<Rolle> roles;
 
     public Benutzer() {
         // emp
@@ -97,11 +102,19 @@ public class Benutzer {
     }
 
     public Set<Rolle> getRoles() {
-        return rolles;
+        return roles;
     }
 
-    public void setRoles(Set<Rolle> rollen) {
-        this.rolles = rollen;
+    public void setRoles(Set<Rolle> roles) {
+        this.roles = roles;
+    }
+
+    public Benutzer getSeller() {
+        return seller;
+    }
+
+    public void setSeller(Benutzer seller) {
+        this.seller = seller;
     }
 }
 

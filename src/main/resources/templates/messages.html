@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <!-- Einbindung eines Fragments -->
     <th:block th:insert="~{fragments/htmlHead :: head}"></th:block>
     <meta charset="UTF-8">
     <title>Messages</title>
@@ -11,13 +10,11 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 bg-success text-white py-3">
-            <!-- Placeholder svg -->
             <a href="/" aria-label="Home" class="logo-link">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-tree logo-svg" viewBox="0 0 16 16">
                     <path d="M8.416.223a.5.5 0 0 0-.832 0l-3 4.5A.5.5 0 0 0 5 5.5h.098L3.076 8.735A.5.5 0 0 0 3.5 9.5h.191l-1.638 3.276a.5.5 0 0 0 .447.724H7V16h2v-2.5h4.5a.5.5 0 0 0 .447-.724L12.31 9.5h.191a.5.5 0 0 0 .424-.765L10.902 5.5H11a.5.5 0 0 0 .416-.777zM6.437 4.758A.5.5 0 0 0 6 4.5h-.066L8 1.401 10.066 4.5H10a.5.5 0 0 0-.424.765L11.598 8.5H11.5a.5.5 0 0 0-.447.724L12.69 12.5H3.309l1.638-3.276A.5.5 0 0 0 4.5 8.5h-.098l2.022-3.235a.5.5 0 0 0 .013-.507"/>
                 </svg>
             </a>
-            <!-- <img src="path/to/your/logo.png" alt="Logo" class="img" /> -->
         </div>
     </div>
 </div>
@@ -34,7 +31,7 @@
         </li>
     </ul>
     <div class="d-flex align-items-center">
-        <a href="/logout" class="btn btn-primary me-3">Sign Out</a> <!-- Blauer Logout-Button -->
+        <a href="/logout" class="btn btn-primary me-3">Sign Out</a>
         <div class="dropdown">
             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-person-fill icon-size" viewBox="0 0 16 16">
@@ -48,7 +45,7 @@
                 <li><a class="dropdown-item" href="@{/plantCare}">Plant-Care Page</a></li> <!-- Plant-Care Page Link -->
                 <li><a class="dropdown-item" th:href="@{/hauptmenu}">Hauptmenü</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" th:href="@{/logout}">Sign Out</a></li> <!-- Sign-Out Button -->
+                <li><a class="dropdown-item" th:href="@{/logout}">Sign Out</a></li>
             </ul>
         </div>
     </div>
@@ -106,12 +103,8 @@
                 </ul>
                 <h3>Existing Conversations</h3>
                 <ul>
-                    <li th:each="message : ${messages}">
-                        <a th:href="@{/messages/conversation/{id}(id=${message.sender.id})}">
-                            <span th:text="${message.sender.username}">Sender</span>
-                            <span th:text="${message.content}">Message Content</span>
-                            <span th:text="${message.timestamp}">Timestamp</span>
-                        </a>
+                    <li th:each="conversation : ${conversationPartners}">
+                        <a th:href="@{/messages/conversation(recipientId=${conversation.id})}" th:text="${conversation.username}">Conversation with Recipient</a>
                     </li>
                 </ul>
             </div>
@@ -131,16 +124,6 @@
             <p class="text-body-secondary">&copy; 2024</p>
         </div>
         <div class="col mb-3"></div>
-        <div class="col mb-3">
-            <h5>Section</h5>
-            <ul class="nav flex-column">
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
-                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
-            </ul>
-        </div>
         <div class="col mb-3">
             <h5>Section</h5>
             <ul class="nav flex-column">

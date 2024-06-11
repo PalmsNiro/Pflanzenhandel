@@ -14,15 +14,91 @@
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
-            margin: 10px 0;
+            margin: 10px 10px 0 0;
             cursor: pointer;
             border-radius: 5px;
         }
         .btn-edit:hover {
             background-color: #45a049;
         }
+        .btn-delete {
+            background-color: #f44336; /* Red */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .btn-delete:hover {
+            background-color: #e53935;
+        }
         .btn-send-message {
             margin-top: 20px;
+        }
+        .product-container {
+            margin-top: 50px;
+        }
+        .product-container img {
+            max-width: 500px;
+            margin-bottom: 20px;
+        }
+        .product-container p {
+            font-size: 18px;
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .modal-button.confirm {
+            background-color: #f44336;
+            color: white;
+        }
+        .modal-button.cancel {
+            background-color: #ddd;
         }
     </style>
 </head>
@@ -69,18 +145,21 @@
 </nav>
 
 <!--Main Area for Product Details-->
-<div class="container">
+<div class="container product-container">
     <h1 th:text="${product.name}">Product Name</h1>
 
-    <img th:src="${product.imageUrl}" alt="Bild" width="400">
-    <p th:text="${product.description}">Product Description</p>
-    <p th:text="'Price: ' + ${product.price}">Price: 0.00</p>
-    <p th:text="'Height: ' + ${product.height}">Height: 0.00 </p>
-    <p th:text="'Shipping Costs: ' + ${product.shippingCosts}">Shipping Costs: 0.00</p>
+    <img th:src="${product.imageUrl}" alt="Bild">
+    <div style="text-align: left;">
+        <p th:text="${product.description}">Product Description</p>
+        <p th:text="'Price: ' + ${product.price}">Price: 0.00</p>
+        <p th:text="'Height: ' + ${product.height}">Height: 0.00</p>
+        <p th:text="'Shipping Costs: ' + ${product.shippingCosts}">Shipping Costs: 0.00</p>
+    </div>
 
-    <!-- Edit button only visible to the seller -->
+    <!-- Edit and Delete buttons only visible to the seller -->
     <div th:if="${product.verkaufer != null and currentUser != null and product.verkaufer.username == currentUser.username}">
         <a th:href="@{/product/edit/{id}(id=${product.id})}" class="btn-edit">Edit Product</a>
+        <button class="btn-delete" onclick="document.getElementById('deleteModal').style.display='block'">Delete Product</button>
     </div>
 
     <!-- Message Form -->
@@ -95,5 +174,26 @@
     <p>&copy; 2024 Pflanzenhandel. All rights reserved.</p>
 </footer>
 
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="document.getElementById('deleteModal').style.display='none'">&times;</span>
+        <h2>Produkt löschen</h2>
+        <p>Sind Sie sicher, dass Sie dieses Produkt löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.</p>
+        <form th:action="@{/product/delete/{id}(id=${product.id})}" method="post">
+            <button type="submit" class="modal-button confirm">Löschen</button>
+            <button type="button" class="modal-button cancel" onclick="document.getElementById('deleteModal').style.display='none'">Abbrechen</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    window.onclick = function(event) {
+        var modal = document.getElementById('deleteModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 </body>
 </html>

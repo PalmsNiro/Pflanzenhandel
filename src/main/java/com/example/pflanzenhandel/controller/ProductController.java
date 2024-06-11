@@ -100,4 +100,18 @@ public class ProductController {
         return "redirect:/product/" + existingProduct.getId();
     }
 
+    @PostMapping("/product/delete/{id}")
+    public String deleteProduct(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails, Model model) {
+        Product product = productService.getProductById(id);
+        Benutzer currentUser = userService.getCurrentUser();
+        if (product != null && product.getVerkaufer().getUsername().equals(currentUser.getUsername())) {
+            productService.deleteProductById(id);
+            model.addAttribute("successMessage", "Produkt erfolgreich gelöscht!");
+            return "redirect:/hauptmenu"; // Weiterleitung zum Hauptmenü
+        } else {
+            model.addAttribute("errorMessage", "Sie sind nicht berechtigt, dieses Produkt zu löschen.");
+            return "productDetails";
+        }
+    }
+
 }

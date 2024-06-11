@@ -3,6 +3,7 @@ package com.example.pflanzenhandel.controller;
 import com.example.pflanzenhandel.entity.Benutzer;
 import com.example.pflanzenhandel.entity.Product;
 import com.example.pflanzenhandel.service.ProductService;
+import com.example.pflanzenhandel.service.StorageService;
 import com.example.pflanzenhandel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,6 +24,8 @@ public class ProductController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private StorageService storageService;
 
     @GetMapping("/product/{id}")
     public String getProductById(@PathVariable Long id, Model model) {
@@ -29,6 +33,8 @@ public class ProductController {
         model.addAttribute("product", product);
         return "productDetails";
     }
+
+
     @GetMapping("/product/new")
     public String showAddProductForm(Model model) {
         model.addAttribute("product", new Product());
@@ -36,17 +42,23 @@ public class ProductController {
     }
 
     @PostMapping("/product/new")
-    public String addProduct(@ModelAttribute Product product,Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        Benutzer verkaufer = userService.getCurrentUser();
-        product.setVerkaufer(verkaufer);
-        String errorMessage = validateProduct(product);
-        if (errorMessage != null) {
-            model.addAttribute("error", errorMessage);
+    public String addProduct(@ModelAttribute Product product, @RequestParam("imageFile") MultipartFile imageFile, Model model) {
+        try {
+            if (!imageFile.isEmpty()) {
+                String imageUrl = storageService.store(imageFile);
+                product.setImageUrl(imageUrl);
+                System.out.println("Image URL: " + imageUrl); // Logging für Debugging
+            }
+            productService.saveProduct(product);
+            model.addAttribute("successMessage", "Produkt erfolgreich hinzugefügt!");
+            return "redirect:/hauptmenu"; // Weiterleitung auf das Hauptmenü
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Fehler beim Hinzufügen des Produkts");
             return "addProduct";
         }
-        productService.saveProduct(product);
-        return "redirect:/product/" + product.getId();
     }
+
+
 
     private String validateProduct(Product product) {
         if (product.getName() == null || product.getName().isEmpty()) {

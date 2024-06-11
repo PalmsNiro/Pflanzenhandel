@@ -8,14 +8,14 @@
 <!--Header-->
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 bg-success text-white py-3">
+        <div class="col-12 bg-success text-white py-3 d-flex align-items-center justify-content-center">
             <!-- Placeholder svg -->
             <a href="/" aria-label="Home" class="logo-link">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-tree logo-svg" viewBox="0 0 16 16">
                     <path d="M8.416.223a.5.5 0 0 0-.832 0l-3 4.5A.5.5 0 0 0 5 5.5h.098L3.076 8.735A.5.5 0 0 0 3.5 9.5h.191l-1.638 3.276a.5.5 0 0 0 .447.724H7V16h2v-2.5h4.5a.5.5 0 0 0 .447-.724L12.31 9.5h.191a.5.5 0 0 0 .424-.765L10.902 5.5H11a.5.5 0 0 0 .416-.777zM6.437 4.758A.5.5 0 0 0 6 4.5h-.066L8 1.401 10.066 4.5H10a.5.5 0 0 0-.424.765L11.598 8.5H11.5a.5.5 0 0 0-.447.724L12.69 12.5H3.309l1.638-3.276A.5.5 0 0 0 4.5 8.5h-.098l2.022-3.235a.5.5 0 0 0 .013-.507"/>
                 </svg>
             </a>
-            <!-- <img src="path/to/your/logo.png" alt="Logo" class="img" /> -->
+            <h1 class="header mb-0">BlattBazar</h1>
         </div>
     </div>
 </div>
@@ -32,7 +32,7 @@
         </li>
     </ul>
     <div class="d-flex align-items-center">
-        <a href="/logout" class="btn btn-primary me-3">Sign Out</a> <!-- Blauer Logout-Button -->
+        <a href="/logout" class="btn btn-primary me-3">Sign Out</a>
         <div class="dropdown">
             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-person-fill icon-size" viewBox="0 0 16 16">
@@ -42,15 +42,16 @@
             <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="userDropdown">
                 <li><a class="dropdown-item" th:href="@{/profile}">Profile</a></li>
                 <li><a class="dropdown-item" th:href="@{/settings}">Settings</a></li>
-                <li><a class="dropdown-item" th:href="@{/messages}">Messages</a>
-                <li><a class="dropdown-item" href="@{/plantCare}">Plant-Care Page</a></li> <!-- Plant-Care Page Link -->
+                <li><a class="dropdown-item" th:href="@{/messages}">Messages</a></li>
+                <li><a class="dropdown-item" href="@{/plantCare}">Plant-Care Page</a></li>
                 <li><a class="dropdown-item" th:href="@{/hauptmenu}">Hauptmenü</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" th:href="@{/logout}">Sign Out</a></li> <!-- Sign-Out Button -->
+                <li><a class="dropdown-item" th:href="@{/logout}">Sign Out</a></li>
             </ul>
         </div>
     </div>
 </nav>
+
 
 <!--Main Content Area-->
 <div class="container flex-grow-1 d-flex flex-column">
@@ -70,10 +71,10 @@
                     </button>
                     <div class="collapse" id="orders-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">New</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Processed</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Shipped</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Returned</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-text-white">New...</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-text-white">Profile</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-text-white">Settings</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-text-white">Sign out</a></li>
                         </ul>
                     </div>
                 </li>
@@ -89,10 +90,10 @@
                     </button>
                     <div class="collapse" id="account-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">New...</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profile</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Settings</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign out</a></li>
+                            <li><a th:href="@{/logout}" class="link-body-emphasis d-inline-flex text-text-white">New...</a></li>
+                            <li><a th:href="@{/profile}" class="link-body-emphasis d-inline-flex text-text-white">Profile</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-text-white">Settings</a></li>
+                            <li><a th:href="@{/logout}" class="link-body-emphasis d-inline-flex text-text-white">Sign out</a></li>
                         </ul>
                     </div>
                 </li>

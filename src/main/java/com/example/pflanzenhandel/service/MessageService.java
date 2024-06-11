@@ -58,5 +58,7 @@ public class MessageService {
         Benutzer recipient = benutzerRepository.findById(recipientId).orElseThrow(() -> new RuntimeException("Recipient not found"));
         sendMessage(sender, recipient, content);
     }
+
+
 }
 

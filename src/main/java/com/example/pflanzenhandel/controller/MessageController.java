@@ -6,6 +6,7 @@ import com.example.pflanzenhandel.entity.Product;
 import com.example.pflanzenhandel.repository.BenutzerRepository;
 import com.example.pflanzenhandel.repository.ProductRepository;
 import com.example.pflanzenhandel.service.MessageService;
+import com.example.pflanzenhandel.service.ProductService;
 import com.example.pflanzenhandel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,14 +26,14 @@ public class MessageController {
     private BenutzerRepository benutzerRepository;
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductService productService;
 
     @Autowired
     private UserService userService;
 
     @GetMapping
     public String viewMessages(Model model, Principal principal) {
-        Benutzer user = benutzerRepository.findByUsername(principal.getName());
+        Benutzer user = userService.getUserByUsername(principal.getName());
         List<Benutzer> conversationPartners = messageService.getConversationPartners(user);
         model.addAttribute("conversationPartners", conversationPartners);
         return "messages";
@@ -40,8 +41,8 @@ public class MessageController {
 
     @GetMapping("/conversation")
     public String viewConversation(@RequestParam Long recipientId, Principal principal, Model model) {
-        Benutzer user = benutzerRepository.findByUsername(principal.getName());
-        Benutzer recipient = benutzerRepository.findById(recipientId).orElseThrow();
+        Benutzer user = userService.getUserByUsername(principal.getName());
+        Benutzer recipient = userService.findById(recipientId);
         List<Message> conversation = messageService.getConversation(user, recipient);
         model.addAttribute("conversation", conversation);
         model.addAttribute("recipient", recipient);
@@ -50,8 +51,8 @@ public class MessageController {
 
     @PostMapping("/send")
     public String sendMessage(@RequestParam Long recipientId, @RequestParam String content, Principal principal) {
-        Benutzer sender = benutzerRepository.findByUsername(principal.getName());
-        Benutzer recipient = benutzerRepository.findById(recipientId).orElse(null);
+        Benutzer sender = userService.getUserByUsername(principal.getName());
+        Benutzer recipient = userService.findById(recipientId);
         if (recipient == null) {
             return "error";
         }
@@ -61,16 +62,11 @@ public class MessageController {
 
     @PostMapping("/start")
     public String startConversation(@RequestParam Long productId, Principal principal) {
-        Benutzer sender = benutzerRepository.findByUsername(principal.getName());
-        Product product = productRepository.findById(productId).orElseThrow();
+        Benutzer sender = userService.getUserByUsername(principal.getName());
+        Product product = productService.getProductById(productId);
         Benutzer recipient = product.getSeller();
         messageService.sendMessage(sender, recipient, "Hi, I'm interested in your product.");
         return "redirect:/messages/conversation?recipientId=" + recipient.getId();
     }
 
-    @GetMapping("/conversations/{userId}")
-    @ResponseBody
-    public List<Benutzer> getConversations(@PathVariable Long userId) {
-        return userService.getConversations(userId);
-    }
 }

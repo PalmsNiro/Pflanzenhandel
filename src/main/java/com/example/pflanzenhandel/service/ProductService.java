@@ -38,6 +38,20 @@ public class ProductService {
     public void updateProduct(Product product) {
         Product existingProduct = productRepository.findById(product.getId()).orElse(null);
         if (existingProduct != null) {
+            // Additional validations
+            if (product.getName() == null || product.getName().isEmpty()) {
+                throw new IllegalArgumentException("Name is mandatory");
+            }
+            if (product.getPrice() <= 0) {
+                throw new IllegalArgumentException("Price must be greater than or equal to 0");
+            }
+            if (product.getHeight() <= 0) {
+                throw new IllegalArgumentException("Height is mandatory and must be greater than or equal to 0");
+            }
+            if (product.getShippingCosts() <= 0) {
+                throw new IllegalArgumentException("Shipping costs must be greater than or equal to 0");
+            }
+
             existingProduct.setName(product.getName());
             existingProduct.setDescription(product.getDescription());
             existingProduct.setPrice(product.getPrice());
@@ -52,7 +66,7 @@ public class ProductService {
         } else {
             // Debug-Ausgabe
             System.out.println("Produkt nicht gefunden: " + product.getId());
-
         }
     }
+
 }

@@ -5,6 +5,7 @@ import com.example.pflanzenhandel.entity.Product;
 import com.example.pflanzenhandel.service.ProductService;
 import com.example.pflanzenhandel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -34,12 +35,6 @@ public class ProductController {
         return "productDetails";
     }
 
-    @GetMapping("/product/new")
-    public String showAddProductForm(Model model) {
-        model.addAttribute("product", new Product());
-        return "addProduct";
-    }
-
     @PostMapping("/product/new")
     public String addProduct(@ModelAttribute Product product, Model model, @AuthenticationPrincipal UserDetails userDetails) {
         Benutzer verkaufer = userService.getCurrentUser();
@@ -52,42 +47,6 @@ public class ProductController {
         productService.saveProduct(product);
         return "redirect:/product/" + product.getId();
     }
-
-    @GetMapping("/product/edit/{id}")
-    public String showEditProductForm(@PathVariable Long id, Model model) {
-        Product product = productService.getProductById(id);
-        Benutzer currentUser = userService.getCurrentUser();
-
-        if (!product.getVerkaufer().equals(currentUser)) {
-            return "redirect:/product/" + id;
-        }
-        model.addAttribute("product", product);
-
-        return "editProduct";
-    }
-
-    @PostMapping("/product/edit")
-    public String editProduct(@ModelAttribute Product product, Model model) {
-
-        Benutzer userCurrent = userService.getCurrentUser();
-        if (product.getVerkaufer() == null || !product.getVerkaufer().equals(userCurrent)) {
-            return "redirect:/product/" + product.getId();
-        }
-        String errorMessage = validateProduct(product);
-        if (errorMessage != null) {
-            model.addAttribute("error", errorMessage);
-            return "editProduct";
-        }
-        System.out.println("Produkt vor dem Update im Controller: " + product);
-
-        productService.updateProduct(product);
-
-        // Debug-Ausgabe
-        Product updatedProduct = productService.getProductById(product.getId());
-        System.out.println("Produkt nach dem Update im Controller: " + updatedProduct);
-        return "redirect:/product/" + product.getId();
-    }
-
 
     private String validateProduct(Product product) {
         if (product.getName() == null || product.getName().isEmpty()) {
@@ -104,4 +63,25 @@ public class ProductController {
         }
         return null;
     }
+    @GetMapping("/product/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        Product product = productService.getProductById(id);
+        model.addAttribute("product", product);
+        return "editProduct";
+    }
+
+    @PostMapping("/product/edit/{id}")
+    public String updateProduct(@PathVariable Long id, @ModelAttribute Product product, Model model) {
+        Product existingProduct = productService.getProductById(id);
+        existingProduct.setName(product.getName());
+        existingProduct.setDescription(product.getDescription());
+        existingProduct.setPrice(product.getPrice());
+        existingProduct.setHeight(product.getHeight());
+        existingProduct.setOverPot(product.isOverPot());
+        existingProduct.setShippingCosts(product.getShippingCosts());
+        existingProduct.setImageUrl(product.getImageUrl());
+        productService.saveProduct(existingProduct);
+        return "redirect:/product/" + existingProduct.getId();
+    }
+
 }

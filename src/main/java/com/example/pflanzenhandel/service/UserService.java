@@ -145,4 +145,8 @@ public class UserService implements UserDetailsService {
         Benutzer existingUser = userRepository.findByUsername(username);
         return existingUser == null;
     }
+
+    public List<Benutzer> getConversations(Long userId) {
+        return userRepository.findConversationsByUserId(userId);
+    }
 }

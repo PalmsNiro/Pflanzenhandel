@@ -2,6 +2,10 @@ package com.example.pflanzenhandel.repository;
 
 import com.example.pflanzenhandel.entity.Benutzer;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 /**
  * Repository interface for accessing Benutzer entities from the database.
@@ -16,4 +20,10 @@ public interface BenutzerRepository extends JpaRepository<Benutzer, Long>{
      * @return the Benutzer entity with the given username, or null if none found.
      */
     Benutzer findByUsername(String username);
-    }
+    @Query("SELECT DISTINCT m.sender FROM Message m WHERE m.recipient.id = :userId " +
+            "UNION " +
+            "SELECT DISTINCT m.recipient FROM Message m WHERE m.sender.id = :userId")
+    List<Benutzer> findConversationsByUserId(@Param("userId") Long userId);
+
+
+}

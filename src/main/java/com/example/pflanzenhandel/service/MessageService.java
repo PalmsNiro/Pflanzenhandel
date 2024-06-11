@@ -3,6 +3,7 @@ package com.example.pflanzenhandel.service;
 import com.example.pflanzenhandel.entity.Benutzer;
 import com.example.pflanzenhandel.entity.Message;
 import com.example.pflanzenhandel.entity.Product;
+import com.example.pflanzenhandel.repository.BenutzerRepository;
 import com.example.pflanzenhandel.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,12 @@ import java.util.Set;
 
 @Service
 public class MessageService {
+
     @Autowired
     private MessageRepository messageRepository;
+
+    @Autowired
+    private BenutzerRepository benutzerRepository;
 
     public void sendMessage(Benutzer sender, Benutzer recipient, String content) {
         Message message = new Message();
@@ -46,6 +51,12 @@ public class MessageService {
             }
         }
         return new ArrayList<>(partners);
+    }
+
+    public void startConversation(Long senderId, Long recipientId, String content) {
+        Benutzer sender = benutzerRepository.findById(senderId).orElseThrow(() -> new RuntimeException("Sender not found"));
+        Benutzer recipient = benutzerRepository.findById(recipientId).orElseThrow(() -> new RuntimeException("Recipient not found"));
+        sendMessage(sender, recipient, content);
     }
 }
 

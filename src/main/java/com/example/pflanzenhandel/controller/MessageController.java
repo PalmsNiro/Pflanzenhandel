@@ -1,16 +1,13 @@
 package com.example.pflanzenhandel.controller;
+
+import com.example.pflanzenhandel.entity.Benutzer;
+import com.example.pflanzenhandel.entity.Message;
 import com.example.pflanzenhandel.entity.Product;
 import com.example.pflanzenhandel.repository.BenutzerRepository;
 import com.example.pflanzenhandel.repository.ProductRepository;
-import com.example.pflanzenhandel.service.ProductService;
-import com.example.pflanzenhandel.service.UserService;
-import com.example.pflanzenhandel.entity.Message;
-import com.example.pflanzenhandel.entity.Benutzer;
 import com.example.pflanzenhandel.service.MessageService;
 import com.example.pflanzenhandel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,9 +26,9 @@ public class MessageController {
 
     @Autowired
     private ProductRepository productRepository;
-    
+
     @Autowired
-    BenutzerRepository benutzerService;
+    private UserService userService;
 
     @GetMapping
     public String viewMessages(Model model, Principal principal) {
@@ -69,5 +66,11 @@ public class MessageController {
         Benutzer recipient = product.getSeller();
         messageService.sendMessage(sender, recipient, "Hi, I'm interested in your product.");
         return "redirect:/messages/conversation?recipientId=" + recipient.getId();
+    }
+
+    @GetMapping("/conversations/{userId}")
+    @ResponseBody
+    public List<Benutzer> getConversations(@PathVariable Long userId) {
+        return userService.getConversations(userId);
     }
 }

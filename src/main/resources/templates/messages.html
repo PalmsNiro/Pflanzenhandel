@@ -42,7 +42,7 @@
                 <li><a class="dropdown-item" th:href="@{/profile}">Profile</a></li>
                 <li><a class="dropdown-item" th:href="@{/settings}">Settings</a></li>
                 <li><a class="dropdown-item" th:href="@{/messages}">Messages</a></li>
-                <li><a class="dropdown-item" href="@{/plantCare}">Plant-Care Page</a></li>
+                <li><a class="dropdown-item" href="@{/plantCare}">Plant-Care Page</a></li> <!-- Plant-Care Page Link -->
                 <li><a class="dropdown-item" th:href="@{/hauptmenu}">Hauptmenü</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" th:href="@{/logout}">Sign Out</a></li>
@@ -103,8 +103,8 @@
                 </ul>
                 <h3>Existing Conversations</h3>
                 <ul>
-                    <li th:each="conversation : ${conversations}">
-                        <a th:href="@{/conversation/{id}(id=${conversation.id})}" th:text="${conversation.recipient.username}">Conversation with Recipient</a>
+                    <li th:each="conversation : ${conversationPartners}">
+                        <a th:href="@{/messages/conversation(recipientId=${conversation.id})}" th:text="${conversation.username}">Conversation with Recipient</a>
                     </li>
                 </ul>
             </div>

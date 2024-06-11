@@ -4,6 +4,23 @@
     <th:block th:insert="~{fragments/htmlHead :: head}"></th:block>
     <meta charset="UTF-8">
     <title>Conversation</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function fetchMessages() {
+            const recipientId = /* Extract recipientId from the URL or a hidden field */;
+            $.ajax({
+                url: '/messages/conversation/' + recipientId,
+                type: 'GET',
+                success: function(data) {
+                    $('#messageList').html($(data).find('#messageList').html());
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            setInterval(fetchMessages, 1000); // Fetch new messages every  second
+        });
+    </script>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <!--Header-->
@@ -91,7 +108,7 @@
         <div class="col bg-dark-subtle py-3 d-flex flex-column">
             <div>
                 <h2>Conversation with <span th:text="${recipient.username}">Recipient</span></h2>
-                <ul class="list-group">
+                <ul class="list-group" id="messageList">
                     <li class="list-group-item" th:each="message : ${conversation}">
                         <strong th:text="${message.sender.username}">Sender</strong>:
                         <span th:text="${message.content}">Message Content</span>

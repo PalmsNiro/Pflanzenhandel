@@ -15,24 +15,21 @@ public class MessageService {
     @Autowired
     private MessageRepository messageRepository;
 
-    public void sendMessage(Benutzer sender, Benutzer recipient, Product product, String content) {
+    public void sendMessage(Benutzer sender, Benutzer recipient, String content) {
         Message message = new Message();
         message.setSender(sender);
-        message.setProduct(product);
         message.setRecipient(recipient);
         message.setContent(content);
         message.setTimestamp(LocalDateTime.now());
         messageRepository.save(message);
     }
 
-    public List<Message> getMessages(Benutzer recipient) {
-        return messageRepository.findByRecipient(recipient);
+    public List<Message> getMessages(Benutzer user) {
+        return messageRepository.findBySenderIdOrRecipientId(user.getId(), user.getId());
     }
 
-    public List<Message> getConversation(Benutzer  sender, Benutzer recipient,Product product) {
-        List<Message> messages = messageRepository.findBySenderAndRecipientAndProduct(sender, recipient, product);
-        messages.addAll(messageRepository.findBySenderAndRecipientAndProduct(recipient, sender, product));
-        messages.sort((m1, m2) -> m1.getTimestamp().compareTo(m2.getTimestamp()));
-        return messages;
+    public List<Message> getConversation(Benutzer sender, Benutzer recipient) {
+        return messageRepository.findBySenderIdAndRecipientIdOrRecipientIdAndSenderId(
+                sender.getId(), recipient.getId(), sender.getId(), recipient.getId());
     }
 }

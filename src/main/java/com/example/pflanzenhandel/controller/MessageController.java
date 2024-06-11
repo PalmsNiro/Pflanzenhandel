@@ -1,5 +1,7 @@
 package com.example.pflanzenhandel.controller;
 import com.example.pflanzenhandel.entity.Product;
+import com.example.pflanzenhandel.repository.BenutzerRepository;
+import com.example.pflanzenhandel.repository.ProductRepository;
 import com.example.pflanzenhandel.service.ProductService;
 import com.example.pflanzenhandel.service.UserService;
 import com.example.pflanzenhandel.entity.Message;
@@ -13,54 +15,61 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
 @RequestMapping("/messages")
 public class MessageController {
-
     @Autowired
     private MessageService messageService;
 
     @Autowired
-    private UserService userService;
+    private BenutzerRepository benutzerRepository;
 
     @Autowired
-    private ProductService productService;
+    private ProductRepository productRepository;
+    @Autowired
+    BenutzerRepository benutzerService;
+
+    @PostMapping("/send")
+    public String sendMessage(@RequestParam Long recipientId, @RequestParam String content, Principal principal) {
+
+        Benutzer sender = benutzerService.findByUsername(principal.getName());
+        Benutzer recipient = benutzerService.findById(recipientId).orElse(null);
+
+        if (recipient == null) {
+            return "error";
+        }
+
+        messageService.sendMessage(sender, recipient, content);
+        return "redirect:/messages/conversation?recipientId=" + recipientId;
+    }
 
     @GetMapping
-    public String listMessages(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        Benutzer user = userService.getCurrentUser();
+    public String viewMessages(Model model, Principal principal) {
+        Benutzer user = benutzerRepository.findByUsername(principal.getName());
         List<Message> messages = messageService.getMessages(user);
         model.addAttribute("messages", messages);
         return "messages";
     }
 
-    @GetMapping("/conversation/{productId}")
-    public String getConversation(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long productId, Model model) {
-        Benutzer sender = userService.getCurrentUser();
-        Product product = productService.getProductById(productId);
-        Benutzer recipient = product.getVerkaufer();
-        List<Message> conversation = messageService.getConversation(sender, recipient, product);
+    @PostMapping("/start")
+    public String startConversation(@RequestParam Long productId, Principal principal) {
+        Benutzer sender = benutzerRepository.findByUsername(principal.getName());
+        Product product = productRepository.findById(productId).orElseThrow();
+        Benutzer recipient = product.getSeller();
+        messageService.sendMessage(sender, recipient, "Hi, I'm interested in your product.");
+        return "redirect:/messages/conversation?recipientId=" + recipient.getId();
+    }
+
+    @GetMapping("/conversation")
+    public String viewConversation(@RequestParam Long recipientId, Principal principal, Model model) {
+        Benutzer user = benutzerRepository.findByUsername(principal.getName());
+        Benutzer recipient = benutzerRepository.findById(recipientId).orElseThrow();
+        List<Message> conversation = messageService.getConversation(user, recipient);
         model.addAttribute("conversation", conversation);
         model.addAttribute("recipient", recipient);
-        model.addAttribute("product", product);
         return "conversation";
-    }
-
-
-
-    @PostMapping("/send")
-    public String sendMessage(@AuthenticationPrincipal UserDetails userDetails, @RequestParam Long recipientId, @RequestParam Long productId, @RequestParam String content) {
-        Benutzer sender = userService.getCurrentUser();
-        Benutzer recipient = userService.findById(recipientId);
-        Product product = productService.getProductById(productId);
-        messageService.sendMessage(sender, recipient,product, content);
-        return "redirect:/messages/conversation/" + productId;
-    }
-    @PostMapping("/start")
-    public String startConversation(@RequestParam Long productId) {
-        // Simply redirect to the conversation page
-        return "redirect:/messages/conversation/" + productId;
     }
 }

@@ -53,15 +53,15 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark-subtle">
     <form class="d-flex me-3" role="search" action="/" method="get">
         <input class="form-control me-2" type="search" name="query" placeholder="Search" aria-label="Search" th:value="${param.query}" />
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <button class="btn btn-outline-success" type="submit">Suche</button>
     </form>
     <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link" th:href="@{/product/new}">Neues Angebot</a>
+            <a class="nav-link" th:href="@{/product/new}">Neue Anzeige</a>
         </li>
     </ul>
     <div class="d-flex align-items-center">
-        <a href="/logout" class="btn btn-primary me-3">Sign Out</a>
+        <a href="/logout" class="btn btn-primary me-3">Ausloggen</a>
         <div class="dropdown">
             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-person-fill icon-size" viewBox="0 0 16 16">
@@ -69,13 +69,13 @@
                 </svg>
             </a>
             <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="userDropdown">
-                <li><a class="dropdown-item" th:href="@{/profile}">Profile</a></li>
-                <li><a class="dropdown-item" th:href="@{/settings}">Settings</a></li>
-                <li><a class="dropdown-item" th:href="@{/messages}">Messages</a></li>
-                <li><a class="dropdown-item" href="@{/plantCare}">Plant-Care Page</a></li> <!-- Plant-Care Page Link -->
+                <li><a class="dropdown-item" th:href="@{/profile}">Profil</a></li>
+                <li><a class="dropdown-item" th:href="@{/settings}">Einstellungen</a></li>
+                <li><a class="dropdown-item" th:href="@{/messages}">Nachrichten</a></li>
+                <li><a class="dropdown-item" href="@{/plantCare}">Pflanzenpflege</a></li> <!-- Plant-Care Page Link -->
                 <li><a class="dropdown-item" th:href="@{/hauptmenu}">Hauptmenü</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" th:href="@{/logout}">Sign Out</a></li> <!-- Sign-Out Button -->
+                <li><a class="dropdown-item" th:href="@{/logout}">Ausloggen</a></li> <!-- Sign-Out Button -->
             </ul>
         </div>
     </div>
@@ -86,32 +86,32 @@
     <div class="row flex-grow-1 mt-3">
         <!--Side Overview-->
         <div class="col-auto bg-secondary flex-shrink-0 p-3" style="width: 200px;">
-            <span class="fs-5 fw-semibold">Side Overview</span>
+            <span class="fs-5 fw-semibold">Seitenleiste</span>
             <ul class="list-unstyled ps-0">
                 <li class="mb-1">
                     <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-                        Orders
+                        Bestellungen
                     </button>
                     <div class="collapse" id="orders-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">New</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Processed</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Shipped</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Returned</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Neu</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Verarbeitet</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Verschickt</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Zurückgegeben</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="border-top my-3"></li>
                 <li class="mb-1">
                     <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-                        Account
+                        Profil
                     </button>
                     <div class="collapse" id="account-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">New...</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profile</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Settings</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign out</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Neu...</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profil</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Einstellungen</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Ausloggen</a></li>
                         </ul>
                     </div>
                 </li>

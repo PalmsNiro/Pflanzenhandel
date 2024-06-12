@@ -82,23 +82,25 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         }
 
 Product product1 = new Product();
-        product1.setName("Pflanze lol");
+        product1.setName("Clivia Mininata");
         product1.setPrice(6.90);
         product1.setHeight(10.5);
         product1.setOverPot(false);
         product1.setShippingCosts(5.50);
         product1.setDescription("This a Pflanze and it does Pflanzen things");
         product1.setVerkaufer(debbyBenutzer);
+        product1.setImageUrl("https://eastgate.megapaints.co.za/wp-content/uploads/671826-1.jpg");
         productService.saveProduct(product1);
 
         Product product2 = new Product();
-        product2.setName("Baum");
+        product2.setName("Pachira aquatica");
         product2.setPrice(69.69);
         product2.setHeight(10.5);
         product2.setOverPot(false);
         product2.setShippingCosts(5.50);
         product2.setDescription("Baum zu verschenken");
         product2.setVerkaufer(normalBenutzer);
+        product2.setImageUrl("https://cf.ltkcdn.net/feng-shui/images/std-xs/270900-340x340-money-tree-feng-shui.jpg");
         productService.saveProduct(product2);
 
         Product product3 = new Product();
@@ -109,6 +111,7 @@ Product product1 = new Product();
         product3.setShippingCosts(5.50);
         product3.setDescription("Palme sehr schöm");
         product3.setVerkaufer(debbyBenutzer);
+        product3.setImageUrl("https://img.kleinanzeigen.de/api/v1/prod-ads/images/78/78ce54d4-f1b0-48c4-9299-325d63c9d880?rule=$_59.JPG");
         productService.saveProduct(product3);
 
         Product product4 = new Product();
@@ -119,15 +122,17 @@ Product product1 = new Product();
         product4.setShippingCosts(5.50);
         product4.setDescription("Toll");
         product4.setVerkaufer(debbyBenutzer);
+        product4.setImageUrl("https://cdn.mdr.de/mdr-garten/pflanzen/phalaenopsis-orchideen-zimmerpflanze-bluete-102_v-variantBig1x1_w-1280_zc-3061602c.jpg?version=58136");
         productService.saveProduct(product4);
 
         Product product5 = new Product();
-        product5.setName("Kaktus");
+        product5.setName("Bonsai Baum");
         product5.setPrice(0.15);
         product5.setHeight(2.4);
         product5.setOverPot(true);
         product5.setShippingCosts(5.50);
-        product5.setDescription("Achtung spit");
+        product5.setDescription("Wunderschön!");
+        product5.setImageUrl("https://i.ebayimg.com/images/g/O98AAOSw415mGjj0/s-l1600.jpg");
         product5.setVerkaufer(normalBenutzer);
         productService.saveProduct(product5);
     }

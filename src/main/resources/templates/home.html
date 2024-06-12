@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
 <head>
   <th:block th:replace="~{fragments/htmlHead :: head}"></th:block>
   <meta charset="UTF-8">
@@ -109,6 +109,27 @@
       background-color: #1e7e34;
       border-color: #1c7430;
     }
+    .image-gallery {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .image-gallery img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+    .image-gallery button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    .image-gallery button:hover {
+      background-color: #45a049;
+    }
   </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -137,6 +158,8 @@
     </li>
   </ul>
   <div class="d-flex align-items-center">
+
+
     <a href="/logout" class="btn btn-light me-3">Ausloggen</a> <!-- Weißer Logout-Button -->
     <div class="dropdown">
       <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -145,6 +168,8 @@
         </svg>
       </a>
       <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="userDropdown">
+
+
         <li><a class="dropdown-item" th:href="@{/profile}">Profil</a></li>
         <li><a class="dropdown-item" th:href="@{/settings}">Einstellungen</a></li>
         <li><a class="dropdown-item" th:href="@{/messages}">Nachrichten</a>
@@ -152,6 +177,7 @@
         <li><a class="dropdown-item" th:href="@{/hauptmenu}">Hauptmenü</a></li>
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" th:href="@{/logout}">Ausloggen</a></li> <!-- Sign-Out Button -->
+
       </ul>
     </div>
   </div>
@@ -212,10 +238,10 @@
           <tbody>
           <tr th:each="product : ${products}" class="clickable-row" th:onclick="'window.location.href=\'/product/' + ${product.id} + '\';'">
             <td>
-              <div th:if="${product.imageUrl != null}">
-                <img th:src="@{${product.imageUrl}}" alt="Product Image" class="product-image">
+              <div th:if="${product.mainImageUrl != null}">
+                <img th:src="@{${product.mainImageUrl}}" alt="Product Image" class="product-image">
               </div>
-              <div th:if="${product.imageUrl == null}">
+              <div th:if="${product.mainImageUrl == null}">
                 <div class="no-image">
                   No Image
                 </div>
@@ -269,5 +295,42 @@
     </div>
   </footer>
 </div>
+
+<!-- Image Gallery Script -->
+<script>
+  function createImageGallery(images) {
+      let currentIndex = 0;
+      const mainImg = document.getElementById('main-img');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+
+      if (!mainImg || !prevBtn || !nextBtn || images.length === 0) {
+          return;
+      }
+
+      mainImg.src = images[currentIndex];
+
+      prevBtn.addEventListener('click', () => {
+          currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1;
+          mainImg.src = images[currentIndex];
+      });
+
+      nextBtn.addEventListener('click', () => {
+          currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0;
+          mainImg.src = images[currentIndex];
+      });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+      // Example image URLs, replace with actual data
+      const images = [
+          "path/to/image1.jpg",
+          "path/to/image2.jpg",
+          "path/to/image3.jpg"
+      ];
+      createImageGallery(images);
+  });
+</script>
+
 </body>
 </html>

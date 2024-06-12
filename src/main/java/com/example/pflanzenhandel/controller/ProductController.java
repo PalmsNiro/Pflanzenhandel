@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -31,11 +32,7 @@ public class ProductController {
     @GetMapping("/product/{id}")
     public String getProductById(@PathVariable Long id, Model model) {
         Product product = productService.getProductById(id);
-        Benutzer verkaufer = product.getVerkaufer();
-        Benutzer currentUser = userService.getCurrentUser();
-        model.addAttribute("verkaufer", verkaufer);
         model.addAttribute("product", product);
-        model.addAttribute("currentUser", currentUser);
         return "productDetails";
     }
 
@@ -47,18 +44,25 @@ public class ProductController {
     }
 
     @PostMapping("/product/new")
-    public String addProduct(@ModelAttribute Product product, @RequestParam("imageFile") MultipartFile imageFile, Model model) {
+    public String addProduct(@ModelAttribute Product product, @RequestParam("imageFiles") MultipartFile[] imageFiles, Model model) {
         try {
-            if (!imageFile.isEmpty()) {
-                String imageUrl = storageService.store(imageFile);
-                product.setImageUrl(imageUrl);
-                System.out.println("Image URL: " + imageUrl); // Logging für Debugging
+            List<String> imageUrls = new ArrayList<>();
+            for (MultipartFile imageFile : imageFiles) {
+                if (!imageFile.isEmpty()) {
+                    String imageUrl = storageService.store(imageFile);
+                    imageUrls.add(imageUrl);
+                    System.out.println("Image URL: " + imageUrl); // Logging für Debugging
+                }
+            }
+            product.setImageUrls(imageUrls);
+            if (!imageUrls.isEmpty()) {
+                product.setMainImageUrl(imageUrls.getFirst()); // Set the main image URL as the first image
             }
             productService.saveProduct(product);
             model.addAttribute("successMessage", "Produkt erfolgreich hinzugefügt!");
             return "redirect:/hauptmenu"; // Weiterleitung auf das Hauptmenü
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "Fehler beim Hinzufügen des Produkts");
+        } catch (IOException e) {
+            model.addAttribute("errorMessage", "Fehler beim Hinzufügen des Produkts: " + e.getMessage());
             return "addProduct";
         }
     }
@@ -87,21 +91,28 @@ public class ProductController {
         return "editProduct";
     }
 
+
     @PostMapping("/product/edit/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute Product product, @RequestParam("imageFile") MultipartFile imageFile, Model model) {
+    public String updateProduct(@PathVariable Long id, @ModelAttribute Product product, @RequestParam("imageFiles") MultipartFile[] imageFiles, Model model) {
         Product existingProduct = productService.getProductById(id);
         existingProduct.setName(product.getName());
         existingProduct.setDescription(product.getDescription());
         existingProduct.setPrice(product.getPrice());
         existingProduct.setHeight(product.getHeight());
-        existingProduct.setOverPot(product.isOverPot());
+        existingProduct.setOverPot(product.getOverPot());
         existingProduct.setShippingCosts(product.getShippingCosts());
 
         try {
-            if (!imageFile.isEmpty()) {
-                String imageUrl = storageService.store(imageFile);
-                existingProduct.setImageUrl(imageUrl);
-                System.out.println("Image URL: " + imageUrl); // Logging für Debugging
+            List<String> imageUrls = existingProduct.getImageUrls();
+            for (MultipartFile imageFile : imageFiles) {
+                if (!imageFile.isEmpty()) {
+                    String imageUrl = storageService.store(imageFile);
+                    imageUrls.add(imageUrl);
+                }
+            }
+            existingProduct.setImageUrls(imageUrls);
+            if (!imageUrls.isEmpty()) {
+                existingProduct.setMainImageUrl(imageUrls.getFirst()); // Set the main image URL as the first image
             }
         } catch (IOException e) {
             model.addAttribute("errorMessage", "Fehler beim Aktualisieren des Produkts: " + e.getMessage());

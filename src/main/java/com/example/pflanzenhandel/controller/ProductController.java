@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -87,7 +88,7 @@ public class ProductController {
     }
 
     @PostMapping("/product/edit/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute Product product, Model model) {
+    public String updateProduct(@PathVariable Long id, @ModelAttribute Product product, @RequestParam("imageFile") MultipartFile imageFile, Model model) {
         Product existingProduct = productService.getProductById(id);
         existingProduct.setName(product.getName());
         existingProduct.setDescription(product.getDescription());
@@ -95,10 +96,23 @@ public class ProductController {
         existingProduct.setHeight(product.getHeight());
         existingProduct.setOverPot(product.isOverPot());
         existingProduct.setShippingCosts(product.getShippingCosts());
-        existingProduct.setImageUrl(product.getImageUrl());
+
+        try {
+            if (!imageFile.isEmpty()) {
+                String imageUrl = storageService.store(imageFile);
+                existingProduct.setImageUrl(imageUrl);
+                System.out.println("Image URL: " + imageUrl); // Logging für Debugging
+            }
+        } catch (IOException e) {
+            model.addAttribute("errorMessage", "Fehler beim Aktualisieren des Produkts: " + e.getMessage());
+            return "editProduct";
+        }
+
         productService.saveProduct(existingProduct);
         return "redirect:/product/" + existingProduct.getId();
     }
+
+
 
     @PostMapping("/product/delete/{id}")
     public String deleteProduct(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails, Model model) {

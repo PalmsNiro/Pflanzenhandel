@@ -1,23 +1,121 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-  <th:block th:insert="~{fragments/htmlHead :: head}"></th:block>
+  <th:block th:replace="~{fragments/htmlHead :: head}"></th:block>
   <meta charset="UTF-8">
   <title>Home</title>
   <style>
+    body {
+      background-color: #f0f8ff;
+      font-family: 'Arial', sans-serif;
+    }
+    .container-fluid {
+      padding: 0;
+    }
+    .navbar {
+      margin-bottom: 20px;
+      background-color: #4CAF50; /* Helleres Grün */
+    }
+    .navbar .form-control {
+      border-radius: 20px;
+    }
+    .sidebar {
+      background-color: #28a745; /* Lebendigeres Grün */
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+    }
+    .sidebar .btn-toggle {
+      color: white;
+      width: 100%;
+      text-align: left;
+    }
+    .sidebar .btn-toggle:hover {
+      background-color: #218838;
+    }
+    .sidebar .btn-toggle-nav a {
+      color: white;
+    }
+    .sidebar .btn-toggle-nav a:hover {
+      text-decoration: underline;
+    }
     .clickable-row {
-        cursor: pointer;
+      cursor: pointer;
+      transition: background-color 0.3s;
     }
     .clickable-row:hover {
-        background-color: #f5f5f5;
+      background-color: #e0f7fa;
+    }
+    .product-image {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 5px;
+      transition: transform 0.3s;
+    }
+    .product-image:hover {
+      transform: scale(1.05);
+    }
+    .no-image {
+      width: 150px;
+      height: 150px;
+      background-color: #ccc;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+    }
+    .footer {
+      background-color: #28a745; /* Lebendigeres Grün */
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+    }
+    .footer a {
+      color: white;
+      text-decoration: none;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    .bg-light-green {
+      background-color: #90ee90; /* Helleres Grün */
+    }
+    .text-light-green {
+      color: #90ee90; /* Helleres Grün */
+    }
+    .logo-svg {
+      width: 60px;
+      height: 60px;
+      transition: transform 0.3s;
+    }
+    .logo-svg:hover {
+      transform: scale(1.1);
+    }
+    .header, .navbar {
+      background-color: #4CAF50; /* Helleres Grün */
+      color: white;
+    }
+    .navbar-nav .nav-link {
+      font-weight: bold;
+    }
+    .btn-primary-custom {
+      background-color: #218838;
+      border-color: #218838;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .btn-primary-custom:hover {
+      background-color: #1e7e34;
+      border-color: #1c7430;
     }
   </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <!--Header-->
-<div class="container-fluid">
+<div class="container-fluid header">
   <div class="row">
-    <div class="col-12 bg-success text-white py-3">
+    <div class="col-12 py-3 d-flex align-items-center justify-content-between">
       <a href="/" aria-label="Home" class="logo-link">
         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-tree logo-svg" viewBox="0 0 16 16">
           <path d="M8.416.223a.5.5 0 0 0-.832 0l-3 4.5A.5.5 0 0 0 5 5.5h.098L3.076 8.735A.5.5 0 0 0 3.5 9.5h.191l-1.638 3.276a.5.5 0 0 0 .447.724H7V16h2v-2.5h4.5a.5.5 0 0 0 .447-.724L12.31 9.5h.191a.5.5 0 0 0 .424-.765L10.902 5.5H11a.5.5 0 0 0 .416-.777zM6.437 4.758A.5.5 0 0 0 6 4.5h-.066L8 1.401 10.066 4.5H10a.5.5 0 0 0-.424.765L11.598 8.5H11.5a.5.5 0 0 0-.447.724L12.69 12.5H3.309l1.638-3.276A.5.5 0 0 0 4.5 8.5h-.098l2.022-3.235a.5.5 0 0 0 .013-.507"/>
@@ -28,10 +126,10 @@
 </div>
 
 <!--Navbar-->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark-subtle">
+<nav class="navbar navbar-expand-lg navbar-dark">
   <form class="d-flex me-3" role="search" action="/" method="get">
     <input class="form-control me-2" type="search" name="query" placeholder="Search" aria-label="Search" th:value="${param.query}" />
-    <button class="btn btn-outline-success" type="submit">Search</button>
+    <button class="btn btn-outline-light" type="submit">Search</button>
   </form>
   <ul class="navbar-nav">
     <li class="nav-item">
@@ -39,7 +137,7 @@
     </li>
   </ul>
   <div class="d-flex align-items-center">
-    <a href="/logout" class="btn btn-primary me-3">Sign Out</a> <!-- Blauer Logout-Button -->
+    <a href="/logout" class="btn btn-light me-3">Sign Out</a> <!-- Weißer Logout-Button -->
     <div class="dropdown">
       <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
         <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-person-fill icon-size" viewBox="0 0 16 16">
@@ -62,7 +160,8 @@
 <!--Main Content Area-->
 <div class="container flex-grow-1 d-flex flex-column">
   <div class="row flex-grow-1 mt-3">
-    <div class="col-auto bg-secondary flex-shrink-0 p-3" style="width: 200px;">
+    <!--Side Overview-->
+    <div class="col-auto sidebar">
       <span class="fs-5 fw-semibold">Side Overview</span>
       <ul class="list-unstyled ps-0">
         <li class="mb-1">
@@ -94,7 +193,8 @@
         </li>
       </ul>
     </div>
-    <div class="col bg-dark-subtle py-3 d-flex flex-column">
+    <!--Content Section-->
+    <div class="col bg-light py-3 d-flex flex-column">
       <div>
         <h2 th:text="${#strings.isEmpty(param.query) ? 'Neueste Angebote' : 'Ergebnisse für: ' + param.query}">Neueste Angebote</h2>
       </div>
@@ -113,10 +213,10 @@
           <tr th:each="product : ${products}" class="clickable-row" th:onclick="'window.location.href=\'/product/' + ${product.id} + '\';'">
             <td>
               <div th:if="${product.imageUrl != null}">
-                <img th:src="@{${product.imageUrl}}" alt="Product Image" style="width: 150px; height: 150px; object-fit: cover;">
+                <img th:src="@{${product.imageUrl}}" alt="Product Image" class="product-image">
               </div>
               <div th:if="${product.imageUrl == null}">
-                <div class="bg-secondary text-center" style="width: 150px; height: 150px; display: flex; align-items: center; justify-content: center; color: white;">
+                <div class="no-image">
                   No Image
                 </div>
               </div>
@@ -136,54 +236,35 @@
 </div>
 
 <!-- Footer -->
-<div class="container-fluid footer bg-body-secondary">
-  <footer
-          class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top bg-secondary"
-  >
+<div class="container-fluid footer">
+  <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top">
     <div class="col mb-3">
-      <a
-              href="/"
-              class="d-flex align-items-center mb-3 link-body-emphasis text-decoration-none"
-      >
+      <a href="/" class="d-flex align-items-center mb-3 link-body-emphasis text-decoration-none">
         <svg class="bi me-2" width="40" height="32">
           <use xlink:href="#bootstrap" />
         </svg>
       </a>
       <p class="text-body-secondary">&copy; 2024</p>
     </div>
-
     <div class="col mb-3"></div>
-
     <div class="col mb-3">
       <h5>Section</h5>
       <ul class="nav flex-column">
-        <li class="nav-item mb-2">
-          <a href="#" class="nav-link p-0 text-body-secondary">Home</a>
-        </li>
-        <li class="nav-item mb-2">
-          <a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
-        <li class="nav-item mb-2">
-          <a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
-        <li class="nav-item mb-2">
-          <a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
-        <li class="nav-item mb-2">
-          <a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
       </ul>
     </div>
-
     <div class="col mb-3">
       <h5>Section</h5>
       <ul class="nav flex-column">
-        <li class="nav-item mb-2">
-          <a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
-        <li class="nav-item mb-2">
-          <a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
-        <li class="nav-item mb-2">
-          <a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
-        <li class="nav-item mb-2">
-          <a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
-        <li class="nav-item mb-2">
-          <a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
+        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
       </ul>
     </div>
   </footer>

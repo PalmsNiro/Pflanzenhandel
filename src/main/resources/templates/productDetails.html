@@ -1,113 +1,149 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <th:block th:insert="~{fragments/htmlHead :: head}"></th:block>
+    <th:block th:replace="~{fragments/htmlHead :: head}"></th:block>
     <meta charset="UTF-8">
     <title th:text="${product.name}">Product Details</title>
     <style>
+        body {
+          background-color: #e6f2ff; /* Etwas dunkleres Blau */
+          font-family: 'Arial', sans-serif;
+        }
+        .container-fluid {
+          padding: 0;
+        }
+        .navbar {
+          margin-bottom: 20px;
+          background-color: #4CAF50; /* Helleres Grün */
+        }
+        .navbar .form-control {
+          border-radius: 20px;
+        }
         .btn-edit {
-            background-color: #4CAF50; /* Green */
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 10px 10px 0 0;
-            cursor: pointer;
-            border-radius: 5px;
+          background-color: #4CAF50; /* Green */
+          border: none;
+          color: white;
+          padding: 10px 20px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin: 10px 10px 0 0;
+          cursor: pointer;
+          border-radius: 5px;
+          transition: background-color 0.3s;
         }
         .btn-edit:hover {
-            background-color: #45a049;
+          background-color: #45a049;
         }
         .btn-delete {
-            background-color: #f44336; /* Red */
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 10px 0;
-            cursor: pointer;
-            border-radius: 5px;
+          background-color: #f44336; /* Red */
+          border: none;
+          color: white;
+          padding: 10px 20px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin: 10px 0;
+          cursor: pointer;
+          border-radius: 5px;
+          transition: background-color 0.3s;
         }
         .btn-delete:hover {
-            background-color: #e53935;
+          background-color: #e53935;
         }
         .btn-send-message {
-            margin-top: 20px;
+          margin-top: 20px;
         }
         .product-container {
-            margin-top: 50px;
+          margin-top: 50px;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
         }
         .product-container img {
-            max-width: 500px;
-            margin-bottom: 20px;
+          max-width: 100%;
+          height: auto;
+          border-radius: 5px;
+          transition: transform 0.3s;
+          margin-bottom: 20px;
         }
-        .product-container p {
-            font-size: 18px;
+        .product-container img:hover {
+          transform: scale(1.05);
+        }
+        .product-info {
+          flex: 1;
+          margin-left: 20px;
+        }
+        .product-info p {
+          font-size: 18px;
         }
         /* Modal Styles */
         .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.4);
-            padding-top: 60px;
+          display: none;
+          position: fixed;
+          z-index: 1;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          overflow: auto;
+          background-color: rgb(0,0,0);
+          background-color: rgba(0,0,0,0.4);
+          padding-top: 60px;
         }
         .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 500px;
-            text-align: center;
+          background-color: #fefefe;
+          margin: 5% auto;
+          padding: 20px;
+          border: 1px solid #888;
+          width: 80%;
+          max-width: 500px;
+          text-align: center;
+          border-radius: 10px;
         }
         .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
+          color: #aaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
         }
         .close:hover,
         .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
+          color: black;
+          text-decoration: none;
+          cursor: pointer;
         }
         .modal-button {
-            margin: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+          margin: 10px;
+          padding: 10px 20px;
+          font-size: 16px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s;
         }
         .modal-button.confirm {
-            background-color: #f44336;
-            color: white;
+          background-color: #f44336;
+          color: white;
+        }
+        .modal-button.confirm:hover {
+          background-color: #e53935;
         }
         .modal-button.cancel {
-            background-color: #ddd;
+          background-color: #ddd;
+        }
+        .modal-button.cancel:hover {
+          background-color: #ccc;
         }
     </style>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <!--Header-->
-<div class="container-fluid">
+<div class="container-fluid header">
     <div class="row">
-        <div class="col-12 bg-success text-white py-3">
-            <!-- Placeholder svg -->
+        <div class="col-12 py-3 d-flex align-items-center justify-content-between">
             <a href="/" aria-label="Home" class="logo-link">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-tree logo-svg" viewBox="0 0 16 16">
                     <path d="M8.416.223a.5.5 0 0 0-.832 0l-3 4.5A.5.5 0 0 0 5 5.5h.098L3.076 8.735A.5.5 0 0 0 3.5 9.5h.191l-1.638 3.276a.5.5 0 0 0 .447.724H7V16h2v-2.5h4.5a.5.5 0 0 0 .447-.724L12.31 9.5h.191a.5.5 0 0 0 .424-.765L10.902 5.5H11a.5.5 0 0 0 .416-.777zM6.437 4.758A.5.5 0 0 0 6 4.5h-.066L8 1.401 10.066 4.5H10a.5.5 0 0 0-.424.765L11.598 8.5H11.5a.5.5 0 0 0-.447.724L12.69 12.5H3.309l1.638-3.276A.5.5 0 0 0 4.5 8.5h-.098l2.022-3.235a.5.5 0 0 0 .013-.507"/>
@@ -118,61 +154,99 @@
 </div>
 
 <!--Navbar-->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark-subtle">
+<nav class="navbar navbar-expand-lg navbar-dark">
     <form class="d-flex me-3" role="search" action="/" method="get">
         <input class="form-control me-2" type="search" name="query" placeholder="Search" aria-label="Search" th:value="${param.query}" />
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <button class="btn btn-outline-light" type="submit">Search</button>
     </form>
     <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link" href="#">Neues Angebot</a>
+            <a class="nav-link" th:href="@{/product/new}">Neues Angebot</a>
         </li>
     </ul>
-    <div class="dropdown">
-        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-person-fill icon-size" viewBox="0 0 16 16">
-                <path d="M3 14s-1 0-1-1 1-4 6-4 6 4 6 4-1 1-1 1H3zm5-7a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-            </svg>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="userDropdown">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
-            <li><a class="dropdown-item" href="#">Settings</a></li>
-            <li><a class="dropdown-item" th:href="@{/hauptmenu}">Hauptmenü</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Logout</a></li>
-        </ul>
+    <div class="d-flex align-items-center">
+        <a href="/logout" class="btn btn-light me-3">Sign Out</a> <!-- Weißer Logout-Button -->
+        <div class="dropdown">
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-person-fill icon-size" viewBox="0 0 16 16">
+                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 4 6 4-1 1-1 1H3zm5-7a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                </svg>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="userDropdown">
+                <li><a class="dropdown-item" th:href="@{/profile}">Profile</a></li>
+                <li><a class="dropdown-item" th:href="@{/settings}">Settings</a></li>
+                <li><a class="dropdown-item" th:href="@{/messages}">Messages</a>
+                <li><a class="dropdown-item" href="@{/plantCare}">Plant-Care Page</a></li> <!-- Plant-Care Page Link -->
+                <li><a class="dropdown-item" th:href="@{/hauptmenu}">Hauptmenü</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" th:href="@{/logout}">Sign Out</a></li> <!-- Sign-Out Button -->
+            </ul>
+        </div>
     </div>
 </nav>
 
 <!--Main Area for Product Details-->
 <div class="container product-container">
-    <h1 th:text="${product.name}">Product Name</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <img th:src="${product.imageUrl}" alt="Bild">
+        </div>
+        <div class="col-md-6 product-info">
+            <h1 th:text="${product.name}">Product Name</h1>
+            <p th:text="${product.description}">Product Description</p>
+            <p th:text="'Price: ' + ${product.price}">Price: 0.00</p>
+            <p th:text="'Height: ' + ${product.height}">Height: 0.00</p>
+            <p th:text="'Shipping Costs: ' + ${product.shippingCosts}">Shipping Costs: 0.00</p>
 
-    <img th:src="${product.imageUrl}" alt="Bild">
-    <div style="text-align: left;">
-        <p th:text="${product.description}">Product Description</p>
-        <p th:text="'Price: ' + ${product.price}">Price: 0.00</p>
-        <p th:text="'Height: ' + ${product.height}">Height: 0.00</p>
-        <p th:text="'Shipping Costs: ' + ${product.shippingCosts}">Shipping Costs: 0.00</p>
+            <!-- Edit and Delete buttons only visible to the seller -->
+            <div th:if="${product.verkaufer != null and currentUser != null and product.verkaufer.username == currentUser.username}">
+                <a th:href="@{/product/edit/{id}(id=${product.id})}" class="btn-edit">Edit Product</a>
+                <button class="btn-delete" onclick="document.getElementById('deleteModal').style.display='block'">Delete Product</button>
+            </div>
+
+            <!-- Message Form -->
+            <form th:action="@{/messages/start}" method="post" class="btn-send-message">
+                <input type="hidden" name="productId" th:value="${product.id}" />
+                <button type="submit" class="btn btn-primary">Send Message to Seller</button>
+            </form>
+        </div>
     </div>
-
-    <!-- Edit and Delete buttons only visible to the seller -->
-    <div th:if="${product.verkaufer != null and currentUser != null and product.verkaufer.username == currentUser.username}">
-        <a th:href="@{/product/edit/{id}(id=${product.id})}" class="btn-edit">Edit Product</a>
-        <button class="btn-delete" onclick="document.getElementById('deleteModal').style.display='block'">Delete Product</button>
-    </div>
-
-    <!-- Message Form -->
-    <form th:action="@{/messages/start}" method="post" class="btn-send-message">
-        <input type="hidden" name="productId" th:value="${product.id}" />
-        <button type="submit" class="btn btn-primary">Send Message to Seller</button>
-    </form>
 </div>
 
 <!-- Footer -->
-<footer class="bg-dark text-white text-center py-3">
-    <p>&copy; 2024 Pflanzenhandel. All rights reserved.</p>
-</footer>
+<div class="container-fluid footer">
+    <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top">
+        <div class="col mb-3">
+            <a href="/" class="d-flex align-items-center mb-3 link-body-emphasis text-decoration-none">
+                <svg class="bi me-2" width="40" height="32">
+                    <use xlink:href="#bootstrap" />
+                </svg>
+            </a>
+            <p class="text-body-secondary">&copy; 2024</p>
+        </div>
+        <div class="col mb-3"></div>
+        <div class="col mb-3">
+            <h5>Section</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
+            </ul>
+        </div>
+        <div class="col mb-3">
+            <h5>Section</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
+            </ul>
+        </div>
+    </footer>
+</div>
 
 <!-- Delete Confirmation Modal -->
 <div id="deleteModal" class="modal">
@@ -189,10 +263,10 @@
 
 <script>
     window.onclick = function(event) {
-        var modal = document.getElementById('deleteModal');
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
+      var modal = document.getElementById('deleteModal');
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
     }
 </script>
 </body>

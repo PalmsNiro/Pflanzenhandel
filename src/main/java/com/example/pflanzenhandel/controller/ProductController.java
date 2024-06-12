@@ -53,7 +53,6 @@ public class ProductController {
                 if (!imageFile.isEmpty()) {
                     String imageUrl = storageService.store(imageFile);
                     imageUrls.add(imageUrl);
-                    System.out.println("Image URL: " + imageUrl); // Logging für Debugging
                 }
             }
             product.setImageUrls(imageUrls);
@@ -62,7 +61,7 @@ public class ProductController {
             }
             productService.saveProduct(product);
             model.addAttribute("successMessage", "Produkt erfolgreich hinzugefügt!");
-            return "redirect:/hauptmenu"; // Weiterleitung auf das Hauptmenü
+            return "redirect:/hauptmenu";
         } catch (IOException e) {
             model.addAttribute("errorMessage", "Fehler beim Hinzufügen des Produkts: " + e.getMessage());
             return "addProduct";

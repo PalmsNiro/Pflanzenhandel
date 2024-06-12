@@ -2,6 +2,74 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <th:block th:replace="~{fragments/htmlHead :: head}"></th:block>
+    <style>
+        body {
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .card-body {
+            padding: 2rem;
+        }
+        .card-title {
+            text-align: center;
+            color: #4CAF50; /* Green */
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            padding: 0.75rem;
+            font-size: 1rem;
+        }
+        .btn-primary {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #45a049;
+        }
+        .alert {
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+        .card-footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #f8f8f8;
+            border-top: 1px solid #eee;
+        }
+        .card-footer a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        .card-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -18,17 +86,13 @@
                 <div th:if="${param.logout}" class="alert alert-success">
                     <span th:text="'Logout erfolgreich.'"></span>
                 </div>
-                <div class="row form-group">
-                    <div class="col-12 col-md-6">
-                        <label>Username</label>
-                        <input type="text" id="username" name="username" th:placeholder="'Username'" class="form-control"/><br/>
-                    </div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="username" name="username" th:placeholder="'Username'" class="form-control"/>
                 </div>
-                <div class="row form-group">
-                    <div class="col-12 col-md-6">
-                        <label>Password</label>
-                        <input type="password" th:placeholder="'Password'" id="password" name="password" class="form-control"/><br/>
-                    </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" th:placeholder="'Password'" id="password" name="password" class="form-control"/>
                 </div>
             </div>
             <div class="card-footer">

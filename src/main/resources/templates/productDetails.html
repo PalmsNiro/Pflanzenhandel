@@ -238,11 +238,13 @@
                 <button class="btn-delete" onclick="document.getElementById('deleteModal').style.display='block'">Delete Product</button>
             </div>
 
-            <!-- Message Form -->
-            <form th:action="@{/messages/start}" method="post" class="btn-send-message">
-                <input type="hidden" name="productId" th:value="${product.id}" />
-                <button type="submit" class="btn btn-primary">Send Message to Seller</button>
-            </form>
+            <!-- Message Form only visible to non-sellers -->
+            <div th:if="${product.verkaufer == null or currentUser == null or product.verkaufer.username != currentUser.username}">
+                <form th:action="@{/messages/start}" method="post" class="btn-send-message">
+                    <input type="hidden" name="productId" th:value="${product.id}" />
+                    <button type="submit" class="btn btn-primary">Send Message to Seller</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

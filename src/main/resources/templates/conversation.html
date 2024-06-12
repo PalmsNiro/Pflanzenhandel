@@ -17,8 +17,21 @@
             });
         }
 
+        function sendMessage(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            var messageContent = $('textarea[name="content"]').val().trim();
+            if (messageContent === '') {
+                alert('Bitte geben Sie eine Nachricht ein, bevor Sie senden.');
+            } else {
+                // Submit the form via AJAX or regular form submission
+                $('form').off('submit').submit(); // Temporarily disable the event handler and submit the form
+            }
+        }
+
         $(document).ready(function() {
-            setInterval(fetchMessages, 1000); // Fetch new messages every  second
+            setInterval(fetchMessages, 1000); // Fetch new messages every second
+
+            $('form').on('submit', sendMessage);
         });
     </script>
 </head>
@@ -118,9 +131,9 @@
                 <form th:action="@{/messages/send}" method="post" class="mt-3">
                     <input type="hidden" name="recipientId" th:value="${recipient.id}" />
                     <div class="mb-3">
-                        <textarea name="content" class="form-control" placeholder="Reply here"></textarea>
+                        <textarea name="content" class="form-control" placeholder="Nachricht eingeben"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-outline-success">Send Reply</button>
+                    <button type="submit" class="btn btn-outline-success">Senden</button>
                 </form>
             </div>
         </div>

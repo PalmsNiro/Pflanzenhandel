@@ -4,7 +4,6 @@ import com.example.pflanzenhandel.entity.Benutzer;
 import com.example.pflanzenhandel.entity.Message;
 import com.example.pflanzenhandel.entity.Product;
 import com.example.pflanzenhandel.repository.BenutzerRepository;
-import com.example.pflanzenhandel.repository.ProductRepository;
 import com.example.pflanzenhandel.service.MessageService;
 import com.example.pflanzenhandel.service.ProductService;
 import com.example.pflanzenhandel.service.UserService;
@@ -49,7 +48,6 @@ public class MessageController {
         return "fragments/conversation :: #messageList";
     }
 
-
     @GetMapping("/conversation")
     public String viewConversation(@RequestParam Long recipientId, Principal principal, Model model) {
         Benutzer user = userService.getUserByUsername(principal.getName());
@@ -67,7 +65,9 @@ public class MessageController {
         if (recipient == null) {
             return "error";
         }
-        messageService.sendMessage(sender, recipient, content);
+        if (!content.trim().isEmpty()) { // Überprüfung auf leeren Inhalt
+            messageService.sendMessage(sender, recipient, content);
+        }
         return "redirect:/messages/conversation?recipientId=" + recipientId;
     }
 
@@ -76,8 +76,10 @@ public class MessageController {
         Benutzer sender = userService.getUserByUsername(principal.getName());
         Product product = productService.getProductById(productId);
         Benutzer recipient = product.getVerkaufer();
-        messageService.sendMessage(sender, recipient, "Hi, I'm interested in your product.");
-        return "redirect:/messages/conversation?recipientId=" + recipient.getId();
+        if (recipient != null) {
+            messageService.sendMessage(sender, recipient, "Hi, I'm interested in your product.");
+            return "redirect:/messages/conversation?recipientId=" + recipient.getId();
+        }
+        return "error";
     }
-
 }

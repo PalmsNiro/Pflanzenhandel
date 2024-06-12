@@ -158,8 +158,6 @@
     </li>
   </ul>
   <div class="d-flex align-items-center">
-
-
     <a href="/logout" class="btn btn-light me-3">Ausloggen</a> <!-- Weißer Logout-Button -->
     <div class="dropdown">
       <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -168,16 +166,13 @@
         </svg>
       </a>
       <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="userDropdown">
-
-
         <li><a class="dropdown-item" th:href="@{/profile}">Profil</a></li>
         <li><a class="dropdown-item" th:href="@{/settings}">Einstellungen</a></li>
-        <li><a class="dropdown-item" th:href="@{/messages}">Nachrichten</a>
+        <li><a class="dropdown-item" th:href="@{/messages}">Nachrichten</a></li>
         <li><a class="dropdown-item" href="@{/plantCare}">Pflanzenpflege</a></li> <!-- Plant-Care Page Link -->
         <li><a class="dropdown-item" th:href="@{/hauptmenu}">Hauptmenü</a></li>
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" th:href="@{/logout}">Ausloggen</a></li> <!-- Sign-Out Button -->
-
       </ul>
     </div>
   </div>
@@ -191,29 +186,15 @@
       <span class="fs-5 fw-semibold">Seitenleiste</span>
       <ul class="list-unstyled ps-0">
         <li class="mb-1">
-          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-            Bestellungen
-          </button>
-          <div class="collapse" id="orders-collapse">
-            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Neu</a></li>
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Verarbeitet</a></li>
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Verschickt</a></li>
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Zurückgegeben</a></li>
-            </ul>
-          </div>
-        </li>
-        <li class="border-top my-3"></li>
-        <li class="mb-1">
           <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
             Profil
           </button>
           <div class="collapse" id="account-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Neu...</a></li>
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profil</a></li>
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Einstellungen</a></li>
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Ausloggen</a></li>
+              <li><a href="/profile" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profil</a></li>
+              <li><a href="/settings" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Einstellungen</a></li>
+              <li><a href="/logout" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Ausloggen</a></li>
+              <li><a href="/orders" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Bestellungen</a></li>
             </ul>
           </div>
         </li>

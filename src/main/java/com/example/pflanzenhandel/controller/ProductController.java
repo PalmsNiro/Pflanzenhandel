@@ -30,9 +30,11 @@ public class ProductController {
     private StorageService storageService;
 
     @GetMapping("/product/{id}")
-    public String getProductById(@PathVariable Long id, Model model) {
+    public String getProductById(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
         Product product = productService.getProductById(id);
+        Benutzer currentUser = userService.getCurrentUser();
         model.addAttribute("product", product);
+        model.addAttribute("currentUser", currentUser);
         return "productDetails";
     }
 

@@ -189,7 +189,17 @@
 <div class="container product-container">
     <div class="row">
         <div class="col-md-6">
-            <img th:src="${product.imageUrl}" alt="Bild">
+            <!-- Mehrere Bilder anzeigen -->
+            <div th:if="${product.imageUrls != null && !product.imageUrls.isEmpty()}">
+                <div th:each="imageUrl : ${product.imageUrls}">
+                    <img th:src="@{${imageUrl}}" alt="Bild">
+                </div>
+            </div>
+            <div th:if="${product.imageUrls == null || product.imageUrls.isEmpty()}">
+                <div class="no-image">
+                    No Image
+                </div>
+            </div>
         </div>
         <div class="col-md-6 product-info">
             <h1 th:text="${product.name}">Product Name</h1>

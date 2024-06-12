@@ -2,6 +2,8 @@ package com.example.pflanzenhandel.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Product {
 
@@ -19,7 +21,8 @@ public class Product {
     Needs to be replaced with a Set of Strings for Image Urls
     If you change his, make sure the home controller/home.htlm only pics one image
      */
-    private String imageUrl;
+    @ElementCollection
+    private List<String> imageUrls;
 
 
 
@@ -98,12 +101,12 @@ public class Product {
         this.description = description;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public List<String> getImageUrls() {
+        return imageUrls;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
     }
 
     public Benutzer getVerkaufer() {

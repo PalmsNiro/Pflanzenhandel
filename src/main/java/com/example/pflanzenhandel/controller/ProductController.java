@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -47,18 +48,22 @@ public class ProductController {
     }
 
     @PostMapping("/product/new")
-    public String addProduct(@ModelAttribute Product product, @RequestParam("imageFile") MultipartFile imageFile, Model model) {
+    public String addProduct(@ModelAttribute Product product, @RequestParam("imageFiles") MultipartFile[] imageFiles, Model model) {
         try {
-            if (!imageFile.isEmpty()) {
-                String imageUrl = storageService.store(imageFile);
-                product.setImageUrl(imageUrl);
-                System.out.println("Image URL: " + imageUrl); // Logging für Debugging
+            List<String> imageUrls = new ArrayList<>();
+            for (MultipartFile imageFile : imageFiles) {
+                if (!imageFile.isEmpty()) {
+                    String imageUrl = storageService.store(imageFile);
+                    imageUrls.add(imageUrl);
+                    System.out.println("Image URL: " + imageUrl); // Logging für Debugging
+                }
             }
+            product.setImageUrls(imageUrls);
             productService.saveProduct(product);
             model.addAttribute("successMessage", "Produkt erfolgreich hinzugefügt!");
             return "redirect:/hauptmenu"; // Weiterleitung auf das Hauptmenü
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "Fehler beim Hinzufügen des Produkts");
+        } catch (IOException e) {
+            model.addAttribute("errorMessage", "Fehler beim Hinzufügen des Produkts: " + e.getMessage());
             return "addProduct";
         }
     }
@@ -87,8 +92,9 @@ public class ProductController {
         return "editProduct";
     }
 
+
     @PostMapping("/product/edit/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute Product product, @RequestParam("imageFile") MultipartFile imageFile, Model model) {
+    public String updateProduct(@PathVariable Long id, @ModelAttribute Product product, @RequestParam("imageFiles") MultipartFile[] imageFiles, Model model) {
         Product existingProduct = productService.getProductById(id);
         existingProduct.setName(product.getName());
         existingProduct.setDescription(product.getDescription());
@@ -98,11 +104,15 @@ public class ProductController {
         existingProduct.setShippingCosts(product.getShippingCosts());
 
         try {
-            if (!imageFile.isEmpty()) {
-                String imageUrl = storageService.store(imageFile);
-                existingProduct.setImageUrl(imageUrl);
-                System.out.println("Image URL: " + imageUrl); // Logging für Debugging
+            List<String> imageUrls = existingProduct.getImageUrls();
+            for (MultipartFile imageFile : imageFiles) {
+                if (!imageFile.isEmpty()) {
+                    String imageUrl = storageService.store(imageFile);
+                    imageUrls.add(imageUrl);
+                    System.out.println("Image URL: " + imageUrl); // Logging für Debugging
+                }
             }
+            existingProduct.setImageUrls(imageUrls);
         } catch (IOException e) {
             model.addAttribute("errorMessage", "Fehler beim Aktualisieren des Produkts: " + e.getMessage());
             return "editProduct";

@@ -203,7 +203,7 @@
         <table class="table table-striped">
           <thead>
           <tr>
-            <th scope="col">Image</th>
+            <th scope="col">Images</th>
             <th scope="col">Name</th>
             <th scope="col">Description</th>
             <th scope="col">Price</th>
@@ -212,10 +212,12 @@
           <tbody>
           <tr th:each="product : ${products}" class="clickable-row" th:onclick="'window.location.href=\'/product/' + ${product.id} + '\';'">
             <td>
-              <div th:if="${product.imageUrl != null}">
-                <img th:src="@{${product.imageUrl}}" alt="Product Image" class="product-image">
+              <div th:if="${product.imageUrls != null && !product.imageUrls.isEmpty()}">
+                <div th:each="imageUrl : ${product.imageUrls}">
+                  <img th:src="@{${imageUrl}}" alt="Product Image" class="product-image" />
+                </div>
               </div>
-              <div th:if="${product.imageUrl == null}">
+              <div th:if="${product.imageUrls == null || product.imageUrls.isEmpty()}">
                 <div class="no-image">
                   No Image
                 </div>

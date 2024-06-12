@@ -24,6 +24,8 @@ public class Product {
     @ElementCollection
     private List<String> imageUrls;
 
+    private String mainImageUrl;
+
 
 
     @ManyToOne
@@ -122,5 +124,13 @@ public class Product {
 
     public void setSeller(Benutzer seller) {
         this.seller = seller;
+    }
+
+    public String getMainImageUrl() {
+        return mainImageUrl;
+    }
+
+    public void setMainImageUrl(String mainImageUrl) {
+        this.mainImageUrl = mainImageUrl;
     }
 }

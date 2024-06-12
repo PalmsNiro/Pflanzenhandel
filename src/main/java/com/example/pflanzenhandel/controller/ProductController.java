@@ -32,11 +32,7 @@ public class ProductController {
     @GetMapping("/product/{id}")
     public String getProductById(@PathVariable Long id, Model model) {
         Product product = productService.getProductById(id);
-        Benutzer verkaufer = product.getVerkaufer();
-        Benutzer currentUser = userService.getCurrentUser();
-        model.addAttribute("verkaufer", verkaufer);
         model.addAttribute("product", product);
-        model.addAttribute("currentUser", currentUser);
         return "productDetails";
     }
 
@@ -59,6 +55,9 @@ public class ProductController {
                 }
             }
             product.setImageUrls(imageUrls);
+            if (!imageUrls.isEmpty()) {
+                product.setMainImageUrl(imageUrls.getFirst()); // Set the main image URL as the first image
+            }
             productService.saveProduct(product);
             model.addAttribute("successMessage", "Produkt erfolgreich hinzugefügt!");
             return "redirect:/hauptmenu"; // Weiterleitung auf das Hauptmenü
@@ -100,7 +99,7 @@ public class ProductController {
         existingProduct.setDescription(product.getDescription());
         existingProduct.setPrice(product.getPrice());
         existingProduct.setHeight(product.getHeight());
-        existingProduct.setOverPot(product.isOverPot());
+        existingProduct.setOverPot(product.getOverPot());
         existingProduct.setShippingCosts(product.getShippingCosts());
 
         try {
@@ -109,10 +108,12 @@ public class ProductController {
                 if (!imageFile.isEmpty()) {
                     String imageUrl = storageService.store(imageFile);
                     imageUrls.add(imageUrl);
-                    System.out.println("Image URL: " + imageUrl); // Logging für Debugging
                 }
             }
             existingProduct.setImageUrls(imageUrls);
+            if (!imageUrls.isEmpty()) {
+                existingProduct.setMainImageUrl(imageUrls.getFirst()); // Set the main image URL as the first image
+            }
         } catch (IOException e) {
             model.addAttribute("errorMessage", "Fehler beim Aktualisieren des Produkts: " + e.getMessage());
             return "editProduct";

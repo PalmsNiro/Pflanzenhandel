@@ -126,7 +126,7 @@ Product product1 = new Product();
         product4.setShippingCosts(5.50);
         product4.setDescription("Toll");
         product4.setVerkaufer(debbyBenutzer);
-        product4.setImageUrls(Arrays.asList("https://cdn.mdr.de/mdr-garten/pflanzen/phalaenopsis-orchideen-zimmerpflanze-bluete-102_v-variantBig1x1_w-1280_zc-3061602c.jpg?version=58136"));
+        product4.setImageUrls(Arrays.asList("https://cdn.mdr.de/mdr-garten/pflanzen/phalaenopsis-orchideen-zimmerpflanze-bluete-102_v-variantBig1x1_w-1280_zc-3061602c.jpg?version=58136","https://cdn.pflanzen-koelle.de/media/26/20/17/1683680685/0215152627-Phalaenopsis-Midi-Dark-Pink-2R-12cmT-H65cm2_124057.jpg?width=520&quality=80"));
         product4.setMainImageUrl("https://cdn.mdr.de/mdr-garten/pflanzen/phalaenopsis-orchideen-zimmerpflanze-bluete-102_v-variantBig1x1_w-1280_zc-3061602c.jpg?version=58136");
         productService.saveProduct(product4);
 
@@ -137,9 +137,9 @@ Product product1 = new Product();
         product5.setOverPot(true);
         product5.setShippingCosts(5.50);
         product5.setDescription("Wunderschön!");
-        product5.setImageUrls(Arrays.asList("https://i.ebayimg.com/images/g/O98AAOSw415mGjj0/s-l1600.jpg","https://cdn.mdr.de/mdr-garten/pflanzen/phalaenopsis-orchideen-zimmerpflanze-bluete-102_v-variantBig1x1_w-1280_zc-3061602c.jpg?version=58136"));
+        product5.setImageUrls(Arrays.asList("https://www.bonsai.saarland/images/product_images/info_images/DSC_0262.JPG","https://www.bonsai.saarland/images/product_images/info_images/DSC_0263.JPG"));
         product5.setVerkaufer(normalBenutzer);
-        product5.setMainImageUrl("https://i.ebayimg.com/images/g/O98AAOSw415mGjj0/s-l1600.jpg");
+        product5.setMainImageUrl("https://www.bonsai.saarland/images/product_images/info_images/DSC_0263.JPG");
         productService.saveProduct(product5);
     }
 }

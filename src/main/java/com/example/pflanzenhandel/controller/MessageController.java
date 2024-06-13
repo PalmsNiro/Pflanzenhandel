@@ -77,7 +77,6 @@ public class MessageController {
         Product product = productService.getProductById(productId);
         Benutzer recipient = product.getVerkaufer();
         if (recipient != null) {
-            messageService.sendMessage(sender, recipient, "Hi, I'm interested in your product.");
             return "redirect:/messages/conversation?recipientId=" + recipient.getId();
         }
         return "error";

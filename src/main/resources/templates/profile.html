@@ -1,20 +1,240 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
 <head>
     <th:block th:replace="~{fragments/htmlHead :: head}"></th:block>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <style>
+        body {
+          background-color: #f0f8ff;
+          font-family: 'Arial', sans-serif;
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
+          margin: 0;
+        }
+        .container-fluid {
+          padding: 0;
+        }
+        .header .logo-link {
+          margin-left: 20px; /* Verschiebt das blaue Symbol nach rechts */
+        }
+        .navbar {
+          margin-bottom: 20px;
+          background-color: #4CAF50;
+        }
+        .navbar .nav-link {
+          font-size: 1.75rem; /* Vergrößert die Schriftgröße der gesamten Leiste */
+          padding: 10px 15px; /* Vergrößert das Padding der gesamten Leiste */
+        }
+        .navbar .form-control {
+          width: 300px; /* Setzt die Breite des Suchfelds */
+          padding: 0.75rem 1.5rem; /* Vergrößert das Padding des Suchfelds */
+          border-radius: 20px;
+          margin-left: 28px; /* Verschiebt Navbar nach rechts */
+        }
+        .navbar .btn-outline-light {
+          width: 120px; /* Setzten der Breite des Suchbuttons */
+          margin-left: 20px; /* Fügt Abstand zwischen Suchfeld und Suchbutton hinzu */
+        }
+        .navbar .navbar-nav .nav-item {
+          margin-right: 25px; /* Fügt Abstand zwischen den Navigationselementen hinzu */
+        }
+        .navbar .btn-light {
+          margin-left: 20px; /* Fügt Abstand zum linken Rand des "Ausloggen"-Buttons hinzu */
+        }
+        .navbar .bi-person-fill {
+          width: 40px; /* Setzt die Breite des Profilsymbols */
+          height: 40px; /* Setzt die Höhe des Profilsymbols */
+        }
+
+        .sidebar {
+          background-color: #28a745;
+          color: white;
+          padding: 10px 30px;
+          border-radius: 10px;
+          width: 300px;
+          font-size: 1.25rem; /* Standard-Schriftgröße für die gesamte Seitenleiste */
+        }
+        .sidebar .fs-5 {
+          padding-left: 10px;
+          font-size: 1.50rem; /* Größere Schriftgröße für "Seitenleiste" */
+        }
+        .sidebar .btn-toggle {
+          color: white;
+          width: 100%;
+          text-align: left;
+          padding-left: 10px; /* Verschiebt die Schrift der Button nach rechts */
+          font-size: 1.25rem; /* Gleiche Schriftgröße wie die Standardgröße der Seitenleiste */
+        }
+        .sidebar .btn-toggle:hover {
+          background-color: #218838;
+        }
+        .sidebar .btn-toggle-nav a {
+          color: white;
+          padding-left: 10px;
+          font-size: 1.25rem; /* Gleiche Schriftgröße wie die Standardgröße der Seitenleiste */
+        }
+        .sidebar .btn-toggle-nav a:hover {
+          text-decoration: underline;
+        }
+
+        .card {
+          background-color: #fff;
+          border: 1px solid #ddd;
+          border-radius: 10px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          margin: 20px 0;
+          padding: 20px;
+        }
+        .card-body {
+          padding: 20px;
+        }
+        .card-title {
+          font-size: 1.5rem;
+          font-weight: bold;
+          margin-bottom: 20px;
+        }
+        .card-text {
+          font-size: 1.25rem;
+          margin-bottom: 10px;
+        }
+        .footer {
+          background-color: #28a745;
+          color: white;
+          padding: 3px 0;
+          text-align: center;
+          margin-top: auto; /* Damit der Footer am Ende der Seite bleibt */
+        }
+        .footer a {
+          color: white;
+          text-decoration: none;
+        }
+        .footer a:hover {
+          text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h1>User Profile</h1>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">User Information</h5>
-            <p class="card-text"><strong>Benutzername:</strong> <span th:text="${user.username}"></span></p>
-            <p class="card-text"><strong>Vorname:</strong> <span th:text="${user.firstName}"></span></p>
-            <p class="card-text"><strong>Nachname:</strong> <span th:text="${user.lastName}"></span></p>
-            <p class="card-text"><strong>E-mail:</strong> <span th:text="${user.email}"></span></p>
+<!--Header-->
+<div class="container-fluid header">
+    <div class="row">
+        <div class="col-12 py-3 d-flex align-items-center justify-content-between">
+            <a href="/" aria-label="Home" class="logo-link">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-tree logo-svg" viewBox="0 0 16 16">
+                    <path d="M8.416.223a.5.5 0 0 0-.832 0l-3 4.5A.5.5 0 0 0 5 5.5h.098L3.076 8.735A.5.5 0 0 0 3.5 9.5h.191l-1.638 3.276a.5.5 0 0 0 .447.724H7V16h2v-2.5h4.5a.5.5 0 0 0 .447-.724L12.31 9.5h.191a.5.5 0 0 0 .424-.765L10.902 5.5H11a.5.5 0 0 0 .416-.777zM6.437 4.758A.5.5 0 0 0 6 4.5h-.066L8 1.401 10.066 4.5H10a.5.5 0 0 0-.424.765L11.598 8.5H11.5a.5.5 0 0 0-.447.724L12.69 12.5H3.309l1.638-3.276A.5.5 0 0 0 4.5 8.5h-.098l2.022-3.235a.5.5 0 0 0 .013-.507"/>
+                </svg>
+            </a>
         </div>
     </div>
 </div>
+
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <form class="d-flex me-3" role="search" action="/" method="get">
+        <input class="form-control me-2" type="search" name="query" placeholder="Suchen" aria-label="Search" th:value="${param.query}" />
+        <button class="btn btn-outline-light" type="submit">Suche</button>
+    </form>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/product/new}">Neue Anzeige</a>
+        </li>
+    </ul>
+    <div class="d-flex align-items-center">
+        <a href="/logout" class="btn btn-light me-3">Ausloggen</a> <!-- Weißer Logout-Button -->
+        <div class="dropdown">
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-person-fill icon-size" viewBox="0 0 16 16">
+                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 4 6 4-1 1-1 1H3zm5-7a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                </svg>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="userDropdown">
+                <li><a class="dropdown-item" th:href="@{/profile}">Profil</a></li>
+                <li><a class="dropdown-item" th:href="@{/settings}">Einstellungen</a></li>
+                <li><a class="dropdown-item" th:href="@{/messages}">Nachrichten</a></li>
+                <li><a class="dropdown-item" href="@{/plantCare}">Pflanzenpflege</a></li> <!-- Plant-Care Page Link -->
+                <li><a class="dropdown-item" th:href="@{/hauptmenu}">Hauptmenü</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" th:href="@{/logout}">Ausloggen</a></li> <!-- Sign-Out Button -->
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!--Main Content Area-->
+<div class="container-fluid flex-grow-1 d-flex flex-column main-content">
+    <div class="row flex-grow-1 mt-3">
+        <!--Side Overview-->
+        <div class="col-auto sidebar">
+            <span class="fs-5 fw-semibold">Seitenleiste</span>
+            <ul class="list-unstyled ps-0">
+                <li class="mb-1">
+                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+                        Profil
+                    </button>
+                    <div class="collapse" id="account-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="/profile" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profil</a></li>
+                            <li><a href="/settings" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Einstellungen</a></li>
+                            <li><a href="/logout" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Ausloggen</a></li>
+                            <li><a href="/orders" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Bestellungen</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!--Content Section-->
+        <div class="col bg-light py-3 d-flex flex-column">
+            <div class="container">
+                <h1>User Profile</h1>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">User Information</h5>
+                        <p class="card-text"><strong>Benutzername:</strong> <span th:text="${user.username}"></span></p>
+                        <p class="card-text"><strong>Vorname:</strong> <span th:text="${user.firstName}"></span></p>
+                        <p class="card-text"><strong>Nachname:</strong> <span th:text="${user.lastName}"></span></p>
+                        <p class="card-text"><strong>E-mail:</strong> <span th:text="${user.email}"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="container-fluid footer">
+    <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top">
+        <div class="col mb-3">
+            <a href="/" class="d-flex align-items-center mb-3 link-body-emphasis text-decoration-none">
+                <svg class="bi me-2" width="40" height="32">
+                    <use xlink:href="#bootstrap" />
+                </svg>
+            </a>
+            <p class="text-body-secondary">&copy; 2024</p>
+        </div>
+        <div class="col mb-3"></div>
+        <div class="col mb-3">
+            <h5>Section</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
+            </ul>
+        </div>
+        <div class="col mb-3">
+            <h5>Section</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Home</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Features</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Pricing</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">FAQs</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">About</a></li>
+            </ul>
+        </div>
+    </footer>
+</div>
+
 </body>
 </html>

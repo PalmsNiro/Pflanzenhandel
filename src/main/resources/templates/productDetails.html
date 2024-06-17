@@ -204,7 +204,7 @@
             <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="userDropdown">
                 <li><a class="dropdown-item" th:href="@{/profile}">Profil</a></li>
                 <li><a class="dropdown-item" th:href="@{/settings}">Einstellungen</a></li>
-                <li><a class="dropdown-item" th:href="@{/messages}">Nachrichten</a>
+                <li><a class="dropdown-item" th:href="@{/messages}">Nachrichten</a></li>
                 <li><a class="dropdown-item" href="@{/plantCare}">Pflanzenpflege</a></li> <!-- Plant-Care Page Link -->
                 <li><a class="dropdown-item" th:href="@{/hauptmenu}">Hauptmenü</a></li>
                 <li><hr class="dropdown-divider"></li>
@@ -241,8 +241,8 @@
 
             <!-- Message Form only visible to non-sellers -->
             <div th:if="${product.verkaufer == null or currentUser == null or product.verkaufer.username != currentUser.username}">
-                <form th:action="@{/messages/start}" method="post" class="btn-send-message">
-                    <input type="hidden" name="productId" th:value="${product.id}" />
+                <form th:action="@{/messages/conversation}" method="get" class="btn-send-message">
+                    <input type="hidden" name="recipientId" th:value="${product.verkaufer.id}" />
                     <button type="submit" class="btn btn-primary">Nachricht schreiben</button>
                 </form>
             </div>

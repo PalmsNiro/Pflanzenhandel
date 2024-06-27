@@ -7,45 +7,7 @@ These styles are all for the dropdown menu on the Usericon.
 .dropdown:hover .dropdown-menu {
     display: block;
 }
-.navbar-nav {
-    flex-direction: row;
-    align-items: center;
-}
-.navbar-nav .nav-link {
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
-}
-.navbar .container-fluid {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-.navbar .form-control {
-    width: 300px;
-}
-.navbar-right {
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-}
-.navbar-right .nav-item {
-    margin-left: 15px;
-}
 
-#userDropdown::after {
-    display: none;
-}
-
-/* Größere Icon-Größe */
-.icon-size {
-    width: 25px !important;
-    height: 25px !important;
-}
-
-ul {
-    list-style-type: none;
-    padding-left: 0;
-}
 
 
 /*
@@ -66,3 +28,222 @@ For Logo in the Header
     width: 40px !important; /* Adjust size as needed */
     height: 40px !important;
 }
+
+
+/*
+Styles aus home
+ */
+
+/*Styles für die Main Content Area*/
+.sidebar {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 30px;
+    border-radius: 10px;
+    width: 300px;
+    font-size: 1.25rem; /* Standard-Schriftgröße für die gesamte Seitenleiste */
+}
+.sidebar .fs-5 {
+    padding-left: 10px;
+    font-size: 1.50rem; /* Größere Schriftgröße für "Seitenleiste" */
+}
+.sidebar .btn-toggle {
+    color: white;
+    width: 100%;
+    text-align: left;
+    padding-left: 10px; /* Verschiebt die Schrift der Button nach rechts */
+    font-size: 1.25rem; /* Gleiche Schriftgröße wie die Standardgröße der Seitenleiste */
+}
+.sidebar .btn-toggle:hover {
+    background-color: #218838;
+}
+.sidebar .btn-toggle-nav a {
+    color: white;
+    padding-left: 10px;
+    font-size: 1.25rem; /* Gleiche Schriftgröße wie die Standardgröße der Seitenleiste */
+}
+/* .sidebar .btn-toggle-nav a:hover {
+    text-decoration: underline;
+} */
+
+.clickable-row {
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.clickable-row:hover {
+    background-color: #e0f7fa;
+}
+.product-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+    transition: transform 0.3s;
+}
+.product-image:hover {
+    transform: scale(1.05);
+}
+.no-image {
+    width: 150px;
+    height: 150px;
+    background-color: #ccc;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+}
+
+/*Footer*/
+.footer {
+    background-color: #28a745;
+    color: white;
+    padding: 3px 0;
+    text-align: center;
+    margin-top: auto; /* Damit der Footer am Ende der Seite bleibt */
+}
+.footer a {
+    color: white;
+    text-decoration: none;
+}
+.footer a:hover {
+    text-decoration: underline;
+}
+.bg-light-green {
+    background-color: #90ee90;
+}
+.text-light-green {
+    color: #90ee90;
+}
+
+/* .logo-svg {
+    width: 65px;
+    height: 65px;
+    transition: transform 0.3s;
+}
+.logo-svg:hover {
+    transform: scale(1.1);
+}
+.header .logo-link {
+    margin-left: 40px; 
+} */
+
+/* 
+.btn-primary-custom {
+    background-color: #218838;
+    border-color: #218838;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+.btn-primary-custom:hover {
+    background-color: #1e7e34;
+    border-color: #1c7430;
+}
+.image-gallery {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.image-gallery img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+.image-gallery button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+.image-gallery button:hover {
+    background-color: #45a049;
+} */
+.product-details {
+    display: flex;
+    flex-direction: column;
+}
+.product-details .product-name {
+    font-weight: bold;
+    margin-bottom: 10px; /* Abstand unter dem Namen */
+}
+.product-details .product-description {
+    margin-bottom: 10px; /* Abstand unter der Beschreibung */
+}
+.product-price {
+    color: green;
+    font-weight: bold;
+}
+.product-cell {
+    border: 1px solid #ddd;
+    padding: 20px;
+}
+.table {
+    width: 100%; /* Setzt die Breite der Tabelle auf 100% */
+    font-size: 1.3rem; /* Vergrößert die Schriftgröße in der Tabelle */
+    margin-bottom: 20px; /* Fügt Abstand unter der Tabelle hinzu */
+}
+.main-content {
+    border: 1px solid #ccc; /* Dünner Rahmen um den Hauptinhalt */
+}
+
+/* Modal Styles */
+/* .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.modal-button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.modal-button.confirm {
+    background-color: #f44336;
+    color: white;
+}
+.modal-button.confirm:hover {
+    background-color: #e53935;
+}
+.modal-button.cancel {
+    background-color: #ddd;
+}
+.modal-button.cancel:hover {
+    background-color: #ccc;
+}
+.btn {
+    font-size: 1.1rem;
+} */

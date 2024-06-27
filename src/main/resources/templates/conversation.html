@@ -6,40 +6,41 @@
     <title>Conversation</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        // Function to fetch messages
         function fetchMessages() {
-            const recipientId = /* Extract recipientId from the URL or a hidden field */;
-            $.ajax({
-                url: '/messages/conversation/' + recipientId,
-                type: 'GET',
-                success: function(data) {
-                    $('#messageList').html($(data).find('#messageList').html());
-                }
-            });
-        }
+            // Extract recipientId from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const recipientId = urlParams.get('recipientId');
 
-        function sendMessage(event) {
-            event.preventDefault(); // Prevent the form from submitting normally
-            var messageContent = $('textarea[name="content"]').val().trim();
-            if (messageContent === '') {
-                alert('Bitte geben Sie eine Nachricht ein, bevor Sie senden.');
+            if (recipientId) {
+                $.ajax({
+                    url: '/messages/conversation/' + recipientId,
+                    type: 'GET',
+                    success: function(data) {
+                        $('#messageList').html(data); // Directly use the response HTML
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Failed to fetch messages:', error);
+                        $('#messageList').html('<li class="list-group-item text-danger">Failed to load messages.</li>');
+                    }
+                });
             } else {
-                // Submit the form via AJAX or regular form submission
-                $('form').off('submit').submit(); // Temporarily disable the event handler and submit the form
+                console.error('Recipient ID not found in URL');
+                $('#messageList').html('<li class="list-group-item text-danger">Recipient ID not found in URL.</li>');
             }
         }
 
         $(document).ready(function() {
             setInterval(fetchMessages, 1000); // Fetch new messages every second
-
-            $('form').on('submit', sendMessage);
         });
+
     </script>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <!--Header-->
-<div class="container-fluid">
+<div class="container-fluid header">
     <div class="row">
-        <div class="col-12 bg-success text-white py-3">
+        <div class="col-12 py-3 d-flex align-items-center justify-content-between">
             <a href="/" aria-label="Home" class="logo-link">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-tree logo-svg" viewBox="0 0 16 16">
                     <path d="M8.416.223a.5.5 0 0 0-.832 0l-3 4.5A.5.5 0 0 0 5 5.5h.098L3.076 8.735A.5.5 0 0 0 3.5 9.5h.191l-1.638 3.276a.5.5 0 0 0 .447.724H7V16h2v-2.5h4.5a.5.5 0 0 0 .447-.724L12.31 9.5h.191a.5.5 0 0 0 .424-.765L10.902 5.5H11a.5.5 0 0 0 .416-.777zM6.437 4.758A.5.5 0 0 0 6 4.5h-.066L8 1.401 10.066 4.5H10a.5.5 0 0 0-.424.765L11.598 8.5H11.5a.5.5 0 0 0-.447.724L12.69 12.5H3.309l1.638-3.276A.5.5 0 0 0 4.5 8.5h-.098l2.022-3.235a.5.5 0 0 0 .013-.507"/>
@@ -50,36 +51,7 @@
 </div>
 
 <!--Navbar-->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark-subtle">
-    <form class="d-flex me-3" role="search" action="/" method="get">
-        <input class="form-control me-2" type="search" name="query" placeholder="Search" aria-label="Search" th:value="${param.query}" />
-        <button class="btn btn-outline-success" type="submit">Suche</button>
-    </form>
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/product/new}">Neue Anzeige</a>
-        </li>
-    </ul>
-    <div class="d-flex align-items-center">
-        <a href="/logout" class="btn btn-primary me-3">Ausloggen</a>
-        <div class="dropdown">
-            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-person-fill icon-size" viewBox="0 0 16 16">
-                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 4 6 4-1 1-1 1H3zm5-7a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                </svg>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="userDropdown">
-                <li><a class="dropdown-item" th:href="@{/profile}">Profil</a></li>
-                <li><a class="dropdown-item" th:href="@{/settings}">Einstellungen</a></li>
-                <li><a class="dropdown-item" th:href="@{/messages}">Nachrichten</a></li>
-                <li><a class="dropdown-item" href="@{/plantCare}">Pflanzenpflege</a></li> <!-- Plant-Care Page Link -->
-                <li><a class="dropdown-item" th:href="@{/hauptmenu}">Hauptmenü</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" th:href="@{/logout}">Ausloggen</a></li> <!-- Sign-Out Button -->
-            </ul>
-        </div>
-    </div>
-</nav>
+<th:block th:replace="~{fragments/htmlNavbar :: navbar}"></th:block>
 
 <!--Main Content Area-->
 <div class="container flex-grow-1 d-flex flex-column">
@@ -89,29 +61,39 @@
             <span class="fs-5 fw-semibold">Seitenleiste</span>
             <ul class="list-unstyled ps-0">
                 <li class="mb-1">
-                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                            data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
                         Bestellungen
                     </button>
                     <div class="collapse" id="orders-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Neu</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Verarbeitet</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Verschickt</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Zurückgegeben</a></li>
+                            <li><a href="#"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Neu</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Verarbeitet</a>
+                            </li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Verschickt</a>
+                            </li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Zurückgegeben</a>
+                            </li>
                         </ul>
                     </div>
                 </li>
                 <li class="border-top my-3"></li>
                 <li class="mb-1">
-                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                            data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
                         Profil
                     </button>
                     <div class="collapse" id="account-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Neu...</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profil</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Einstellungen</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Ausloggen</a></li>
+                            <li><a href="#"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Neu...</a></li>
+                            <li><a href="#"
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profil</a></li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Einstellungen</a>
+                            </li>
+                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Ausloggen</a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -121,7 +103,7 @@
         <div class="col bg-dark-subtle py-3 d-flex flex-column">
             <div>
                 <h2>Conversation with <span th:text="${recipient.username}">Recipient</span></h2>
-                <ul class="list-group" id="messageList">
+                <ul class="list-group" id="messageList" th:fragment="messageList">
                     <li class="list-group-item" th:each="message : ${conversation}">
                         <strong th:text="${message.sender.username}">Sender</strong>:
                         <span th:text="${message.content}">Message Content</span>
@@ -129,7 +111,8 @@
                     </li>
                 </ul>
                 <form th:action="@{/messages/send}" method="post" class="mt-3">
-                    <input type="hidden" name="recipientId" th:value="${recipient.id}" />
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                    <input type="hidden" name="recipientId" th:value="${recipient.id}"/>
                     <div class="mb-3">
                         <textarea name="content" class="form-control" placeholder="Nachricht eingeben"></textarea>
                     </div>
@@ -146,7 +129,7 @@
         <div class="col mb-3">
             <a href="/" class="d-flex align-items-center mb-3 link-body-emphasis text-decoration-none">
                 <svg class="bi me-2" width="40" height="32">
-                    <use xlink:href="#bootstrap" />
+                    <use xlink:href="#bootstrap"/>
                 </svg>
             </a>
             <p class="text-body-secondary">&copy; 2024</p>

@@ -42,10 +42,13 @@ public class MessageController {
     public String getConversationFragment(@PathVariable Long recipientId, Principal principal, Model model) {
         Benutzer user = userService.getUserByUsername(principal.getName());
         Benutzer recipient = userService.findById(recipientId);
+        if (recipient == null) {
+            return "error"; // Handle later
+        }
         List<Message> conversation = messageService.getConversation(user, recipient);
         model.addAttribute("conversation", conversation);
         model.addAttribute("recipient", recipient);
-        return "fragments/conversation :: #messageList";
+        return "conversation :: #messageList";
     }
 
     @GetMapping("/conversation")

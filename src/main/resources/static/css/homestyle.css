@@ -4,10 +4,10 @@ These styles are all for the dropdown menu on the Usericon.
 .dropdown-menu {
     min-width: 10rem;
 }
+
 .dropdown:hover .dropdown-menu {
     display: block;
 }
-
 
 
 /*
@@ -15,13 +15,13 @@ For Logo in the Header
  */
 .logo-link {
     text-decoration: none; /* Remove underline */
-    color: inherit;       /* Use current color */
+    color: inherit; /* Use current color */
     display: inline-block; /* Makes the entire SVG area clickable */
 }
 
 .logo-link:hover {
     text-decoration: none; /* Ensure no underline on hover */
-    color: inherit;        /* No color change on hover */
+    color: inherit; /* No color change on hover */
 }
 
 .logo-svg {
@@ -43,10 +43,12 @@ Styles aus home
     width: 300px;
     font-size: 1.25rem; /* Standard-Schriftgröße für die gesamte Seitenleiste */
 }
+
 .sidebar .fs-5 {
     padding-left: 10px;
     font-size: 1.50rem; /* Größere Schriftgröße für "Seitenleiste" */
 }
+
 .sidebar .btn-toggle {
     color: white;
     width: 100%;
@@ -54,14 +56,17 @@ Styles aus home
     padding-left: 10px; /* Verschiebt die Schrift der Button nach rechts */
     font-size: 1.25rem; /* Gleiche Schriftgröße wie die Standardgröße der Seitenleiste */
 }
+
 .sidebar .btn-toggle:hover {
     background-color: #218838;
 }
+
 .sidebar .btn-toggle-nav a {
     color: white;
     padding-left: 10px;
     font-size: 1.25rem; /* Gleiche Schriftgröße wie die Standardgröße der Seitenleiste */
 }
+
 /* .sidebar .btn-toggle-nav a:hover {
     text-decoration: underline;
 } */
@@ -70,9 +75,11 @@ Styles aus home
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
 .clickable-row:hover {
     background-color: #e0f7fa;
 }
+
 .product-image {
     width: 150px;
     height: 150px;
@@ -80,9 +87,11 @@ Styles aus home
     border-radius: 5px;
     transition: transform 0.3s;
 }
+
 .product-image:hover {
     transform: scale(1.05);
 }
+
 .no-image {
     width: 150px;
     height: 150px;
@@ -95,26 +104,26 @@ Styles aus home
 }
 
 /*Footer*/
-.footer {
-    background-color: #28a745;
-    color: white;
-    padding: 3px 0;
-    text-align: center;
-    margin-top: auto; /* Damit der Footer am Ende der Seite bleibt */
-}
-.footer a {
-    color: white;
-    text-decoration: none;
-}
-.footer a:hover {
-    text-decoration: underline;
-}
-.bg-light-green {
-    background-color: #90ee90;
-}
-.text-light-green {
-    color: #90ee90;
-}
+/*.footer {*/
+/*    background-color: #28a745;*/
+/*    color: white;*/
+/*    padding: 3px 0;*/
+/*    text-align: center;*/
+/*    margin-top: auto; !* Damit der Footer am Ende der Seite bleibt *!*/
+/*}*/
+/*.footer a {*/
+/*    color: white;*/
+/*    text-decoration: none;*/
+/*}*/
+/*.footer a:hover {*/
+/*    text-decoration: underline;*/
+/*}*/
+/*.bg-light-green {*/
+/*    background-color: #90ee90;*/
+/*}*/
+/*.text-light-green {*/
+/*    color: #90ee90;*/
+/*}*/
 
 /* .logo-svg {
     width: 65px;
@@ -163,87 +172,97 @@ Styles aus home
     display: flex;
     flex-direction: column;
 }
+
 .product-details .product-name {
     font-weight: bold;
     margin-bottom: 10px; /* Abstand unter dem Namen */
 }
+
 .product-details .product-description {
     margin-bottom: 10px; /* Abstand unter der Beschreibung */
 }
+
 .product-price {
     color: green;
     font-weight: bold;
 }
+
 .product-cell {
     border: 1px solid #ddd;
     padding: 20px;
 }
+
 .table {
     width: 100%; /* Setzt die Breite der Tabelle auf 100% */
     font-size: 1.3rem; /* Vergrößert die Schriftgröße in der Tabelle */
     margin-bottom: 20px; /* Fügt Abstand unter der Tabelle hinzu */
 }
+
 .main-content {
     border: 1px solid #ccc; /* Dünner Rahmen um den Hauptinhalt */
 }
 
-/* Modal Styles */
-/* .modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding-top: 60px;
-}
-.modal-content {
-    background-color: #fefefe;
-    margin: 5% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-.modal-button {
-    margin: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-.modal-button.confirm {
-    background-color: #f44336;
-    color: white;
-}
-.modal-button.confirm:hover {
-    background-color: #e53935;
-}
-.modal-button.cancel {
-    background-color: #ddd;
-}
-.modal-button.cancel:hover {
-    background-color: #ccc;
-}
-.btn {
-    font-size: 1.1rem;
-} */
+/*
+    Modal Styles
+    Only used in productDetails
+*/
+
+/*.modal {*/
+/*    display: none;*/
+/*    position: fixed;*/
+/*    z-index: 1;*/
+/*    left: 0;*/
+/*    top: 0;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    overflow: auto;*/
+/*    background-color: rgba(0, 0, 0, 0.4);*/
+/*    padding-top: 60px;*/
+/*}*/
+/*.modal-content {*/
+/*    background-color: #fefefe;*/
+/*    margin: 5% auto;*/
+/*    padding: 20px;*/
+/*    border: 1px solid #888;*/
+/*    width: 80%;*/
+/*    max-width: 500px;*/
+/*    border-radius: 10px;*/
+/*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);*/
+/*}*/
+/*.close {*/
+/*    color: #aaa;*/
+/*    float: right;*/
+/*    font-size: 28px;*/
+/*    font-weight: bold;*/
+/*}*/
+/*.close:hover,*/
+/*.close:focus {*/
+/*    color: black;*/
+/*    text-decoration: none;*/
+/*    cursor: pointer;*/
+/*}*/
+/*.modal-button {*/
+/*    margin: 10px;*/
+/*    padding: 10px 20px;*/
+/*    font-size: 16px;*/
+/*    border: none;*/
+/*    border-radius: 5px;*/
+/*    cursor: pointer;*/
+/*    transition: background-color 0.3s;*/
+/*}*/
+/*.modal-button.confirm {*/
+/*    background-color: #f44336;*/
+/*    color: white;*/
+/*}*/
+/*.modal-button.confirm:hover {*/
+/*    background-color: #e53935;*/
+/*}*/
+/*.modal-button.cancel {*/
+/*    background-color: #ddd;*/
+/*}*/
+/*.modal-button.cancel:hover {*/
+/*    background-color: #ccc;*/
+/*}*/
+/*.btn {*/
+/*    font-size: 1.1rem;*/
+/*}*/

@@ -1,0 +1,20 @@
+.footer {
+    background-color: #28a745;
+    color: white;
+    padding: 3px 0;
+    text-align: center;
+    margin-top: auto; /* Damit der Footer am Ende der Seite bleibt */
+}
+.footer a {
+    color: white;
+    text-decoration: none;
+}
+.footer a:hover {
+    text-decoration: underline;
+}
+.bg-light-green {
+    background-color: #90ee90;
+}
+.text-light-green {
+    color: #90ee90;
+}

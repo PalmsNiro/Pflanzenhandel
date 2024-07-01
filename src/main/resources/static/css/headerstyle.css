@@ -1,0 +1,15 @@
+.logo-link {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Use current color */
+    display: inline-block; /* Makes the entire SVG area clickable */
+}
+
+.logo-link:hover {
+    text-decoration: none; /* Ensure no underline on hover */
+    color: inherit; /* No color change on hover */
+}
+
+.logo-svg {
+    width: 40px !important; /* Adjust size as needed */
+    height: 40px !important;
+}

@@ -2,38 +2,45 @@
     flex-direction: row;
     align-items: center;
 }
+
 .navbar-nav .nav-link {
     padding-right: 0.5rem;
     padding-left: 0.5rem;
-    padding: 10px 15px; /* Vergrößert das Padding der gesamten Leiste */
+    /*padding: 10px 15px; !* Vergrößert das Padding der gesamten Leiste *!*/
     font-size: 1.75rem; /* Vergrößert die Schriftgröße der gesamten Leiste */
     font-weight: bold;
 }
+
 .navbar .container-fluid {
     display: flex;
     justify-content: flex-start;
     align-items: center;
 }
+
 .navbar .form-control {
     width: 300px; /* Setzt die Breite des Suchfelds */
     padding: 0.75rem 1.5rem; /* Vergrößert das Padding des Suchfelds */
     border-radius: 20px;
     margin-left: 28px; /* Verschiebt Navbar nach rechts */
 }
+
 .navbar-right {
     display: flex;
     align-items: center;
     margin-left: auto;
 }
+
 .navbar-right .nav-item,
 .navbar .navbar-nav .nav-item {
     margin-left: 15px;
     margin-right: 25px; /* Fügt Abstand zwischen den Navigationselementen hinzu */
 }
+
 .navbar .btn-outline-light {
     width: 120px; /* Setzt die Breite des Suchbuttons */
     margin-left: 20px; /* Fügt Abstand zwischen Suchfeld und Suchbutton hinzu */
 }
+
 .navbar .btn-light {
     margin-left: 20px; /* Fügt Abstand zum linken Rand des "Ausloggen"-Buttons hinzu */
 }
@@ -42,14 +49,25 @@
     width: 40px !important; /* Setzt die Breite des Profilsymbols */
     height: 40px !important; /* Setzt die Höhe des Profilsymbols */
 }
+
 #userDropdown::after {
     display: none;
 }
+
 ul {
     list-style-type: none;
     padding-left: 0;
 }
+
 .navbar {
     margin-bottom: 20px;
     background-color: #4CAF50;
+}
+
+.dropdown-menu {
+    min-width: 10rem;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
 }

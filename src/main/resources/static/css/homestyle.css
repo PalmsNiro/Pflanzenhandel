@@ -1,13 +1,13 @@
 /*
 These styles are all for the dropdown menu on the Usericon.
  */
-.dropdown-menu {
-    min-width: 10rem;
-}
+/*.dropdown-menu {*/
+/*    min-width: 10rem;*/
+/*}*/
 
-.dropdown:hover .dropdown-menu {
-    display: block;
-}
+/*.dropdown:hover .dropdown-menu {*/
+/*    display: block;*/
+/*}*/
 
 
 /*
@@ -67,9 +67,9 @@ Styles aus home
     font-size: 1.25rem; /* Gleiche Schriftgröße wie die Standardgröße der Seitenleiste */
 }
 
-/* .sidebar .btn-toggle-nav a:hover {
-    text-decoration: underline;
-} */
+/*.sidebar .btn-toggle-nav a:hover {*/
+/*    text-decoration: underline;*/
+/*}*/
 
 .clickable-row {
     cursor: pointer;

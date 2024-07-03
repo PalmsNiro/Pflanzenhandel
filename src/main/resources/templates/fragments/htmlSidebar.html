@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+<th:block th:fragment="sidebar">
+    <div class="col-2 sidebar">
+        <span class="fs-5 fw-semibold">Seitenleiste</span>
+        <ul class="list-unstyled ps-0">
+            <li class="mb-1">
+                <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                        data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+                    Profil
+                </button>
+                <div class="collapse" id="account-collapse">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <li><a href="/profile"
+                               class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profil</a></li>
+                        <li><a href="/settings" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Einstellungen</a>
+                        </li>
+                        <li><a href="/logout" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Ausloggen</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</th:block>
+</html>

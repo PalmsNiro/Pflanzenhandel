@@ -35,37 +35,37 @@ Styles aus home
  */
 
 /*Styles für die Main Content Area*/
-.sidebar {
-    background-color: #28a745;
-    color: white;
-    padding: 10px 30px;
-    border-radius: 10px;
-    width: 300px;
-    font-size: 1.25rem; /* Standard-Schriftgröße für die gesamte Seitenleiste */
-}
+/*.sidebar {*/
+/*    background-color: #28a745;*/
+/*    color: white;*/
+/*    padding: 10px 30px;*/
+/*    border-radius: 10px;*/
+/*    width: 300px;*/
+/*    font-size: 1.25rem; !* Standard-Schriftgröße für die gesamte Seitenleiste *!*/
+/*}*/
 
-.sidebar .fs-5 {
-    padding-left: 10px;
-    font-size: 1.50rem; /* Größere Schriftgröße für "Seitenleiste" */
-}
+/*.sidebar .fs-5 {*/
+/*    padding-left: 10px;*/
+/*    font-size: 1.50rem; !* Größere Schriftgröße für "Seitenleiste" *!*/
+/*}*/
 
-.sidebar .btn-toggle {
-    color: white;
-    width: 100%;
-    text-align: left;
-    padding-left: 10px; /* Verschiebt die Schrift der Button nach rechts */
-    font-size: 1.25rem; /* Gleiche Schriftgröße wie die Standardgröße der Seitenleiste */
-}
+/*.sidebar .btn-toggle {*/
+/*    color: white;*/
+/*    width: 100%;*/
+/*    text-align: left;*/
+/*    padding-left: 10px; !* Verschiebt die Schrift der Button nach rechts *!*/
+/*    font-size: 1.25rem; !* Gleiche Schriftgröße wie die Standardgröße der Seitenleiste *!*/
+/*}*/
 
-.sidebar .btn-toggle:hover {
-    background-color: #218838;
-}
+/*.sidebar .btn-toggle:hover {*/
+/*    background-color: #218838;*/
+/*}*/
 
-.sidebar .btn-toggle-nav a {
-    color: white;
-    padding-left: 10px;
-    font-size: 1.25rem; /* Gleiche Schriftgröße wie die Standardgröße der Seitenleiste */
-}
+/*.sidebar .btn-toggle-nav a {*/
+/*    color: white;*/
+/*    padding-left: 10px;*/
+/*    font-size: 1.25rem; !* Gleiche Schriftgröße wie die Standardgröße der Seitenleiste *!*/
+/*}*/
 
 /*.sidebar .btn-toggle-nav a:hover {*/
 /*    text-decoration: underline;*/
@@ -193,7 +193,7 @@ Styles aus home
 }
 
 .table {
-    width: 100%; /* Setzt die Breite der Tabelle auf 100% */
+    width: 80%; /* Setzt die Breite der Tabelle auf 100% */
     font-size: 1.3rem; /* Vergrößert die Schriftgröße in der Tabelle */
     margin-bottom: 20px; /* Fügt Abstand unter der Tabelle hinzu */
 }

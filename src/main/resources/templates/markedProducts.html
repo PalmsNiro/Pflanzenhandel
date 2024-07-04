@@ -31,7 +31,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="product : ${markedProducts}" class="clickable-row">
-                        <td class="product-cell" th:onclick="'window.location.href=\'/product/\' + ${product.id} + \'\';'">
+                        <td class="product-cell" th:onclick="window.location.href='/product/' + [[${product.id}]]">
                             <div class="d-flex">
                                 <div th:if="${product.mainImageUrl != null}">
                                     <img th:src="@{${product.mainImageUrl}}" alt="Product Image" class="product-image me-3">

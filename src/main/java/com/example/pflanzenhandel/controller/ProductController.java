@@ -142,49 +142,32 @@ public class ProductController {
     @GetMapping("/products")
     public String listProducts(@RequestParam(value = "query", required = false) String searchQuery,
                                @RequestParam(value = "sort", required = false) String sort,
+                               @RequestParam(value = "sortBy", required = false) String sortBy,
                                @RequestParam(value = "category", required = false) String category,
                                @RequestParam(value = "minPrice", required = false) Double minPrice,
                                @RequestParam(value = "maxPrice", required = false) Double maxPrice,
+                               @RequestParam(value = "hasUebertopf", required = false) Boolean hasUebertopf,
+                               @RequestParam(value = "minHeight", required = false) Double minHeight,
+                               @RequestParam(value = "maxHeight", required = false) Double maxHeight,
                                Model model) {
-        List<Product> products;
-        if (searchQuery != null && !searchQuery.isEmpty()) {
-            products = productService.searchProducts(searchQuery);
-            // Filterprodukte nach Kategorie und Preis
-            if (category != null && !category.isEmpty()) {
-                products = products.stream()
-                        .filter(p -> p.getCategory().equalsIgnoreCase(category))
-                        .collect(Collectors.toList());
-            }
-            if (minPrice != null) {
-                products = products.stream()
-                        .filter(p -> p.getPrice() >= minPrice)
-                        .collect(Collectors.toList());
-            }
-            if (maxPrice != null) {
-                products = products.stream()
-                        .filter(p -> p.getPrice() <= maxPrice)
-                        .collect(Collectors.toList());
-            }
-            // Sortieren, falls ein Sortierparameter vorhanden ist
-            if (sort != null) {
-                if ("asc".equals(sort)) {
-                    products.sort(Comparator.comparing(Product::getName));
-                } else if ("desc".equals(sort)) {
-                    products.sort(Comparator.comparing(Product::getName).reversed());
-                }
-            }
-        } else {
-            products = productService.findAll();
-        }
+        List<Product> products = productService.filterAndSortProducts(searchQuery, category, minPrice, maxPrice, hasUebertopf, minHeight, maxHeight, sort, sortBy);
 
         model.addAttribute("products", products);
-        model.addAttribute("keyword", searchQuery); // Suchbegriff als 'keyword' hinzufügen
+        model.addAttribute("keyword", searchQuery);
         model.addAttribute("sort", sort);
+        model.addAttribute("sortBy", sortBy);
         model.addAttribute("category", category);
         model.addAttribute("minPrice", minPrice);
         model.addAttribute("maxPrice", maxPrice);
+        model.addAttribute("hasUebertopf", hasUebertopf);
+        model.addAttribute("minHeight", minHeight);
+        model.addAttribute("maxHeight", maxHeight);
         return "home";
     }
+
+
+
+
 
 
     @GetMapping("/products/mark")

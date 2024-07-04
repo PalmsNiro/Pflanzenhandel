@@ -193,6 +193,12 @@ public class ProductController {
         productService.markProduct(productId, marked);
         return "redirect:/products";
     }
+    @GetMapping("/products/marked")
+    public String getMarkedProducts(Model model) {
+        List<Product> markedProducts = productService.findMarkedProducts();
+        model.addAttribute("markedProducts", markedProducts);
+        return "markedProducts";
+    }
 
 
 }

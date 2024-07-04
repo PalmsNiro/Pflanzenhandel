@@ -11,6 +11,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByNameContainingOrDescriptionContaining(String name, String description);
     Product save(Product product);
 
+
+    List<Product> findByMarked(boolean marked);
+
+
     @Query("SELECT p FROM Product p WHERE p.name LIKE %:keyword% ORDER BY p.name ASC")
     List<Product> searchAndSortByKeywordAsc(@Param("keyword") String keyword);
 

@@ -46,6 +46,9 @@ public class ProductService {
         product.setMarked(marked);
         productRepository.save(product);
     }
+    public List<Product> findMarkedProducts() {
+        return productRepository.findByMarked(true);
+    }
 
 
 

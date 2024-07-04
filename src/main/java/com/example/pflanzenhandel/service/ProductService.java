@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class ProductService {
@@ -35,6 +36,17 @@ public class ProductService {
     public void deleteProductById(Long id) {
         productRepository.deleteById(id);
     }
+
+    public List<Product> sortProductsByName(boolean ascending) {
+        return ascending ? productRepository.sortByNameAsc() : productRepository.sortByNameDesc();
+    }
+
+    public void markProduct(Long productId, boolean marked) {
+        Product product = productRepository.findById(productId).orElseThrow(() -> new NoSuchElementException("Product not found"));
+        product.setMarked(marked);
+        productRepository.save(product);
+    }
+
 
 
 }

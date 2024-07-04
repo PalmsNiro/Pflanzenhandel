@@ -15,7 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class ProductController {
@@ -136,5 +138,61 @@ public class ProductController {
             return "productDetails";
         }
     }
+
+    @GetMapping("/products")
+    public String listProducts(@RequestParam(value = "query", required = false) String searchQuery,
+                               @RequestParam(value = "sort", required = false) String sort,
+                               @RequestParam(value = "category", required = false) String category,
+                               @RequestParam(value = "minPrice", required = false) Double minPrice,
+                               @RequestParam(value = "maxPrice", required = false) Double maxPrice,
+                               Model model) {
+        List<Product> products;
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            products = productService.searchProducts(searchQuery);
+            // Filterprodukte nach Kategorie und Preis
+            if (category != null && !category.isEmpty()) {
+                products = products.stream()
+                        .filter(p -> p.getCategory().equalsIgnoreCase(category))
+                        .collect(Collectors.toList());
+            }
+            if (minPrice != null) {
+                products = products.stream()
+                        .filter(p -> p.getPrice() >= minPrice)
+                        .collect(Collectors.toList());
+            }
+            if (maxPrice != null) {
+                products = products.stream()
+                        .filter(p -> p.getPrice() <= maxPrice)
+                        .collect(Collectors.toList());
+            }
+            // Sortieren, falls ein Sortierparameter vorhanden ist
+            if (sort != null) {
+                if ("asc".equals(sort)) {
+                    products.sort(Comparator.comparing(Product::getName));
+                } else if ("desc".equals(sort)) {
+                    products.sort(Comparator.comparing(Product::getName).reversed());
+                }
+            }
+        } else {
+            products = productService.findAll();
+        }
+
+        model.addAttribute("products", products);
+        model.addAttribute("keyword", searchQuery); // Suchbegriff als 'keyword' hinzufügen
+        model.addAttribute("sort", sort);
+        model.addAttribute("category", category);
+        model.addAttribute("minPrice", minPrice);
+        model.addAttribute("maxPrice", maxPrice);
+        return "home";
+    }
+
+
+    @GetMapping("/products/mark")
+    public String markProduct(@RequestParam("id") Long productId,
+                              @RequestParam("marked") boolean marked) {
+        productService.markProduct(productId, marked);
+        return "redirect:/products";
+    }
+
 
 }

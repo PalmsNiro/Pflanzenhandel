@@ -12,28 +12,47 @@
 <!--Navbar-->
 <th:block th:replace="~{fragments/htmlNavbar :: navbar}"></th:block>
 
-
 <!--Main Content Area-->
 <div class="container flex-grow-1 d-flex flex-column main-content">
   <div class="row flex-grow-1 mt-3">
-    <!--Side Overview
-    <th:block th:replace="~{fragments/htmlSidebar :: sidebar}"></th:block>
-    Content Section-->
     <div class="col bg-light py-3 d-flex flex-column">
       <div>
-        <h2 th:text="${#strings.isEmpty(param.query) ? 'Neueste Angebote' : 'Ergebnisse für: ' + param.query}">Neue Anzeige</h2>
+        <h2 th:text="${#strings.isEmpty(keyword) ? 'Neueste Angebote' : 'Ergebnisse für: ' + keyword}">Neue Anzeige</h2>
       </div>
+
+      <!-- Sortier- und Filterformular, nur anzeigen, wenn eine Suche durchgeführt wurde -->
+      <div th:if="${keyword != null and !keyword.isEmpty()}">
+        <form id="sortForm" action="/products" method="get" class="mb-3">
+          <input type="hidden" name="query" th:value="${keyword}">
+          <div class="input-group mb-3">
+            <select name="sort" class="form-select">
+              <option value="asc" th:selected="${sort == 'asc'}">Name aufsteigend</option>
+              <option value="desc" th:selected="${sort == 'desc'}">Name absteigend</option>
+            </select>
+            <button type="submit" class="btn btn-secondary">Sortieren</button>
+          </div>
+          <!-- Filteroptionen hinzufügen -->
+          <div class="input-group">
+            <input type="text" name="category" class="form-control" placeholder="Kategorie" th:value="${category}">
+            <input type="number" name="minPrice" class="form-control" placeholder="Min Preis" th:value="${minPrice}">
+            <input type="number" name="maxPrice" class="form-control" placeholder="Max Preis" th:value="${maxPrice}">
+            <button type="submit" class="btn btn-secondary">Filtern</button>
+          </div>
+        </form>
+      </div>
+
       <!-- Produktliste in einer Tabelle -->
       <div th:if="${products != null && !products.isEmpty()}">
         <table class="table table-striped">
           <thead>
           <tr>
             <th scope="col">Pflanzen</th>
+            <th scope="col">Favorit</th>
           </tr>
           </thead>
           <tbody>
-          <tr th:each="product : ${products}" class="clickable-row" th:onclick="'window.location.href=\'/product/' + ${product.id} + '\';'">
-            <td class="product-cell">
+          <tr th:each="product : ${products}" class="clickable-row">
+            <td class="product-cell" th:onclick="'window.location.href=\'/product/' + ${product.id} + '\';'">
               <div class="d-flex">
                 <div th:if="${product.mainImageUrl != null}">
                   <img th:src="@{${product.mainImageUrl}}" alt="Product Image" class="product-image me-3">
@@ -50,6 +69,9 @@
                 </div>
               </div>
             </td>
+            <td class="favorite-cell">
+              <a th:href="@{/products/mark(id=${product.id}, marked=${!product.marked})}" th:text="${product.marked ? '★' : '☆'}"></a>
+            </td>
           </tr>
           </tbody>
         </table>
@@ -64,43 +86,8 @@
 <!-- Footer -->
 <th:block th:replace="~{fragments/htmlFooter :: footer}"></th:block>
 
-
-
-<!-- Image Gallery Script -->
-<script>
-  function createImageGallery(images) {
-      let currentIndex = 0;
-      const mainImg = document.getElementById('main-img');
-      const prevBtn = document.getElementById('prev-btn');
-      const nextBtn = document.getElementById('next-btn');
-
-      if (!mainImg || !prevBtn || !nextBtn || images.length === 0) {
-          return;
-      }
-
-      mainImg.src = images[currentIndex];
-
-      prevBtn.addEventListener('click', () => {
-          currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1;
-          mainImg.src = images[currentIndex];
-      });
-
-      nextBtn.addEventListener('click', () => {
-          currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0;
-          mainImg.src = images[currentIndex];
-      });
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-      // Example image URLs, replace with actual data
-      const images = [
-          "path/to/image1.jpg",
-          "path/to/image2.jpg",
-          "path/to/image3.jpg"
-      ];
-      createImageGallery(images);
-  });
-</script>
+<!-- Externe JavaScript-Datei einbinden -->
+<script th:src="@{/js/home.js}"></script>
 
 </body>
 </html>

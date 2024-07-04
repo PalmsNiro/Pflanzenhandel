@@ -80,9 +80,7 @@ public class ProductController {
         if (product.getHeight() <= 0) {
             return "Height is mandatory and must be greater than or equal to 0";
         }
-        if (product.getShippingCosts() <= 0) {
-            return "Shopping costs must be greater than or equal to 0";
-        }
+
         return null;
     }
     @GetMapping("/product/edit/{id}")
@@ -101,7 +99,6 @@ public class ProductController {
         existingProduct.setPrice(product.getPrice());
         existingProduct.setHeight(product.getHeight());
         existingProduct.setOverPot(product.getOverPot());
-        existingProduct.setShippingCosts(product.getShippingCosts());
 
         try {
             List<String> imageUrls = existingProduct.getImageUrls();

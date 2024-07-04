@@ -1,0 +1,11 @@
+.chat-container {
+    height: 400px; /* Höhe des Chat-Bereichs, kann angepasst werden */
+    overflow-y: scroll; /* Ermöglicht vertikales Scrollen */
+    border: 1px solid #ccc; /* Optional: Rahmen für den Chat-Bereich */
+    padding: 10px;
+}
+
+.message-list {
+    display: flex;
+    flex-direction: column;
+}

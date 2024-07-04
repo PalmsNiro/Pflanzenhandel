@@ -4,37 +4,7 @@
     <th:block th:insert="~{fragments/htmlHead :: head}"></th:block>
     <meta charset="UTF-8">
     <title>Conversation</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        // Function to fetch messages
-        function fetchMessages() {
-            // Extract recipientId from the URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const recipientId = urlParams.get('recipientId');
-
-            if (recipientId) {
-                $.ajax({
-                    url: '/messages/conversation/' + recipientId,
-                    type: 'GET',
-                    success: function(data) {
-                        $('#messageList').html(data); // Directly use the response HTML
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Failed to fetch messages:', error);
-                        $('#messageList').html('<li class="list-group-item text-danger">Failed to load messages.</li>');
-                    }
-                });
-            } else {
-                console.error('Recipient ID not found in URL');
-                $('#messageList').html('<li class="list-group-item text-danger">Recipient ID not found in URL.</li>');
-            }
-        }
-
-        $(document).ready(function() {
-            setInterval(fetchMessages, 1000); // Fetch new messages every second
-        });
-
-    </script>
+    <link rel="stylesheet" th:href="@{/css/chatstyle.css}">
 </head>
 <body class="d-flex flex-column min-vh-100">
 <!--Header-->
@@ -93,13 +63,15 @@
         <div class="col bg-dark-subtle py-3 d-flex flex-column">
             <div>
                 <h2>Conversation with <span th:text="${recipient.username}">Recipient</span></h2>
-                <ul class="list-group" id="messageList" th:fragment="messageList">
-                    <li class="list-group-item" th:each="message : ${conversation}">
-                        <strong th:text="${message.sender.username}">Sender</strong>:
-                        <span th:text="${message.content}">Message Content</span>
-                        <small class="text-muted" th:text="${#temporals.format(message.timestamp, 'dd-MM-yyyy HH:mm')}">Timestamp</small>
-                    </li>
-                </ul>
+                <div id="chat-container" class="chat-container">
+                    <ul class="list-group" id="messageList" th:fragment="messageList">
+                        <li class="list-group-item" th:each="message : ${conversation}">
+                            <strong th:text="${message.sender.username}">Sender</strong>:
+                            <span th:text="${message.content}">Message Content</span>
+                            <small class="text-muted" th:text="${#temporals.format(message.timestamp, 'dd-MM-yyyy HH:mm')}">Timestamp</small>
+                        </li>
+                    </ul>
+                </div>
                 <form th:action="@{/messages/send}" method="post" class="mt-3">
                     <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
                     <input type="hidden" name="recipientId" th:value="${recipient.id}"/>
@@ -116,5 +88,8 @@
 <!-- Footer -->
 <th:block th:replace="~{fragments/htmlFooter :: footer}"></th:block>
 
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/chat.js"></script>
 </body>
 </html>

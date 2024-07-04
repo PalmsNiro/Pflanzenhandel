@@ -16,6 +16,8 @@ public class Product {
     private boolean overPot;
     private double shippingCosts;
     private String description;
+    private boolean marked;
+    private String category;
     /*
     Currently for testing purposes only a String
     Needs to be replaced with a Set of Strings for Image Urls
@@ -132,5 +134,21 @@ public class Product {
 
     public void setMainImageUrl(String mainImageUrl) {
         this.mainImageUrl = mainImageUrl;
+    }
+
+    public boolean isMarked() {
+        return marked;
+    }
+
+    public void setMarked(boolean marked) {
+        this.marked = marked;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

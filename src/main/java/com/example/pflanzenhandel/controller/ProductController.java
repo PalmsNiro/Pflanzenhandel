@@ -15,7 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class ProductController {
@@ -136,5 +138,45 @@ public class ProductController {
             return "productDetails";
         }
     }
+
+    @GetMapping("/products")
+    public String listProducts(@RequestParam(value = "query", required = false) String searchQuery,
+                               @RequestParam(value = "sort", required = false) String sort,
+                               @RequestParam(value = "sortBy", required = false) String sortBy,
+                               @RequestParam(value = "category", required = false) String category,
+                               @RequestParam(value = "minPrice", required = false) Double minPrice,
+                               @RequestParam(value = "maxPrice", required = false) Double maxPrice,
+                               @RequestParam(value = "hasUebertopf", required = false) Boolean hasUebertopf,
+                               @RequestParam(value = "minHeight", required = false) Double minHeight,
+                               @RequestParam(value = "maxHeight", required = false) Double maxHeight,
+                               Model model) {
+        List<Product> products = productService.filterAndSortProducts(searchQuery, category, minPrice, maxPrice, hasUebertopf, minHeight, maxHeight, sort, sortBy);
+
+        model.addAttribute("products", products);
+        model.addAttribute("keyword", searchQuery);
+        model.addAttribute("sort", sort);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("category", category);
+        model.addAttribute("minPrice", minPrice);
+        model.addAttribute("maxPrice", maxPrice);
+        model.addAttribute("hasUebertopf", hasUebertopf);
+        model.addAttribute("minHeight", minHeight);
+        model.addAttribute("maxHeight", maxHeight);
+        return "home";
+    }
+
+    @GetMapping("/products/mark")
+    public String markProduct(@RequestParam("id") Long productId,
+                              @RequestParam("marked") boolean marked) {
+        productService.markProduct(productId, marked);
+        return "redirect:/products";
+    }
+    @GetMapping("/products/marked")
+    public String getMarkedProducts(Model model) {
+        List<Product> markedProducts = productService.findMarkedProducts();
+        model.addAttribute("markedProducts", markedProducts);
+        return "markedProducts";
+    }
+
 
 }

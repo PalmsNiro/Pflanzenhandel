@@ -165,11 +165,6 @@ public class ProductController {
         return "home";
     }
 
-
-
-
-
-
     @GetMapping("/products/mark")
     public String markProduct(@RequestParam("id") Long productId,
                               @RequestParam("marked") boolean marked) {

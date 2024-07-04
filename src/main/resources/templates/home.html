@@ -52,6 +52,13 @@
         </form>
       </div>
 
+      <!-- Filter entfernen Button anzeigen, wenn Filter angewendet wurden -->
+      <div th:if="${keyword != null and !keyword.isEmpty() or category != null or minPrice != null or maxPrice != null or hasUebertopf != null or minHeight != null or maxHeight != null}">
+        <form action="/products" method="get" class="mb-3">
+          <button type="submit" class="btn btn-secondary">Filter entfernen</button>
+        </form>
+      </div>
+
       <!-- Produktliste in einer Tabelle -->
       <div th:if="${products != null && !products.isEmpty()}">
         <table class="table table-striped">

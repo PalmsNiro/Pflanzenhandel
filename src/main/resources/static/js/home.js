@@ -1,3 +1,24 @@
+function resetFilters() {
+    console.log('Reset filters called'); // Debugging-Log
+    const url = new URL(window.location.href);
+    url.searchParams.delete('query');
+    url.searchParams.delete('sort');
+    url.searchParams.delete('category');
+    url.searchParams.delete('minPrice');
+    url.searchParams.delete('maxPrice');
+    url.searchParams.delete('hasUebertopf');
+    url.searchParams.delete('minHeight');
+    url.searchParams.delete('maxHeight');
+    window.location.href = url.toString();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const resetButton = document.querySelector('#resetFilters');
+    if (resetButton) {
+        resetButton.addEventListener('click', resetFilters);
+    }
+});
+
 function createImageGallery(images) {
     let currentIndex = 0;
     const mainImg = document.getElementById('main-img');

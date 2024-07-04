@@ -17,5 +17,10 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:./upload-dir/")
                 .setCachePeriod(3600)
                 .resourceChain(true);
+
+        registry.addResourceHandler("/js/**")
+                .addResourceLocations("classpath:/static/js/")
+                .setCachePeriod(3600)
+                .resourceChain(true);
     }
 }

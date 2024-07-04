@@ -60,7 +60,7 @@ public class ProductController {
                 product.setMainImageUrl(imageUrls.getFirst()); // Set the main image URL as the first image
             }
 
-            // handle xp increse +1
+            // handle xp increase +1
             Benutzer currentUser = userService.getCurrentUser();
             int currXP = currentUser.getExperiencePoints();
             if(currXP==9){

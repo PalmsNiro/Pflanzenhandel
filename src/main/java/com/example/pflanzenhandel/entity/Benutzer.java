@@ -27,6 +27,10 @@ public class Benutzer {
 
     private boolean enabled = true;
 
+    private int experiencePoints = 0;
+
+    private int level = 0;
+
     @ManyToOne
     @JoinColumn(name = "seller_id")
     private Benutzer seller;
@@ -92,6 +96,14 @@ public class Benutzer {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public int getExperiencePoints() {return experiencePoints;}
+
+    public void setExperiencePoints(int experiencePoints) {this.experiencePoints = experiencePoints;}
+
+    public int getLevel() {return level;}
+
+    public void setLevel(int level) {this.level = level;}
 
     public String getEmail() {
         return email;

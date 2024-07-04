@@ -50,6 +50,8 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         normalBenutzer.setUsername("user");
         normalBenutzer.setPassword("1234");
         normalBenutzer.setRoles(userRolles);
+        normalBenutzer.setExperiencePoints(5);
+        normalBenutzer.setLevel(2);
         userService.saveUser(normalBenutzer);
 
         if (normalBenutzer.getId() == null) {

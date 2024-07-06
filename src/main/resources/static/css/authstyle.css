@@ -1,0 +1,49 @@
+/* authstyle.css */
+body {
+    background-color: #f0f8ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+.card-title {
+    text-align: center;
+    color: #4CAF50; /* Green */
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 0.75rem;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1rem;
+    border

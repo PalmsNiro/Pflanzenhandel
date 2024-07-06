@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+<head>
+    <th:block th:replace="~{fragments/htmlHead :: head}"></th:block>
+    <meta charset="UTF-8">
+    <title>Die richtige Pflege</title>
+    <link rel="stylesheet" th:href="@{/css/homestyle.css}"/>
+    <style>
+        body {
+            background-color: #ffffff;
+            font-family: 'Arial', sans-serif;
+        }
+        #123 {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .care-section {
+            margin-bottom: 30px;
+        }
+        .care-section h2 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+        .care-section p {
+            font-size: 18px;
+            color: #333;
+        }
+        .care-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .btn-back {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .btn-back:hover {
+            background-color: #45a049;
+        }
+
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<!--Header-->
+<th:block th:replace="~{fragments/htmlHeader :: header}"></th:block>
+
+<!--Navbar-->
+<th:block th:replace="~{fragments/htmlNavbar :: navbar}"></th:block>
+
+<!--Main Area for Plant Care Tips-->
+<div class="container" id="123">
+    <h1>Die richtige Pflege</h1>
+
+    <div class="care-section">
+        <h2>Licht</h2>
+        <img src="images/licht.jpg" alt="Licht">
+        <p>Pflanzen benötigen unterschiedlich viel Licht. Einige gedeihen am besten bei direktem Sonnenlicht, während andere Schatten bevorzugen. Achten Sie darauf, Ihre Pflanze an einem geeigneten Standort zu platzieren.</p>
+    </div>
+
+    <div class="care-section">
+        <h2>Bewässerung</h2>
+        <img src="images/bewaesserung.jpg" alt="Bewässerung">
+        <p>Die meisten Pflanzen mögen gleichmäßig feuchte Erde. Lassen Sie die oberste Erdschicht leicht antrocknen, bevor Sie erneut gießen. Achten Sie darauf, dass keine Staunässe entsteht, da dies zu Wurzelfäule führen kann.</p>
+    </div>
+
+    <div class="care-section">
+        <h2>Düngung</h2>
+        <img src="images/duengung.jpg" alt="Düngung">
+        <p>Regelmäßiges Düngen unterstützt das Wachstum Ihrer Pflanzen. Verwenden Sie geeigneten Dünger und beachten Sie die Dosierungsanweisungen auf der Verpackung. Überdüngung kann den Pflanzen schaden.</p>
+    </div>
+
+    <div class="care-section">
+        <h2>Umtopfen</h2>
+        <img src="images/umtopfen.jpg" alt="Umtopfen">
+        <p>Topfen Sie Ihre Pflanzen alle ein bis zwei Jahre um, um ihnen frische Erde und mehr Platz für das Wurzelwachstum zu geben. Wählen Sie einen Topf, der etwas größer ist als der aktuelle.</p>
+    </div>
+
+    <a href="/" class="btn-back">Zurück zur Startseite</a>
+</div>
+
+<!-- Footer -->
+<th:block th:replace="~{fragments/htmlFooter :: footer}"></th:block>
+
+</body>
+</html>

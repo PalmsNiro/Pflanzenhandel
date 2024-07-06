@@ -37,7 +37,10 @@ public class ProductController {
         model.addAttribute("currentUser", currentUser);
         return "productDetails";
     }
-
+    @GetMapping("/plantCare")
+        public String getPlantCarePage() {
+            return "plantCare"; // Name der Thymeleaf-Vorlage
+        }
 
     @GetMapping("/product/new")
     public String showAddProductForm(Model model) {
@@ -89,6 +92,7 @@ public class ProductController {
         model.addAttribute("product", product);
         return "editProduct";
     }
+
 
 
     @PostMapping("/product/edit/{id}")

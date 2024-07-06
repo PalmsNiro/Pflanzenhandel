@@ -41,6 +41,7 @@ public class Product {
     }
 
     @ManyToOne
+    @JoinColumn(name = "verkaufer_id")
     private Benutzer verkaufer;
 
     public Product(){

@@ -170,10 +170,15 @@ public class ProductController {
 
     @GetMapping("/products/mark")
     public String markProduct(@RequestParam("id") Long productId,
-                              @RequestParam("marked") boolean marked) {
+                              @RequestParam("marked") boolean marked,
+                              @RequestParam(value = "redirect", required = false) String redirect) {
         productService.markProduct(productId, marked);
+        if ("favorites".equals(redirect)) {
+            return "redirect:/products/marked";
+        }
         return "redirect:/products";
     }
+
     @GetMapping("/products/marked")
     public String getMarkedProducts(Model model) {
         List<Product> markedProducts = productService.findMarkedProducts();

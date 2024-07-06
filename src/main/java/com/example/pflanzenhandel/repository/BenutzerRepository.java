@@ -4,6 +4,7 @@ import com.example.pflanzenhandel.entity.Benutzer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.jpa.repository.EntityGraph;
 
 import java.util.List;
 
@@ -25,5 +26,6 @@ public interface BenutzerRepository extends JpaRepository<Benutzer, Long>{
             "SELECT DISTINCT m.recipient FROM Message m WHERE m.sender.id = :userId")
     List<Benutzer> findConversationsByUserId(@Param("userId") Long userId);
 
-
+    @EntityGraph(attributePaths = {"quests"})
+    Benutzer findWithQuestsById(Long id);
 }

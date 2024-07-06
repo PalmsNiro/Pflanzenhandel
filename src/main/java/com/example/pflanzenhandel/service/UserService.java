@@ -14,7 +14,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.pflanzenhandel.entity.Benutzer;
 
+import java.time.DayOfWeek;
 import java.util.*;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -149,26 +153,57 @@ public class UserService implements UserDetailsService {
         return userRepository.findConversationsByUserId(userId);
     }
 
-    public Benutzer assignRandomQuestsToUser(Long userId, int numberOfQuests) {
-        Benutzer user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
-        List<Quest> randomQuests = questService.getRandomQuests(numberOfQuests);
+//    public Benutzer assignRandomQuestsToUser(Long userId, int numberOfQuests) {
+//        Benutzer user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+//        List<Quest> randomQuests = questService.getRandomQuests(numberOfQuests);
+//
+//        // Debugging
+//        System.out.println("Random Quests: " + randomQuests);
+//        if (randomQuests.isEmpty()) {
+//            System.out.println("No quests found to assign.");
+//        }
+//
+//        user.getQuests().addAll(randomQuests);
+//
+//        // Debugging
+//        System.out.println("User after adding quests: " + user);
+//
+//        Benutzer savedUser = userRepository.save(user);
+//
+//        // Debugging
+//        System.out.println("Saved User: " + savedUser);
+//
+//        return savedUser;
+//    }
 
-        // Debugging
-        System.out.println("Random Quests: " + randomQuests);
-        if (randomQuests.isEmpty()) {
-            System.out.println("No quests found to assign.");
+    @Transactional
+    public Benutzer assignRandomQuestsToUser(Long userId, int numberOfQuests) {
+        Benutzer user = userRepository.findWithQuestsById(userId); // Use the new method to fetch user with quests
+        if (user == null) {
+            throw new IllegalArgumentException("Invalid user ID");
         }
 
-        user.getQuests().addAll(randomQuests);
+        Set<Quest> existingQuests = user.getQuests();
 
-        // Debugging
-        System.out.println("User after adding quests: " + user);
+        int currentWeekQuestCount = (int) existingQuests.stream()
+                .filter(quest -> quest.getAssignedDate().isAfter(LocalDateTime.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))))
+                .count();
 
-        Benutzer savedUser = userRepository.save(user);
+        int maxQuestsThisWeek = 7;
+        int maxQuestsAtStartOfWeek = 4;
+        int questsToAssign = Math.min(numberOfQuests, maxQuestsAtStartOfWeek);
 
-        // Debugging
-        System.out.println("Saved User: " + savedUser);
+        if (currentWeekQuestCount + questsToAssign > maxQuestsThisWeek) {
+            questsToAssign = maxQuestsThisWeek - currentWeekQuestCount;
+        }
 
-        return savedUser;
+        if (questsToAssign > 0) {
+            List<Quest> randomQuests = questService.getRandomQuests(questsToAssign);
+            randomQuests.forEach(quest -> quest.setAssignedDate(LocalDateTime.now()));
+            user.getQuests().addAll(randomQuests);
+            userRepository.save(user);
+        }
+
+        return user;
     }
 }

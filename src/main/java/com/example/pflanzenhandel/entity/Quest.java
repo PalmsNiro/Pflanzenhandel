@@ -1,6 +1,8 @@
 package com.example.pflanzenhandel.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
 
 @Entity
 public class Quest {
@@ -14,6 +16,7 @@ public class Quest {
     private int currentAmount = 0;
     private int neededAmount;
     private boolean completed = false;
+    private LocalDateTime assignedDate;
 
     public Long getId() {
         return id;
@@ -62,4 +65,8 @@ public class Quest {
     public void setPoints(int points) {
         this.points = points;
     }
+
+    public LocalDateTime getAssignedDate() {return assignedDate;}
+
+    public void setAssignedDate(LocalDateTime assignedDate) {this.assignedDate = assignedDate;}
 }

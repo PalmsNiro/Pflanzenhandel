@@ -13,7 +13,7 @@ import java.util.HashSet;
 public class Benutzer {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String username;

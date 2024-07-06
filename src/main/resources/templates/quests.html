@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <th:block th:replace="~{fragments/htmlHead :: head}"></th:block>
+    <title>Leaderboard</title>
+</head>
+<body>
+<!--Header-->
+<th:block th:replace="~{fragments/htmlHeader :: header}"></th:block>
+
+<!--Navbar-->
+<th:block th:replace="~{fragments/htmlNavbar :: navbar}"></th:block>
+
+<!-- quests/list.html -->
+<h1>Quests</h1>
+<table>
+    <tr>
+        <th>Description</th>
+        <th>Points</th>
+        <th>Completed</th>
+        <th>Action</th>
+    </tr>
+    <tr th:each="quest : ${quests}">
+        <td th:text="${quest.description}"></td>
+        <td th:text="${quest.points}"></td>
+        <td th:text="${quest.completed}"></td>
+        <td>
+            <form th:action="@{/quests/assign}" method="post">
+                <input type="hidden" name="questId" th:value="${quest.id}"/>
+                <input type="hidden" name="userId" value="1"/>
+                <button type="submit">Assign to User</button>
+            </form>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

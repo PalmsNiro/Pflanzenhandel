@@ -35,11 +35,11 @@ public class UserService implements UserDetailsService {
     /**
      * Saves a Benutzer entity to the database.
      *
-     * @param benutzer the Benutzer entity to save.
+     * @param user the Benutzer entity to save.
      * @return the saved Benutzer entity.
      */
-    public Benutzer saveUser(Benutzer benutzer) {
-        benutzer.setPassword(passwordEncoder.encode(benutzer.getPassword()));
+    public Benutzer saveUser(Benutzer user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         // Assign default role USER to the new user
         Rolle userRole = roleRepository.findByRolename("ROLE_USER");
         if (userRole == null) {
@@ -48,9 +48,9 @@ public class UserService implements UserDetailsService {
         }
         Set<Rolle> roles = new HashSet<>();
         roles.add(userRole);
-        benutzer.setRoles(roles);
+        user.setRoles(roles);
 
-        return userRepository.save(benutzer);
+        return userRepository.save(user);
     }
 
     /**
@@ -111,13 +111,13 @@ public class UserService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Benutzer benutzer = userRepository.findByUsername(username);
-        if (Objects.isNull(benutzer)) {
+        Benutzer user = userRepository.findByUsername(username);
+        if (Objects.isNull(user)) {
             throw new UsernameNotFoundException("Could not find the user for username " + username);
         }
-        List<GrantedAuthority> grantedAuthorities = getUserAuthorities(benutzer.getRoles());
-        return new org.springframework.security.core.userdetails.User(benutzer.getUsername(), benutzer.getPassword(),
-                benutzer.isEnabled(), true, true, benutzer.isEnabled(), grantedAuthorities);
+        List<GrantedAuthority> grantedAuthorities = getUserAuthorities(user.getRoles());
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+                user.isEnabled(), true, true, user.isEnabled(), grantedAuthorities);
     }
 
     /**
@@ -150,7 +150,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findConversationsByUserId(userId);
     }
 
-    public List<Benutzer> getAllUsers() {
-        return userRepository.findAll();
-    }
+//    public List<Benutzer> getAllUsers() {
+//        return userRepository.findAll();
+//    }
 }

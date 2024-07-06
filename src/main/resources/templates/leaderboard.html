@@ -31,10 +31,10 @@
                     <!--                            No Image-->
                     <!--                        </div>-->
                     <!--                    </div>-->
-                    <div class="user-details">
-                        <div class="user-name" th:text="${user.username}">Username</div>
-                        <div class="user-level" th:text="${user.level}">UserLevel</div>
-                        <!--                        <div class=user-price" th:text="${product.price} + ' €'">Preis: 0.00 €</div>-->
+                        <div class="user-details">
+                            <div class="user-name" th:text="${user.username}">Username</div>
+                            <div class="user-level" th:text="${user.level}">UserLevel</div>
+                            <div class="user-questCompleted" th:text="${user.numberOfQuestsCompleted}">questCompleted</div>
                     </div>
                 </div>
             </td>

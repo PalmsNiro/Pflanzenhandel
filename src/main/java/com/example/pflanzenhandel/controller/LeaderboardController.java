@@ -2,14 +2,11 @@ package com.example.pflanzenhandel.controller;
 
 import com.example.pflanzenhandel.repository.BenutzerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.pflanzenhandel.entity.*;
-import com.example.pflanzenhandel.service.*;
 
 import javax.management.Query;
 import java.security.Principal;

@@ -3,6 +3,7 @@ package com.example.pflanzenhandel.entity;
 import jakarta.persistence.*;
 
 import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Represents a user entity in the application.
@@ -30,6 +31,16 @@ public class Benutzer {
     private int experiencePoints = 0;
 
     private int level = 0;
+
+    private int numberOfQuestsCompleted = 0;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_quests",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "quest_id")
+    )
+    private Set<Quest> quests = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "seller_id")
@@ -105,6 +116,10 @@ public class Benutzer {
 
     public void setLevel(int level) {this.level = level;}
 
+    public int getNumberOfQuestsCompleted(){return numberOfQuestsCompleted;}
+
+    public void setNumberOfQuestsCompleted(int questsCompleted){this.numberOfQuestsCompleted = questsCompleted;}
+
     public String getEmail() {
         return email;
     }
@@ -127,6 +142,14 @@ public class Benutzer {
 
     public void setSeller(Benutzer seller) {
         this.seller = seller;
+    }
+
+    public Set<Quest> getQuests() {
+        return quests;
+    }
+
+    public void setQuests(Set<Quest> quests) {
+        this.quests = quests;
     }
 }
 

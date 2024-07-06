@@ -14,11 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.pflanzenhandel.entity.Benutzer;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -28,6 +24,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private RolleRepository roleRepository;
+
+    @Autowired
+    private QuestService questService;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -150,7 +149,26 @@ public class UserService implements UserDetailsService {
         return userRepository.findConversationsByUserId(userId);
     }
 
-//    public List<Benutzer> getAllUsers() {
-//        return userRepository.findAll();
-//    }
+    public Benutzer assignRandomQuestsToUser(Long userId, int numberOfQuests) {
+        Benutzer user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+        List<Quest> randomQuests = questService.getRandomQuests(numberOfQuests);
+
+        // Debugging
+        System.out.println("Random Quests: " + randomQuests);
+        if (randomQuests.isEmpty()) {
+            System.out.println("No quests found to assign.");
+        }
+
+        user.getQuests().addAll(randomQuests);
+
+        // Debugging
+        System.out.println("User after adding quests: " + user);
+
+        Benutzer savedUser = userRepository.save(user);
+
+        // Debugging
+        System.out.println("Saved User: " + savedUser);
+
+        return savedUser;
+    }
 }

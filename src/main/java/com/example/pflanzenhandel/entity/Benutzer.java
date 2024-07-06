@@ -34,10 +34,12 @@ public class Benutzer {
 
     private int numberOfQuestsCompleted = 0;
 
+    private boolean newQuestsAvailable = true;
+
     @ManyToMany
     @JoinTable(
-            name = "user_quests",
-            joinColumns = @JoinColumn(name = "user_id"),
+            name = "benutzer_quests",
+            joinColumns = @JoinColumn(name = "benutzer_id"),
             inverseJoinColumns = @JoinColumn(name = "quest_id")
     )
     private Set<Quest> quests = new HashSet<>();
@@ -150,6 +152,14 @@ public class Benutzer {
 
     public void setQuests(Set<Quest> quests) {
         this.quests = quests;
+    }
+
+    public boolean isNewQuestsAvailable() {
+        return newQuestsAvailable;
+    }
+
+    public void setNewQuestsAvailable(boolean newQuestsAvailable) {
+        this.newQuestsAvailable = newQuestsAvailable;
     }
 }
 

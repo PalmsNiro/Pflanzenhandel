@@ -20,22 +20,24 @@ public class QuestController {
     private UserService userService;
 
     @GetMapping
-    public String getAllQuests(Model model) {
-        model.addAttribute("quests", questService.findAll());
+    public String getUserQuests(@RequestParam Long userId, Model model) {
+        Benutzer user = userService.findById(userId);
+        if (user != null) {
+            model.addAttribute("quests", user.getQuests());
+            model.addAttribute("user", user); // Add user to the model if needed
+        }
+
+        // Debugging
+        if (user.getQuests() != null)
+            System.out.println("User Quests: " + user.getQuests());
+
         return "quests";
     }
 
-    @PostMapping("/assign")
-    public String assignQuestToUser(@RequestParam Long questId, @RequestParam Long userId) {
-        Optional<Quest> quest = questService.findById(questId);
-        Benutzer user = userService.findById(userId);
-
-        if (quest.isPresent() && user!=null) {
-            user.getQuests().add(quest.get());
-//            userService.saveUser(user);
-//            model.addAttribute("quests", quest);
-        }
-
-        return "redirect:/quests";
+    @GetMapping("/assignRandom")
+    public String assignRandomQuestsToUser(@RequestParam Long userId, Model model) {
+        Benutzer user = userService.assignRandomQuestsToUser(userId, 2);
+        model.addAttribute("user", user);
+        return "redirect:/quests?userId=" + userId; // Redirect to the quests page for the user
     }
 }

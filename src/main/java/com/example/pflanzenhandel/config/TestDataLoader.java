@@ -157,5 +157,15 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         quest1.setDescription("Schreibe 100 Nachrichten.");
         quest1.setNeededAmount(100);
         questService.save(quest1);
+
+        Quest quest2 = new Quest();
+        quest2.setDescription("Erhalte insgesammt 50 Erfahrungs Punkte.");
+        quest2.setNeededAmount(100);
+        questService.save(quest2);
+
+        Quest quest3 = new Quest();
+        quest3.setDescription("Kaufe eine Pflanze.");
+        quest3.setNeededAmount(100);
+        questService.save(quest3);
     }
 }

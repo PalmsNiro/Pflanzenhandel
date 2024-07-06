@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.security.Principal;
 import java.util.List;
 
 import com.example.pflanzenhandel.entity.*;
@@ -19,6 +20,9 @@ public class HomeController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private UserService userService;
+
     /**
      * Displays the home page of your application.
      *
@@ -27,7 +31,7 @@ public class HomeController {
      */
     @GetMapping({"/", "/hauptmenu"})
 
-    public String showProductsOnHome(@RequestParam(value = "query", required = false) String query, Model model) {
+    public String showProductsOnHome(@RequestParam(value = "query", required = false) String query, Model model, Principal principal) {
         List<Product> products;
         if (query != null && !query.isEmpty()) {
             products = productService.searchProducts(query);
@@ -36,6 +40,19 @@ public class HomeController {
         }
         model.addAttribute("products", products);
         model.addAttribute("query", query);
+
+        if (principal != null) {
+            Benutzer user = userService.getUserByUsername(principal.getName());
+
+            // Assign random quests if the user has no quests assigned
+            //boolean in User machen für newQuestsAvailable
+            if (user.getQuests().isEmpty() && user.isNewQuestsAvailable()) {
+                user = userService.assignRandomQuestsToUser(user.getId(), 2);
+                user.setNewQuestsAvailable(false);
+            }
+
+            model.addAttribute("user", user);
+        }
         return "home"; // The return value of the method is the name of the view (HTML page) to be displayed
     }
 }

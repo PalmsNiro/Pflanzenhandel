@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Entity
 public class Quest {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     private String description;

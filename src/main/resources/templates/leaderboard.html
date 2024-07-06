@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <th:block th:replace="~{fragments/htmlHead :: head}"></th:block>
+    <title>Leaderboard</title>
+</head>
+<body>
+<!--Header-->
+<th:block th:replace="~{fragments/htmlHeader :: header}"></th:block>
+
+<!--Navbar-->
+<th:block th:replace="~{fragments/htmlNavbar :: navbar}"></th:block>
+
+<!--Main section for Leaderboard-->
+<div th:if="${users != null && !users.isEmpty()}">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Users</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}" class="clickable-row">
+            <td class="product-cell">
+                <div class="d-flex">
+                    <!--                    <div th:if="${user.username != null}">-->
+                    <!--                        <img th:src="@{${product.mainImageUrl}}" alt="Product Image" class="product-image me-3">-->
+                    <!--                    </div>-->
+                    <!--                    <div th:if="${product.mainImageUrl == null}">-->
+                    <!--                        <div class="no-image me-3">-->
+                    <!--                            No Image-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                    <div class="user-details">
+                        <div class="user-name" th:text="${user.username}">Username</div>
+                        <div class="user-level" th:text="${user.level}">UserLevel</div>
+                        <!--                        <div class=user-price" th:text="${product.price} + ' €'">Preis: 0.00 €</div>-->
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

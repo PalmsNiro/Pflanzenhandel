@@ -61,6 +61,9 @@ public class ProductController {
             if (!imageUrls.isEmpty()) {
                 product.setMainImageUrl(imageUrls.getFirst()); // Set the main image URL as the first image
             }
+            Benutzer currentUser = userService.getCurrentUser();
+            product.setVerkaufer(currentUser);
+
             productService.saveProduct(product);
             model.addAttribute("successMessage", "Produkt erfolgreich hinzugefügt!");
             return "redirect:/hauptmenu";

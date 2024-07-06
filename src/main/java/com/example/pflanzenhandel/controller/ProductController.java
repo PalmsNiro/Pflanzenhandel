@@ -39,7 +39,7 @@ public class ProductController {
     }
     @GetMapping("/plantCare")
         public String getPlantCarePage() {
-            return "plantCare"; // Name der Thymeleaf-Vorlage
+            return "plantCare";
         }
 
     @GetMapping("/product/new")

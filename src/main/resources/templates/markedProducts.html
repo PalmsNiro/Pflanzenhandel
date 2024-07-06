@@ -51,7 +51,7 @@
                             </div>
                         </td>
                         <td class="favorite-cell">
-                            <a th:href="@{/products/mark(id=${product.id}, marked=${!product.marked})}" th:text="${product.marked ? '★' : '☆'}"></a>
+                            <a th:href="@{/products/mark(id=${product.id}, marked=${!product.marked}, redirect='favorites')}" th:text="${product.marked ? '★' : '☆'}" th:class="${product.marked ? 'marked' : 'unmarked'}"></a>
                         </td>
                     </tr>
                     </tbody>

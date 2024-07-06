@@ -4,113 +4,11 @@
     <th:block th:replace="~{fragments/htmlHead :: head}"></th:block>
     <meta charset="UTF-8">
     <title>Neue Pflanze einstellen</title>
-    <style>
-        body {
-          background-color: #f0f8ff;
-          font-family: 'Arial', sans-serif;
-          display: flex;
-          flex-direction: column;
-          min-height: 100vh;
-          margin: 0;
-        }
-        .container-fluid {
-          padding: 0;
-        }
-        /*.header .logo-link {*/
-        /*  margin-left: 20px;*/
-        /*}*/
-        /*.navbar {*/
-        /*  margin-bottom: 20px;*/
-        /*  background-color: #4CAF50;*/
-        /*}*/
-        /*.navbar .nav-link {*/
-        /*  font-size: 1.75rem;*/
-        /*  padding: 10px 15px;*/
-        /*}*/
-        /*.navbar .form-control {*/
-        /*  width: 300px;*/
-        /*  padding: 0.75rem 1.5rem;*/
-        /*  border-radius: 20px;*/
-        /*  margin-left: 28px;*/
-        /*}*/
-        /*.navbar .btn-outline-light {*/
-        /*  width: 120px;*/
-        /*  margin-left: 20px;*/
-        /*}*/
-        /*.navbar .navbar-nav .nav-item {*/
-        /*  margin-right: 25px;*/
-        /*}*/
-        /*.navbar .btn-light {*/
-        /*  margin-left: 20px;*/
-        /*}*/
-        /*.navbar .bi-person-fill {*/
-        /*  width: 40px;*/
-        /*  height: 40px;*/
-        /*}*/
-
-        .sidebar {
-          background-color: #28a745;
-          color: white;
-          padding: 10px 30px;
-          border-radius: 10px;
-          width: 300px;
-          font-size: 1.25rem;
-        }
-        .sidebar .fs-5 {
-          padding-left: 10px;
-          font-size: 1.50rem;
-        }
-        .sidebar .btn-toggle {
-          color: white;
-          width: 100%;
-          text-align: left;
-          padding-left: 10px;
-          font-size: 1.25rem;
-        }
-        .sidebar .btn-toggle:hover {
-          background-color: #218838;
-        }
-        .sidebar .btn-toggle-nav a {
-          color: white;
-          padding-left: 10px;
-          font-size: 1.25rem;
-        }
-        .sidebar .btn-toggle-nav a:hover {
-          text-decoration: underline;
-        }
-
-        .form-control, .form-check-input, .btn {
-          font-size: 1.1rem;
-        }
-        .form-label {
-          font-size: 1.25rem;
-          font-weight: bold;
-        }
-        .btn-primary-custom {
-          background-color: #218838;
-          border-color: #218838;
-          transition: background-color 0.3s, border-color 0.3s;
-        }
-        .btn-primary-custom:hover {
-          background-color: #1e7e34;
-          border-color: #1c7430;
-        }
-
-        /*.footer {*/
-        /*  background-color: #28a745;*/
-        /*  color: white;*/
-        /*  padding: 3px 0;*/
-        /*  text-align: center;*/
-        /*  margin-top: auto;*/
-        /*}*/
-        /*.footer a {*/
-        /*  color: white;*/
-        /*  text-decoration: none;*/
-        /*}*/
-        /*.footer a:hover {*/
-        /*  text-decoration: underline;*/
-        /*}*/
-    </style>
+    <link rel="stylesheet" th:href="@{/css/homestyle.css}"/>
+    <link rel="stylesheet" th:href="@{/css/navbarstyle.css}"/>
+    <link rel="stylesheet" th:href="@{/css/headerstyle.css}"/>
+    <link rel="stylesheet" th:href="@{/css/footerstyle.css}"/>
+    <link rel="stylesheet" th:href="@{/css/sidebarstyle.css}"/>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <!--Header-->
@@ -122,40 +20,7 @@
 <!--Main Content Area-->
 <div class="container-fluid flex-grow-1 d-flex flex-column main-content">
     <div class="row flex-grow-1 mt-3">
-        <!--Side Overview-->
-        <div class="col-auto sidebar">
-            <span class="fs-5 fw-semibold">Seitenleiste</span>
-            <ul class="list-unstyled ps-0">
-                <li class="mb-1">
-                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-                        Bestellungen
-                    </button>
-                    <div class="collapse" id="orders-collapse">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Neu</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Verarbeitet</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Verschickt</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Zurückgegeben</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="border-top my-3"></li>
-                <li class="mb-1">
-                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-                        Profil
-                    </button>
-                    <div class="collapse" id="account-collapse">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Neu...</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profil</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Einstellungen</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Ausloggen</a></li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <!--Content Section-->
+        <!--Content Section ohne Sidebar-->
         <div class="col bg-light py-3 d-flex flex-column">
             <div>
                 <h2>Neue Pflanze einstellen</h2>
@@ -188,7 +53,9 @@
                     <input type="file" id="imageFiles" name="imageFiles" class="form-control" accept="image/*" multiple />
                 </div>
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary-custom">Pflanze einstellen</button>
+                    <button type="submit" class="btn" style="background-color: #218838; border-color: #218838; color: white; font-size: 1.2rem; padding: 10px 20px; border-radius: 5px; transition: background-color 0.3s, border-color 0.3s; margin-top: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                        Pflanze einstellen
+                    </button>
                 </div>
             </form>
             <span th:if="${error}" th:text="${error}">Error</span>

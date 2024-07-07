@@ -170,17 +170,22 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
 
         Quest quest4 = new Quest();
         quest4.setDescription("Favorisiere 10 Pflanzen");
-        quest4.setNeededAmount(100);
+        quest4.setNeededAmount(10);
         questService.save(quest4);
 
         Quest quest5 = new Quest();
         quest5.setDescription("Erhöhe dein Level ein mal");
-        quest5.setNeededAmount(100);
+        quest5.setNeededAmount(1);
         questService.save(quest5);
 
         Quest quest6 = new Quest();
         quest6.setDescription("Schreibe 50 Nachrichten");
-        quest6.setNeededAmount(100);
+        quest6.setNeededAmount(50);
         questService.save(quest6);
+
+        Quest quest7 = new Quest();
+        quest7.setDescription("Erhalte insgesammt 25 Erfahrungs Punkte.");
+        quest7.setNeededAmount(25);
+        questService.save(quest7);
     }
 }

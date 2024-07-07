@@ -162,55 +162,42 @@ public class UserService implements UserDetailsService {
         return userRepository.findConversationsByUserId(userId);
     }
 
-//    public Benutzer assignRandomQuestsToUser(Long userId, int numberOfQuests) {
-//        Benutzer user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
-//        List<Quest> randomQuests = questService.getRandomQuests(numberOfQuests);
-//
-//        // Debugging
-//        System.out.println("Random Quests: " + randomQuests);
-//        if (randomQuests.isEmpty()) {
-//            System.out.println("No quests found to assign.");
-//        }
-//
-//        user.getQuests().addAll(randomQuests);
-//
-//        // Debugging
-//        System.out.println("User after adding quests: " + user);
-//
-//        Benutzer savedUser = userRepository.save(user);
-//
-//        // Debugging
-//        System.out.println("Saved User: " + savedUser);
-//
-//        return savedUser;
-//    }
-
     @Transactional
     public Benutzer assignRandomQuestsToUser(Long userId, int numberOfQuests) {
-        Benutzer user = userRepository.findWithQuestsById(userId); // Use the new method to fetch user with quests
-        if (user == null) {
-            throw new IllegalArgumentException("Invalid user ID");
-        }
-
+        Benutzer user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
         Set<Quest> existingQuests = user.getQuests();
 
+        // Berechnung der Quests in der aktuellen Woche
         int currentWeekQuestCount = (int) existingQuests.stream()
-                .filter(quest -> quest.getAssignedDate().isAfter(LocalDateTime.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))))
+                .filter(quest -> quest.getAssignedDate() != null && quest.getAssignedDate().isAfter(LocalDateTime.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))))
                 .count();
 
-        int maxQuestsThisWeek = 7;
-        int maxQuestsAtStartOfWeek = 4;
-        int questsToAssign = Math.min(numberOfQuests, maxQuestsAtStartOfWeek);
+        System.out.println("Current week quest count: " + currentWeekQuestCount);
 
+        int maxQuestsThisWeek = 5;
+        int maxQuestsAtStartOfWeek = 5;
+
+        // Berechnung der Anzahl der zuzuweisenden Quests unter Berücksichtigung der Limits
+        int questsToAssign = Math.min(numberOfQuests, maxQuestsAtStartOfWeek);
         if (currentWeekQuestCount + questsToAssign > maxQuestsThisWeek) {
             questsToAssign = maxQuestsThisWeek - currentWeekQuestCount;
         }
 
+        System.out.println("Quests to assign: " + questsToAssign);
+
+        // Zuweisung der Quests, wenn es Quests gibt, die zugewiesen werden müssen
         if (questsToAssign > 0) {
             List<Quest> randomQuests = questService.getRandomQuests(questsToAssign);
             randomQuests.forEach(quest -> quest.setAssignedDate(LocalDateTime.now()));
-            user.getQuests().addAll(randomQuests);
-            userRepository.save(user);
+            existingQuests.addAll(randomQuests);
+
+            System.out.println("Assigned Quests: " + randomQuests);
+            System.out.println("User Quests after assignment: " + existingQuests);
+            System.out.println("Number Of Quests assigned to User total: " + user.getQuests().size());
+
+            user.setQuests(existingQuests); // Setze die aktualisierten Quests
+
+            user = userRepository.save(user); // Speichern des Benutzers mit den neuen Quests
         }
 
         return user;

@@ -30,10 +30,11 @@
                     <li><a class="dropdown-item" th:href="@{/settings}">Einstellungen</a></li>
                     <li><a class="dropdown-item" th:href="@{/messages}">Nachrichten</a></li>
                     <li><a class="dropdown-item" th:href="@{/leaderboard}">Leaderboard</a></li>
-<!--                    <li><a class="dropdown-item" th:href="@{/quests}">quests</a></li>-->
-                    <li><a class="dropdown-item" th:href="@{/quests(userId=${user.id})}">View Quests</a></li>
-                    <li><a class="dropdown-item" href="/logout">Ausloggen</a></li>
+                    <li th:if="${user != null}">
+                        <a class="dropdown-item" th:href="@{/quests(userId=${user.id})}">View Quests</a>
+                    </li>
                     <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" th:href="@{/logout}">Ausloggen</a></li>
                     <!-- <li><a class="dropdown-item" th:href="@{/logout}">Ausloggen</a></li> --> <!-- Sign-Out Button -->
                 </ul>
             </div>

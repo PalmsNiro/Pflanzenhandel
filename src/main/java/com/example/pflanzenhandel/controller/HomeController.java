@@ -30,7 +30,6 @@ public class HomeController {
      * @return the home page view
      */
     @GetMapping({"/", "/hauptmenu"})
-
     public String showProductsOnHome(@RequestParam(value = "query", required = false) String query, Model model, Principal principal) {
         List<Product> products;
         if (query != null && !query.isEmpty()) {
@@ -45,7 +44,6 @@ public class HomeController {
             Benutzer user = userService.getUserByUsername(principal.getName());
 
             // Assign random quests if the user has no quests assigned
-            //boolean in User machen für newQuestsAvailable
             if (user.getQuests().isEmpty() && user.isNewQuestsAvailable()) {
                 user = userService.assignRandomQuestsToUser(user.getId(), 5);
                 user.setNewQuestsAvailable(false);

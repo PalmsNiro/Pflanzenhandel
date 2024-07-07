@@ -42,7 +42,16 @@ public class UserService implements UserDetailsService {
      * @return the saved Benutzer entity.
      */
     public Benutzer saveUser(Benutzer user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        String rawPassword = user.getPassword();
+
+        // Check if the password is already encoded (BCrypt passwords start with $2a, $2b, or $2y)
+        if (!rawPassword.startsWith("$2a$") && !rawPassword.startsWith("$2b$") && !rawPassword.startsWith("$2y$")) {
+            String encodedPassword = passwordEncoder.encode(rawPassword);
+            System.out.println("Raw Password: " + rawPassword);
+            System.out.println("Encoded Password: " + encodedPassword);
+            user.setPassword(encodedPassword);
+        }
+
         // Assign default role USER to the new user
         Rolle userRole = roleRepository.findByRolename("ROLE_USER");
         if (userRole == null) {

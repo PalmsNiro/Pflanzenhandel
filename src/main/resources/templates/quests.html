@@ -15,7 +15,7 @@
 <!-- quests/list.html -->
 <div class="container mt-5">
     <div th:each="userQuest : ${quests}" class="quest-card">
-        <div class="card" th:classappend="${userQuest.progress >= userQuest.quest.neededAmount} ? 'clickable-card'">
+        <div class="card" th:classappend="${userQuest.progress >= userQuest.quest.neededAmount} ? 'clickable-card completed-quest' : ''">
             <div class="card-body"
                  th:onclick="${userQuest.progress >= userQuest.quest.neededAmount} ? 'redirectToComplete(' + ${userQuest.id} + ')' : ''">
                 <h5 class="card-title quest-description">
@@ -25,7 +25,7 @@
                 <div class="progress">
                     <div class="progress-bar" role="progressbar"
                          th:style="'width:' + (${userQuest.progress} / ${userQuest.quest.neededAmount}) * 100 + '%'"
-                         th:text="${userQuest.progress} + '/' + ${userQuest.quest.neededAmount}">
+                         th:text="'Fortschritt: ' + ${userQuest.progress} + '/' + ${userQuest.quest.neededAmount}">
                         Fortschritt
                     </div>
                 </div>

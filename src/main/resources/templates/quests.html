@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <th:block th:replace="~{fragments/htmlHead :: head}"></th:block>
-    <link rel="stylesheet" th:href="@{/css/questsstyle.css}"/>
     <title>Leaderboard</title>
 </head>
 <body>
@@ -13,24 +12,28 @@
 <th:block th:replace="~{fragments/htmlNavbar :: navbar}"></th:block>
 
 <!-- quests/list.html -->
-<div class="container mt-5">
-    <div th:each="userQuest : ${quests}" class="quest-card">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title quest-description">
-                    <span th:text="${userQuest.quest.description}">Hier steht die Questbeschreibung</span>
-                    <span class="quest-xp" th:text="'Anzahl an XP: ' + ${userQuest.quest.neededAmount}">Anzahl an XP</span>
-                </h5>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar"
-                         th:style="'width:' + (${userQuest.progress} / ${userQuest.quest.neededAmount}) * 100 + '%'"
-                         th:text="'Fortschritt: ' + ${userQuest.progress} + '/' + ${userQuest.quest.neededAmount}">
-                        Fortschritt
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<h1>Quests</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Description</th>
+        <th>Needed Amount</th>
+        <th>Progress</th>
+        <th>Completed</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="userQuest : ${quests}">
+        <td th:text="${userQuest.quest.id}">1</td>
+        <td th:text="${userQuest.quest.description}">Sample description</td>
+        <td th:text="${userQuest.quest.neededAmount}">50</td>
+        <td th:text="${userQuest.progress}">0</td>
+        <td th:text="${userQuest.progress >= userQuest.quest.neededAmount}">false</td>
+    </tr>
+    </tbody>
+</table>
+
+
 </body>
 </html>

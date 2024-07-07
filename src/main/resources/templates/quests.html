@@ -19,7 +19,7 @@
             <div class="card-body">
                 <h5 class="card-title quest-description">
                     <span th:text="${userQuest.quest.description}">Hier steht die Questbeschreibung</span>
-                    <span class="quest-xp" th:text="'Anzahl an XP: ' + ${userQuest.quest.neededAmount}">Anzahl an XP</span>
+                    <span class="quest-xp" th:text="'Anzahl an XP: ' + ${userQuest.quest.xpForUser}">Anzahl an XP</span>
                 </h5>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar"

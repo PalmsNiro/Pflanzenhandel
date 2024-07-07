@@ -14,11 +14,10 @@ public class Quest {
 
     private String description;
     private int points =3; //for all quests the same
-    private int xpForUser = 4;
-//    private int currentAmount = 0;
+    private int xpForUser;
+
     private int neededAmount;
-//    private boolean completed = false;
-//    private LocalDateTime assignedDate;
+
 
     @OneToMany(mappedBy = "quest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserQuest> userQuests = new HashSet<>();
@@ -81,5 +80,13 @@ public class Quest {
 
     public void setUserQuests(Set<UserQuest> userQuests) {
         this.userQuests = userQuests;
+    }
+
+    public int getXpForUser() {
+        return xpForUser;
+    }
+
+    public void setXpForUser(int xpForUser) {
+        this.xpForUser = xpForUser;
     }
 }

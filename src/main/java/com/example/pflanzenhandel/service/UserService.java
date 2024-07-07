@@ -19,6 +19,7 @@ import java.time.DayOfWeek;
 import java.util.*;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
+import java.util.stream.Collectors;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -179,8 +180,8 @@ public class UserService implements UserDetailsService {
 
         System.out.println("Current week quest count: " + currentWeekQuestCount);
 
-        int maxQuestsThisWeek = 5;
-        int maxQuestsAtStartOfWeek = 5;
+        int maxQuestsThisWeek = 7;
+        int maxQuestsAtStartOfWeek = 7;
 
         // Berechnung der Anzahl der zuzuweisenden Quests unter Berücksichtigung der Limits
         int questsToAssign = Math.min(numberOfQuests, maxQuestsAtStartOfWeek);
@@ -190,21 +191,29 @@ public class UserService implements UserDetailsService {
 
         System.out.println("Quests to assign: " + questsToAssign);
 
-        // Finalize the user variable to use it inside the lambda
+        // muss final sein für lambda
         final Benutzer finalUser = user;
 
         // Zuweisung der Quests, wenn es Quests gibt, die zugewiesen werden müssen
         if (questsToAssign > 0) {
+            // Sammeln der IDs der bereits zugewiesenen Quests
+            Set<Long> assignedQuestIds = userQuests.stream()
+                    .map(userQuest -> userQuest.getQuest().getId())
+                    .collect(Collectors.toSet());
+
             List<Quest> randomQuests = questService.getRandomQuests(questsToAssign);
-            randomQuests.forEach(quest -> {
-                UserQuest userQuest = new UserQuest();
-                userQuest.setUser(finalUser);
-                userQuest.setQuest(quest);
-                userQuest.setAssignedDate(LocalDateTime.now());
-                userQuest.setProgress(0);
-                userQuests.add(userQuest);
-                userQuestRepository.save(userQuest); // Speichern der UserQuest
-            });
+            randomQuests.stream()
+                    .filter(quest -> !assignedQuestIds.contains(quest.getId())) // Filtere bereits zugewiesene Quests heraus
+                    .limit(questsToAssign) // Begrenze auf die Anzahl der zuzuweisenden Quests
+                    .forEach(quest -> {
+                        UserQuest userQuest = new UserQuest();
+                        userQuest.setUser(finalUser);
+                        userQuest.setQuest(quest);
+                        userQuest.setAssignedDate(LocalDateTime.now());
+                        userQuest.setProgress(0);
+                        userQuests.add(userQuest);
+                        userQuestRepository.save(userQuest); // Speichern der UserQuest
+                    });
 
             System.out.println("Assigned Quests: " + randomQuests);
             System.out.println("Number Of Quests assigned to User total: " + userQuests.size());

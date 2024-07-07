@@ -15,11 +15,12 @@
 <!-- quests/list.html -->
 <div class="container mt-5">
     <div th:each="userQuest : ${quests}" class="quest-card">
-        <div class="card">
-            <div class="card-body">
+        <div class="card" th:classappend="${userQuest.progress >= userQuest.quest.neededAmount} ? 'clickable-card'">
+            <div class="card-body"
+                 th:onclick="${userQuest.progress >= userQuest.quest.neededAmount} ? 'redirectToComplete(' + ${userQuest.id} + ')' : ''">
                 <h5 class="card-title quest-description">
                     <span th:text="${userQuest.quest.description}">Hier steht die Questbeschreibung</span>
-                    <span class="quest-xp" th:text="'Anzahl an XP: ' + ${userQuest.quest.xpForUser}">Anzahl an XP</span>
+                    <span class="quest-xp" th:text="'Anzahl an XP: ' + ${userQuest.quest.neededAmount}">Anzahl an XP</span>
                 </h5>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar"
@@ -32,7 +33,10 @@
         </div>
     </div>
 </div>
-
-
+<script>
+    function redirectToComplete(questId) {
+        window.location.href = '/quests/complete/' + questId;
+    }
+</script>
 </body>
 </html>

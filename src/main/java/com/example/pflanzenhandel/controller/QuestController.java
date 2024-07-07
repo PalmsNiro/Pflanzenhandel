@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,5 +41,20 @@ public class QuestController {
         Benutzer user = userService.assignRandomQuestsToUser(userId, 2);
         model.addAttribute("user", user);
         return "redirect:/quests?userId=" + userId; // Redirect to the quests page for the user
+    }
+
+    @GetMapping("/complete/{id}")
+    public String completeQuest(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        UserQuest userQuest = userQuestRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid quest ID"));
+
+        if (userQuest.getProgress() >= userQuest.getQuest().getNeededAmount()) {
+            userQuestRepository.delete(userQuest); // Delete the quest if completed
+            redirectAttributes.addFlashAttribute("message", "Quest completed successfully!");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Quest is not yet completed.");
+        }
+
+        // Redirect to the homepage
+        return "redirect:/quests?userId=" + userQuest.getUser().getId();
     }
 }

@@ -228,17 +228,32 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void addExperiencePoints(Benutzer user, int points) {
-        user.setExperiencePoints(user.getExperiencePoints() + points);
-        if (user.getExperiencePoints() >= 10) {
-            user.setExperiencePoints(0);
+        List<UserQuest> userQuests = userQuestRepository.findByUser(user);
+
+        if (user.getExperiencePoints() + points >= 10) {
+            //Level und Xp aktualisieren
+            user.setExperiencePoints(user.getExperiencePoints() + points - 10);
             user.setLevel(user.getLevel() + 1);
-        }
+            //Schauen ob Level up Quest vorhanden ist
+            for (UserQuest userQuest : userQuests) {
+                if (userQuest.getQuest().getDescription().contains("Level")) {
+                    int progressToAdd = Math.min(points, userQuest.getQuest().getNeededAmount());
+                    userQuest.setProgress(progressToAdd);
+                    if (userQuest.getProgress() >= userQuest.getQuest().getNeededAmount()) {
+                        // Markiere die Quest als abgeschlossen (hier können Sie zusätzliche Logik hinzufügen)
+                        System.out.println("Quest abgeschlossen: " + userQuest.getQuest().getDescription());
+                    }
+                    userQuestRepository.save(userQuest);
+                }
+            }
+        } else
+            user.setExperiencePoints(user.getExperiencePoints() + points);
 
         // Aktualisieren des Fortschritts bei den Quests
-        List<UserQuest> userQuests = userQuestRepository.findByUser(user);
         for (UserQuest userQuest : userQuests) {
             if (userQuest.getQuest().getDescription().contains("Erfahrungs Punkte.")) {
-                userQuest.setProgress(userQuest.getProgress() + points);
+                int progressToAdd = Math.min(points, userQuest.getQuest().getNeededAmount());
+                userQuest.setProgress(progressToAdd);
                 if (userQuest.getProgress() >= userQuest.getQuest().getNeededAmount()) {
                     // Markiere die Quest als abgeschlossen (hier können Sie zusätzliche Logik hinzufügen)
                     System.out.println("Quest abgeschlossen: " + userQuest.getQuest().getDescription());

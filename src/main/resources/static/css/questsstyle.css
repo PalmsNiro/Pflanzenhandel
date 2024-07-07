@@ -30,3 +30,7 @@
     line-height: 30px;
     background-color: #28a745;
 }
+
+.clickable-card {
+    cursor: pointer;
+}

@@ -2,6 +2,8 @@ package com.example.pflanzenhandel.entity;
 
 import jakarta.persistence.*;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.Set;
 
 /**

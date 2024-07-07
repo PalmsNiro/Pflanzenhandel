@@ -31,18 +31,24 @@
             <p th:text="'Höhe: ' + ${#numbers.formatDecimal(product.height, 1, 'COMMA', 2, 'POINT')} + ' cm'">Höhe: 0.00 cm</p>
             <p th:text="'Übertopf: ' + (${product.overPot} ? '✔' : '✘')">Übertopf: ✔</p>
 
+            <div th:if="${product.isSold != null and product.isSold}">
+                <span class="badge bg-danger">Verkauft</span>
+            </div>
+
             <!-- Edit and Delete buttons only visible to the seller -->
             <div th:if="${product.verkaufer != null and currentUser != null and product.verkaufer.username == currentUser.username}">
                 <a th:href="@{/product/edit/{id}(id=${product.id})}" class="btn-edit">Pflanze bearbeiten</a>
                 <button class="btn-delete" onclick="document.getElementById('deleteModal').style.display='block'">Pflanze löschen</button>
+                <button class="btn-sold" onclick="document.getElementById('soldModal').style.display='block'">Als verkauft markieren</button>
             </div>
 
-            <!-- Message Form only visible to non-sellers -->
+            <!-- Message Form and Buy Button only visible to non-sellers and if the product is not sold -->
             <div th:if="${product.verkaufer == null or currentUser == null or product.verkaufer.username != currentUser.username}">
-                <form th:action="@{/messages/conversation}" method="get" class="btn-send-message">
+                <form th:action="@{/messages/conversation}" method="get" class="btn-send-message mb-3" th:if="${product.isSold == null or !product.isSold}">
                     <input type="hidden" name="recipientId" th:value="${product.verkaufer.id}" />
                     <button type="submit" class="btn btn-primary">Nachricht schreiben</button>
                 </form>
+                <button class="btn btn-success" onclick="document.getElementById('purchaseModal').style.display='block'" th:if="${product.isSold == null or !product.isSold}">Kaufen</button>
             </div>
         </div>
     </div>
@@ -60,6 +66,32 @@
         <form th:action="@{/product/delete/{id}(id=${product.id})}" method="post">
             <button type="submit" class="modal-button confirm">Löschen</button>
             <button type="button" class="modal-button cancel" onclick="document.getElementById('deleteModal').style.display='none'">Abbrechen</button>
+        </form>
+    </div>
+</div>
+
+<!-- Purchase Confirmation Modal -->
+<div id="purchaseModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="document.getElementById('purchaseModal').style.display='none'">&times;</span>
+        <h2>Kauf bestätigen</h2>
+        <p>Sind Sie sicher, dass Sie dieses Produkt kaufen möchten?</p>
+        <form th:action="@{/product/confirmPurchase/{id}(id=${product.id})}" method="post">
+            <button type="submit" class="modal-button confirm">Kaufen</button>
+            <button type="button" class="modal-button cancel" onclick="document.getElementById('purchaseModal').style.display='none'">Abbrechen</button>
+        </form>
+    </div>
+</div>
+
+<!-- Sold Confirmation Modal -->
+<div id="soldModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="document.getElementById('soldModal').style.display='none'">&times;</span>
+        <h2>Verkauf bestätigen</h2>
+        <p>Sind Sie sicher, dass Sie dieses Produkt als verkauft markieren möchten?</p>
+        <form th:action="@{/product/markAsSold/{id}(id=${product.id})}" method="post">
+            <button type="submit" class="modal-button confirm">Als verkauft markieren</button>
+            <button type="button" class="modal-button cancel" onclick="document.getElementById('soldModal').style.display='none'">Abbrechen</button>
         </form>
     </div>
 </div>
@@ -94,9 +126,17 @@
     }
 
     window.onclick = function(event) {
-        var modal = document.getElementById('deleteModal');
-        if (event.target == modal) {
-            modal.style.display = "none";
+        var deleteModal = document.getElementById('deleteModal');
+        var purchaseModal = document.getElementById('purchaseModal');
+        var soldModal = document.getElementById('soldModal');
+        if (event.target == deleteModal) {
+            deleteModal.style.display = "none";
+        }
+        if (event.target == purchaseModal) {
+            purchaseModal.style.display = "none";
+        }
+        if (event.target == soldModal) {
+            soldModal.style.display = "none";
         }
     }
 

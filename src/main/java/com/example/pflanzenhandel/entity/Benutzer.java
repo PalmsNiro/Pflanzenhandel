@@ -1,15 +1,8 @@
 package com.example.pflanzenhandel.entity;
 
 import jakarta.persistence.*;
-
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.Set;
 
-/**
- * Represents a user entity in the application.
- * This entity is mapped to a database table using JPA annotations.
- */
 @Entity
 public class Benutzer {
 
@@ -29,11 +22,6 @@ public class Benutzer {
 
     private boolean enabled = true;
 
-    @ManyToOne
-    @JoinColumn(name = "seller_id")
-    private Benutzer seller;
-
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "benutzer_rolle",
@@ -43,9 +31,10 @@ public class Benutzer {
     private Set<Rolle> roles;
 
     public Benutzer() {
-        // emp
-        // ty constructor for Hibernate
+        // Empty constructor for Hibernate
     }
+
+    // Getter and Setter methods
 
     public Long getId() {
         return id;
@@ -110,14 +99,4 @@ public class Benutzer {
     public void setRoles(Set<Rolle> roles) {
         this.roles = roles;
     }
-
-    public Benutzer getSeller() {
-        return seller;
-    }
-
-    public void setSeller(Benutzer seller) {
-        this.seller = seller;
-    }
 }
-
-

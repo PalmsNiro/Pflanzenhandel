@@ -22,6 +22,8 @@ public class LeaderboardController {
     public String showUsersOnLeaderboard(Query query, Model model, Principal principal) {
         List<Benutzer> users;
         users = userRepository.findAll();
+        // user in absteigender reihenfolge sortieren
+        users.sort((u1, u2) -> Integer.compare(u2.getLevel(), u1.getLevel()));
 
         model.addAttribute("users", users);
 

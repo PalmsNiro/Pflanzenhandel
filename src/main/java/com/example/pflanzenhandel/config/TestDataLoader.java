@@ -67,6 +67,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         debbyUser.setUsername("Debby");
         debbyUser.setPassword("1234");
         debbyUser.setRoles(userRolles);
+        debbyUser.setNumberOfQuestsCompleted(2);
         userService.saveUser(debbyUser);
 
         if (debbyUser.getId() == null) {

@@ -17,6 +17,8 @@ public class Product {
     private double shippingCosts;
     private String description;
     private boolean marked;
+    private boolean confirmedPurchase;
+    private Boolean isSold = false;
     private String category;
     /*
     Currently for testing purposes only a String
@@ -28,14 +30,6 @@ public class Product {
 
     private String mainImageUrl;
 
-
-
-    @ManyToOne
-    @JoinColumn(name = "seller_id")
-    private Benutzer seller;
-
-
-
     public boolean isOverPot() {
         return overPot;
     }
@@ -44,12 +38,14 @@ public class Product {
     @JoinColumn(name = "verkaufer_id")
     private Benutzer verkaufer;
 
-    public Product(){
+    @ManyToOne
+    @JoinColumn(name = "buyer_id")
+    private Benutzer buyer;
 
+    public Product() {
     }
 
     // Getters and setters
-
     public Integer getId() {
         return id;
     }
@@ -86,7 +82,7 @@ public class Product {
         return overPot;
     }
 
-    public void setOverPot(boolean overPot){
+    public void setOverPot(boolean overPot) {
         this.overPot = overPot;
     }
 
@@ -121,13 +117,6 @@ public class Product {
     public void setVerkaufer(Benutzer verkaufer) {
         this.verkaufer = verkaufer;
     }
-    public Benutzer getSeller() {
-        return seller;
-    }
-
-    public void setSeller(Benutzer seller) {
-        this.seller = seller;
-    }
 
     public String getMainImageUrl() {
         return mainImageUrl;
@@ -151,5 +140,29 @@ public class Product {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public boolean isConfirmedPurchase() {
+        return confirmedPurchase;
+    }
+
+    public void setConfirmedPurchase(boolean confirmedPurchase) {
+        this.confirmedPurchase = confirmedPurchase;
+    }
+
+    public Benutzer getBuyer() {
+        return buyer;
+    }
+
+    public void setBuyer(Benutzer buyer) {
+        this.buyer = buyer;
+    }
+
+    public Boolean getIsSold() {
+        return isSold;
+    }
+
+    public void setIsSold(Boolean isSold) {
+        this.isSold = isSold;
     }
 }

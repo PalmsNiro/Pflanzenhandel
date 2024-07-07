@@ -69,7 +69,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr th:each="product : ${products}" class="clickable-row">
+          <tr th:each="product : ${products}" class="clickable-row" th:classappend="${product.isSold} ? 'sold-product' : ''">
             <td class="product-cell" th:onclick="'window.location.href=\'/product/' + ${product.id} + '\';'">
               <div class="d-flex">
                 <div th:if="${product.mainImageUrl != null}">
@@ -83,10 +83,13 @@
                 <div class="product-details">
                   <div class="product-name" th:text="${product.name}">Produkt Name</div>
                   <div class="product-description" th:text="${product.description}">Produkt Beschreibung</div>
-                  <div class="product-price" th:text="${#numbers.formatDecimal(product.price, 1, 'COMMA', 2, 'POINT') + ' €'}">Preis: 0.00 €</div>
+                  <div class="product-price" th:text="${#numbers.formatDecimal(product.price, 1, 'COMMA', 2, 'POINT')} + ' €'">Preis: 0.00 €</div>
                   <div class="product-size" th:text="'Größe: ' + ${#numbers.formatDecimal(product.height, 1, 'COMMA', 2, 'POINT')} + ' cm'">Größe: 0.00 cm</div>
                   <div class="product-overpot">
                     Übertopf: <span th:text="${product.overPot ? 'Ja' : 'Nein'}">Nein</span>
+                  </div>
+                  <div th:if="${product.isSold != null and product.isSold}">
+                    <span class="badge bg-danger">Verkauft</span>
                   </div>
                 </div>
               </div>

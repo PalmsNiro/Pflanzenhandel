@@ -1,10 +1,12 @@
 package com.example.pflanzenhandel.service;
 
 import com.example.pflanzenhandel.entity.Product;
+import com.example.pflanzenhandel.entity.Benutzer;
 import com.example.pflanzenhandel.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -38,7 +40,6 @@ public class ProductService {
     public void deleteProductById(Long id) {
         productRepository.deleteById(id);
     }
-
     public List<Product> sortProductsByName(boolean ascending) {
         return ascending ? productRepository.sortByNameAsc() : productRepository.sortByNameDesc();
     }
@@ -50,6 +51,17 @@ public class ProductService {
     }
     public List<Product> findMarkedProducts() {
         return productRepository.findByMarked(true);
+    }
+    public List<Product> getAllUnsoldProducts() {
+        return productRepository.findAllUnsoldProducts();
+    }
+    public void markAsSold(Long id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+        if (productOptional.isPresent()) {
+            Product product = productOptional.get();
+            product.setIsSold(true);  // Verwenden Sie den korrekten Setter
+            productRepository.save(product);
+        }
     }
 
     public List<Product> filterProducts(List<Product> products, String category, Double minPrice, Double maxPrice, Boolean hasUebertopf, Double minHeight, Double maxHeight) {
@@ -123,4 +135,6 @@ public class ProductService {
 
         return products;
     }
-}
+    public List<Product> findPurchasedProducts(Benutzer buyer) {
+        return productRepository.findByBuyer(buyer);
+    }}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+<head>
+    <th:block th:insert="~{fragments/htmlHead :: head}"></th:block>
+    <meta charset="UTF-8">
+    <title>Meine Käufe</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="d-flex flex-column min-vh-100">
+<!--Header-->
+<th:block th:replace="~{fragments/htmlHeader :: header}"></th:block>
+
+<!--Navbar-->
+<th:block th:replace="~{fragments/htmlNavbar :: navbar}"></th:block>
+
+<!--Main Content Area-->
+<div class="container flex-grow-1 d-flex flex-column">
+    <div class="row flex-grow-1 mt-3">
+        <div class="col">
+            <h2>Meine Käufe</h2>
+            <div th:if="${myPurchases.isEmpty()}">
+                <p>Sie haben noch keine Käufe getätigt.</p>
+            </div>
+            <div th:unless="${myPurchases.isEmpty()}">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Bild</th>
+                        <th>Name</th>
+                        <th>Preis</th>
+                        <th>Beschreibung</th>
+                        <th>Pflanzenpflege</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product : ${myPurchases}">
+                        <td>
+                            <img th:src="@{${product.mainImageUrl}}" alt="Product Image" class="product-image me-3" style="width: 100px; height: auto;">
+                        </td>
+                        <td th:text="${product.name}">Produktname</td>
+                        <td th:text="${product.price}">0.00</td>
+                        <td th:text="${product.description}">Beschreibung</td>
+                        <td><a th:href="@{/plantCare}" class="btn btn-info">Pflege</a></td>
+                    </tr>s
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<th:block th:replace="~{fragments/htmlFooter :: footer}"></th:block>
+</body>
+</html>

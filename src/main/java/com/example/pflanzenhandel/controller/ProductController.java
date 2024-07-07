@@ -4,6 +4,7 @@ import com.example.pflanzenhandel.entity.Benutzer;
 import com.example.pflanzenhandel.entity.Product;
 import com.example.pflanzenhandel.service.ProductService;
 import com.example.pflanzenhandel.service.StorageService;
+import com.example.pflanzenhandel.repository.ProductRepository;
 import com.example.pflanzenhandel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Optional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -31,6 +33,8 @@ public class ProductController {
     @Autowired
     private StorageService storageService;
 
+    @Autowired
+    private ProductRepository productRepository;
     @GetMapping("/product/{id}")
     public String getProductById(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
         Product product = productService.getProductById(id);
@@ -38,6 +42,49 @@ public class ProductController {
         model.addAttribute("product", product);
         model.addAttribute("currentUser", currentUser);
         return "productDetails";
+    }
+    @PostMapping("/product/markAsSold/{id}")
+    public String markAsSold(@PathVariable Long id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+        if (productOptional.isPresent()) {
+            Product product = productOptional.get();
+            product.setIsSold(true);
+            productRepository.save(product);
+        }
+        return "redirect:/product/" + id;
+    }
+    @PostMapping("/product/confirmPurchase/{id}")
+    public String confirmPurchase(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        Product product = productService.getProductById(id);
+        Benutzer currentUser = userService.getCurrentUser();
+        if (product != null && !product.getVerkaufer().getUsername().equals(currentUser.getUsername())) {
+            product.setConfirmedPurchase(true);
+            product.setBuyer(currentUser);
+            productService.saveProduct(product);
+            return "redirect:/product/" + id;
+        } else {
+            return "redirect:/product/" + id + "?error=not_authorized";
+        }
+    }
+
+    @GetMapping("/myPurchases")
+    public String getMyPurchases(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        Benutzer currentUser = userService.getCurrentUser();
+        List<Product> myPurchases = productService.findPurchasedProducts(currentUser);
+        model.addAttribute("myPurchases", myPurchases);
+        return "myPurchases";
+    }
+
+    @GetMapping("/conversation")
+    public String showConversation(@RequestParam("productId") Long productId, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        Product product = productService.getProductById(productId);
+        Benutzer currentUser = userService.getCurrentUser();
+        Benutzer recipient = userService.getUserByUsername(userDetails.getUsername()); // Annahme, dass recipient der aktuelle Benutzer ist
+
+        model.addAttribute("product", product);
+        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("recipient", recipient);
+        return "conversation";
     }
     @GetMapping("/plantCare")
         public String getPlantCarePage() {
@@ -189,6 +236,4 @@ public class ProductController {
         model.addAttribute("markedProducts", markedProducts);
         return "markedProducts";
     }
-
-
 }

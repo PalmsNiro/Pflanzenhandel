@@ -18,49 +18,27 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col" class="rank-cell">
-                    <div class="row">
-                        <div class="col">Rank</div>
-                    </div>
+                <th scope="col">Rank</th>
+                <th scope="col">User</th>
+                <th scope="col">
+                    <a class="sortable" th:href="@{/leaderboard(sort='level')}">Level</a>
                 </th>
-                <th scope="col" class="user-cell">
-                    <div class="row">
-                        <div class="col">User</div>
-                    </div>
-                </th>
-                <th scope="col" class="level-cell">
-                    <div class="row">
-                        <div class="col">Level</div>
-                    </div>
-                </th>
-                <th scope="col" class="quest-completed-cell">
-                    <div class="row">
-                        <div class="col">Quests Completed</div>
-                    </div>
+                <th scope="col">
+                    <a class="sortable" th:href="@{/leaderboard(sort='questsCompleted')}">Quests Completed</a>
                 </th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="user, iterStat : ${users}" class="clickable-row">
-                <td class="rank-cell">
-                    <div class="row rank-cell">
-                        <div class="col" th:text="${iterStat.index + 1}">Rank</div>
-                    </div>
+                <td class="rank-cell" th:text="${iterStat.index + 1}">Rank</td>
+                <td class="product-cell">
+                    <div class="user-name" th:text="${user.username}">Username</div>
                 </td>
-                <td class="user-cell">
-                    <div class="row user-cell">
-                        <div class="col" th:text="${user.username}">Username</div>
-                    </div>
+                <td class="product-cell">
+                    <div class="user-level" th:text="${user.level}">Level</div>
                 </td>
-                <td class="level-cell">
-                    <div class="row level-cell">
-                        <div class="col" th:text="${user.level}">Level</div>
-                    </div>
-                </td>
-                <td class="quest-completed-cell">
-                    <div class="row quest-completed-cell">
-                        <div class="col" th:text="${user.numberOfQuestsCompleted}">Quests Completed</div>
-                    </div>
+                <td class="product-cell">
+                    <div class="user-questCompleted" th:text="${user.numberOfQuestsCompleted}">Quests Completed</div>
                 </td>
             </tr>
             </tbody>

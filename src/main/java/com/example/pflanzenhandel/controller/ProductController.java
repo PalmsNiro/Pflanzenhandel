@@ -60,15 +60,16 @@ public class ProductController {
                 product.setMainImageUrl(imageUrls.getFirst()); // Set the main image URL as the first image
             }
 
-            // handle xp increase +1
+            // handle xp increase +3
             Benutzer currentUser = userService.getCurrentUser();
-            int currXP = currentUser.getExperiencePoints();
-            if(currXP==9){
-                currentUser.setExperiencePoints(0);
-                currentUser.setLevel(currentUser.getLevel()+1);
-            }else{
-                currentUser.setExperiencePoints(currXP+1);
-            }
+            userService.addExperiencePoints(currentUser, 3);
+//            int currXP = currentUser.getExperiencePoints();
+//            if(currXP==9){
+//                currentUser.setExperiencePoints(0);
+//                currentUser.setLevel(currentUser.getLevel()+1);
+//            }else{
+//                currentUser.setExperiencePoints(currXP+1);
+//            }
 
             productService.saveProduct(product);
             model.addAttribute("successMessage", "Produkt erfolgreich hinzugefügt!");

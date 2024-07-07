@@ -18,19 +18,22 @@
     <tr>
         <th>ID</th>
         <th>Description</th>
-        <th>Points</th>
+        <th>Needed Amount</th>
+        <th>Progress</th>
         <th>Completed</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="quest : ${quests}">
-        <td th:text="${quest.id}">1</td>
-        <td th:text="${quest.description}">Sample description</td>
-        <td th:text="${quest.points}">100</td>
-        <td th:text="${quest.completed}">false</td>
+    <tr th:each="userQuest : ${quests}">
+        <td th:text="${userQuest.quest.id}">1</td>
+        <td th:text="${userQuest.quest.description}">Sample description</td>
+        <td th:text="${userQuest.quest.neededAmount}">50</td>
+        <td th:text="${userQuest.progress}">0</td>
+        <td th:text="${userQuest.progress >= userQuest.quest.neededAmount}">false</td>
     </tr>
     </tbody>
 </table>
+
 
 </body>
 </html>

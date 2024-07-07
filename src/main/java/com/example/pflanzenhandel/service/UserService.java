@@ -3,6 +3,7 @@ package com.example.pflanzenhandel.service;
 import com.example.pflanzenhandel.entity.*;
 import com.example.pflanzenhandel.repository.BenutzerRepository;
 import com.example.pflanzenhandel.repository.RolleRepository;
+import com.example.pflanzenhandel.repository.UserQuestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,6 +19,7 @@ import java.time.DayOfWeek;
 import java.util.*;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -31,6 +33,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private QuestService questService;
+
+    @Autowired
+    private UserQuestRepository userQuestRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -165,11 +170,11 @@ public class UserService implements UserDetailsService {
     @Transactional
     public Benutzer assignRandomQuestsToUser(Long userId, int numberOfQuests) {
         Benutzer user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
-        Set<Quest> existingQuests = user.getQuests();
+        Set<UserQuest> userQuests = user.getUserQuests();
 
         // Berechnung der Quests in der aktuellen Woche
-        int currentWeekQuestCount = (int) existingQuests.stream()
-                .filter(quest -> quest.getAssignedDate() != null && quest.getAssignedDate().isAfter(LocalDateTime.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))))
+        int currentWeekQuestCount = (int) userQuests.stream()
+                .filter(userQuest -> userQuest.getAssignedDate() != null && userQuest.getAssignedDate().isAfter(LocalDateTime.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))))
                 .count();
 
         System.out.println("Current week quest count: " + currentWeekQuestCount);
@@ -185,21 +190,54 @@ public class UserService implements UserDetailsService {
 
         System.out.println("Quests to assign: " + questsToAssign);
 
+        // Finalize the user variable to use it inside the lambda
+        final Benutzer finalUser = user;
+
         // Zuweisung der Quests, wenn es Quests gibt, die zugewiesen werden müssen
         if (questsToAssign > 0) {
             List<Quest> randomQuests = questService.getRandomQuests(questsToAssign);
-            randomQuests.forEach(quest -> quest.setAssignedDate(LocalDateTime.now()));
-            existingQuests.addAll(randomQuests);
+            randomQuests.forEach(quest -> {
+                UserQuest userQuest = new UserQuest();
+                userQuest.setUser(finalUser);
+                userQuest.setQuest(quest);
+                userQuest.setAssignedDate(LocalDateTime.now());
+                userQuest.setProgress(0);
+                userQuests.add(userQuest);
+                userQuestRepository.save(userQuest); // Speichern der UserQuest
+            });
 
             System.out.println("Assigned Quests: " + randomQuests);
-            System.out.println("User Quests after assignment: " + existingQuests);
-            System.out.println("Number Of Quests assigned to User total: " + user.getQuests().size());
+            System.out.println("Number Of Quests assigned to User total: " + userQuests.size());
 
-            user.setQuests(existingQuests); // Setze die aktualisierten Quests
+            user.setUserQuests(userQuests); // Setze die aktualisierten Quests
 
             user = userRepository.save(user); // Speichern des Benutzers mit den neuen Quests
         }
 
         return user;
+    }
+
+    @Transactional
+    public void addExperiencePoints(Benutzer user, int points) {
+        user.setExperiencePoints(user.getExperiencePoints() + points);
+        if (user.getExperiencePoints() >= 10) {
+            user.setExperiencePoints(0);
+            user.setLevel(user.getLevel() + 1);
+        }
+
+        // Aktualisieren des Fortschritts bei den Quests
+        List<UserQuest> userQuests = userQuestRepository.findByUser(user);
+        for (UserQuest userQuest : userQuests) {
+            if (userQuest.getQuest().getDescription().contains("Erfahrungs Punkte.")) {
+                userQuest.setProgress(userQuest.getProgress() + points);
+                if (userQuest.getProgress() >= userQuest.getQuest().getNeededAmount()) {
+                    // Markiere die Quest als abgeschlossen (hier können Sie zusätzliche Logik hinzufügen)
+                    System.out.println("Quest abgeschlossen: " + userQuest.getQuest().getDescription());
+                }
+                userQuestRepository.save(userQuest);
+            }
+        }
+
+        userRepository.save(user);
     }
 }

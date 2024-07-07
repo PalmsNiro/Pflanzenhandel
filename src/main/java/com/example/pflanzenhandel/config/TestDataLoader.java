@@ -187,5 +187,10 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         quest7.setDescription("Erhalte insgesammt 25 Erfahrungs Punkte.");
         quest7.setNeededAmount(25);
         questService.save(quest7);
+
+        Quest questForTest = new Quest();
+        questForTest.setDescription("Erhalte insgesammt 3 Erfahrungs Punkte.");
+        questForTest.setNeededAmount(3);
+        questService.save(questForTest);
     }
 }

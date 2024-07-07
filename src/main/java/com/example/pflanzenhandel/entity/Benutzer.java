@@ -36,13 +36,16 @@ public class Benutzer {
 
     private boolean newQuestsAvailable = true;
 
-    @ManyToMany
-    @JoinTable(
-            name = "benutzer_quests",
-            joinColumns = @JoinColumn(name = "benutzer_id"),
-            inverseJoinColumns = @JoinColumn(name = "quest_id")
-    )
-    private Set<Quest> quests = new HashSet<>();
+    //    @ManyToMany
+//    @JoinTable(
+//            name = "benutzer_quests",
+//            joinColumns = @JoinColumn(name = "benutzer_id"),
+//            inverseJoinColumns = @JoinColumn(name = "quest_id")
+//    )
+//    private Set<Quest> quests = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<UserQuest> userQuests = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "seller_id")
@@ -110,17 +113,29 @@ public class Benutzer {
         this.lastName = lastName;
     }
 
-    public int getExperiencePoints() {return experiencePoints;}
+    public int getExperiencePoints() {
+        return experiencePoints;
+    }
 
-    public void setExperiencePoints(int experiencePoints) {this.experiencePoints = experiencePoints;}
+    public void setExperiencePoints(int experiencePoints) {
+        this.experiencePoints = experiencePoints;
+    }
 
-    public int getLevel() {return level;}
+    public int getLevel() {
+        return level;
+    }
 
-    public void setLevel(int level) {this.level = level;}
+    public void setLevel(int level) {
+        this.level = level;
+    }
 
-    public int getNumberOfQuestsCompleted(){return numberOfQuestsCompleted;}
+    public int getNumberOfQuestsCompleted() {
+        return numberOfQuestsCompleted;
+    }
 
-    public void setNumberOfQuestsCompleted(int questsCompleted){this.numberOfQuestsCompleted = questsCompleted;}
+    public void setNumberOfQuestsCompleted(int questsCompleted) {
+        this.numberOfQuestsCompleted = questsCompleted;
+    }
 
     public String getEmail() {
         return email;
@@ -146,12 +161,12 @@ public class Benutzer {
         this.seller = seller;
     }
 
-    public Set<Quest> getQuests() {
-        return quests;
+    public Set<UserQuest> getUserQuests() {
+        return userQuests;
     }
 
-    public void setQuests(Set<Quest> quests) {
-        this.quests = quests;
+    public void setUserQuests(Set<UserQuest> userQuests) {
+        this.userQuests = userQuests;
     }
 
     public boolean isNewQuestsAvailable() {

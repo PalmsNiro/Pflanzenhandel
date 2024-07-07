@@ -2,6 +2,8 @@ package com.example.pflanzenhandel.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -13,10 +15,13 @@ public class Quest {
     private String description;
     private int points =3; //for all quests the same
     private int xpForUser = 4;
-    private int currentAmount = 0;
+//    private int currentAmount = 0;
     private int neededAmount;
-    private boolean completed = false;
-    private LocalDateTime assignedDate;
+//    private boolean completed = false;
+//    private LocalDateTime assignedDate;
+
+    @OneToMany(mappedBy = "quest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<UserQuest> userQuests = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -34,21 +39,21 @@ public class Quest {
         this.description = description;
     }
 
-    public int getCurrentAmount() {
-        return currentAmount;
-    }
+//    public int getCurrentAmount() {
+//        return currentAmount;
+//    }
+//
+//    public void setCurrentAmount(int count) {
+//        this.currentAmount = count;
+//    }
 
-    public void setCurrentAmount(int count) {
-        this.currentAmount = count;
-    }
-
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
+//    public boolean isCompleted() {
+//        return completed;
+//    }
+//
+//    public void setCompleted(boolean completed) {
+//        this.completed = completed;
+//    }
 
     public int getNeededAmount() {
         return neededAmount;
@@ -66,7 +71,15 @@ public class Quest {
         this.points = points;
     }
 
-    public LocalDateTime getAssignedDate() {return assignedDate;}
+//    public LocalDateTime getAssignedDate() {return assignedDate;}
+//
+//    public void setAssignedDate(LocalDateTime assignedDate) {this.assignedDate = assignedDate;}
 
-    public void setAssignedDate(LocalDateTime assignedDate) {this.assignedDate = assignedDate;}
+    public Set<UserQuest> getUserQuests() {
+        return userQuests;
+    }
+
+    public void setUserQuests(Set<UserQuest> userQuests) {
+        this.userQuests = userQuests;
+    }
 }

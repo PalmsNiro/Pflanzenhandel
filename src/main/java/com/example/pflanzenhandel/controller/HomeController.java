@@ -44,7 +44,7 @@ public class HomeController {
             Benutzer user = userService.getUserByUsername(principal.getName());
 
             // Assign random quests if the user has no quests assigned
-            if (user.getQuests().isEmpty() && user.isNewQuestsAvailable()) {
+            if (user.getUserQuests().isEmpty() && user.isNewQuestsAvailable()) {
                 user = userService.assignRandomQuestsToUser(user.getId(), 5);
                 user.setNewQuestsAvailable(false);
                 userService.saveUser(user);

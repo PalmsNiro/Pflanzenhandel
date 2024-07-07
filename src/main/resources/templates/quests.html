@@ -20,12 +20,12 @@
                  th:onclick="${userQuest.progress >= userQuest.quest.neededAmount} ? 'redirectToComplete(' + ${userQuest.id} + ')' : ''">
                 <h5 class="card-title quest-description">
                     <span th:text="${userQuest.quest.description}">Hier steht die Questbeschreibung</span>
-                    <span class="quest-xp" th:text="'Anzahl an XP: ' + ${userQuest.quest.neededAmount}">Anzahl an XP</span>
+                    <span class="quest-xp" th:text="'XP: ' + ${userQuest.quest.getXpForUser()}">XP</span>
                 </h5>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar"
                          th:style="'width:' + (${userQuest.progress} / ${userQuest.quest.neededAmount}) * 100 + '%'"
-                         th:text="'Fortschritt: ' + ${userQuest.progress} + '/' + ${userQuest.quest.neededAmount}">
+                         th:text="${userQuest.progress} + '/' + ${userQuest.quest.neededAmount}">
                         Fortschritt
                     </div>
                 </div>

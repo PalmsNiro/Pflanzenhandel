@@ -27,3 +27,8 @@
 .sortable:hover {
     text-decoration: underline;
 }
+
+.level-cell, .quest-completed-cell {
+    text-decoration: none;
+    color: inherit;
+}

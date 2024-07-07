@@ -1,0 +1,14 @@
+.table th, .table td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.rank-cell, .user-cell, .level-cell, .quest-completed-cell {
+    text-align: center;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

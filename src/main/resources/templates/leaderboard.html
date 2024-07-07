@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <th:block th:replace="~{fragments/htmlHead :: head}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/leaderboardstyle.css}"/>
     <title>Leaderboard</title>
 </head>
 <body>
@@ -12,35 +13,59 @@
 <th:block th:replace="~{fragments/htmlNavbar :: navbar}"></th:block>
 
 <!--Main section for Leaderboard-->
-<div th:if="${users != null && !users.isEmpty()}">
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col">Users</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="user : ${users}" class="clickable-row">
-            <td class="product-cell">
-                <div class="d-flex">
-                    <!--                    <div th:if="${user.username != null}">-->
-                    <!--                        <img th:src="@{${product.mainImageUrl}}" alt="Product Image" class="product-image me-3">-->
-                    <!--                    </div>-->
-                    <!--                    <div th:if="${product.mainImageUrl == null}">-->
-                    <!--                        <div class="no-image me-3">-->
-                    <!--                            No Image-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
-                        <div class="user-details">
-                            <div class="user-name" th:text="${user.username}">Username</div>
-                            <div class="user-level" th:text="${user.level}">UserLevel</div>
-                            <div class="user-questCompleted" th:text="${user.numberOfQuestsCompleted}">questCompleted</div>
+<div class="container mt-5">
+    <div th:if="${users != null && !users.isEmpty()}">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">
+                    <div class="row">
+                        <div class="col">Rank</div>
                     </div>
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+                </th>
+                <th scope="col">
+                    <div class="row">
+                        <div class="col">User</div>
+                    </div>
+                </th>
+                <th scope="col">
+                    <div class="row">
+                        <div class="col">Level</div>
+                    </div>
+                </th>
+                <th scope="col">
+                    <div class="row-1">
+                        <div class="col">Quests Completed</div>
+                    </div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user, iterStat : ${users}" class="clickable-row">
+                <td>
+                    <!--                    <div class="row rank-cell">-->
+                    <div class="col" th:text="${iterStat.index + 1}">Rank</div>
+                    <!--                    </div>-->
+                </td>
+                <td>
+                    <div class="row user-cell">
+                        <div class="col" th:text="${user.username}">Username</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="row level-cell">
+                        <div class="col" th:text="${user.level}">Level</div>
+                    </div>
+                </td>
+                <td>
+                    <div class="row quest-completed-cell">
+                        <div class="col" th:text="${user.numberOfQuestsCompleted}">Quests Completed</div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 </body>

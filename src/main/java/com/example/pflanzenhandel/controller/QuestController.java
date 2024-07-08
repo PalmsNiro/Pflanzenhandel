@@ -48,8 +48,9 @@ public class QuestController {
         UserQuest userQuest = userQuestRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid quest ID"));
 
         if (userQuest.getProgress() >= userQuest.getQuest().getNeededAmount()) {
-            userQuestRepository.delete(userQuest); // Quest löschen wenn fertig
             Benutzer user = userQuest.getUser();
+            userService.addExperiencePoints(user,userQuest.getQuest().getXpForUser()); // Quest BelohnungsXp dem User geben
+            userQuestRepository.delete(userQuest); // Quest löschen wenn fertig
             user.setNumberOfQuestsCompleted(user.getNumberOfQuestsCompleted() + 1); // erhöhen des questcompletedCounters des users
             userService.saveUser(user);
             redirectAttributes.addFlashAttribute("message", "Quest completed successfully!");

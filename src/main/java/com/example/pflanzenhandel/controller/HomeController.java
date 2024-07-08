@@ -1,7 +1,9 @@
 package com.example.pflanzenhandel.controller;
 
+import com.example.pflanzenhandel.entity.Benutzer;
 import com.example.pflanzenhandel.entity.Product;
 import com.example.pflanzenhandel.service.ProductService;
+import com.example.pflanzenhandel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

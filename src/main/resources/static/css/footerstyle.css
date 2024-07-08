@@ -1,20 +1,50 @@
 .footer {
-    background-color: #28a745;
-    color: white;
-    padding: 3px 0;
+    background-color: #f8f9fa;
+    color: #212529;
+    padding: 20px 0;
     text-align: center;
-    margin-top: auto; /* Damit der Footer am Ende der Seite bleibt */
 }
-.footer a {
-    color: white;
+
+.footer_menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.footer_menu ul li {
+    display: inline;
+}
+
+.footer_menu ul li a {
+    color: #212529;
     text-decoration: none;
 }
-.footer a:hover {
+
+.footer_menu ul li a:hover {
     text-decoration: underline;
 }
-.bg-light-green {
-    background-color: #90ee90;
+
+.footer_copyright {
+    margin: 15px 0;
 }
-.text-light-green {
-    color: #90ee90;
+
+.footer_profile ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.footer_profile ul li {
+    display: inline;
+}
+
+.footer_profile ul li a {
+    color: #212529;
+    font-size: 20px;
 }

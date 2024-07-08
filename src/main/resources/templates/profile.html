@@ -2,118 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="de">
 <head>
     <th:block th:replace="~{fragments/htmlHead :: head}"></th:block>
-    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/profilestyle.css}"/>
     <title>Mein Profil</title>
-    <style>
-        body {
-          background-color: #f0f8ff;
-          font-family: 'Arial', sans-serif;
-          display: flex;
-          flex-direction: column;
-          min-height: 100vh;
-          margin: 0;
-        }
-        .container-fluid {
-          padding: 0;
-        }
-        .header .logo-link {
-          margin-left: 20px; /* Verschiebt das blaue Symbol nach rechts */
-        }
-        .navbar {
-          margin-bottom: 20px;
-          background-color: #4CAF50;
-        }
-        .navbar .nav-link {
-          font-size: 1.75rem; /* Vergrößert die Schriftgröße der gesamten Leiste */
-          padding: 10px 15px; /* Vergrößert das Padding der gesamten Leiste */
-        }
-        .navbar .form-control {
-          width: 300px; /* Setzt die Breite des Suchfelds */
-          padding: 0.75rem 1.5rem; /* Vergrößert das Padding des Suchfelds */
-          border-radius: 20px;
-          margin-left: 28px; /* Verschiebt Navbar nach rechts */
-        }
-        .navbar .btn-outline-light {
-          width: 120px; /* Setzten der Breite des Suchbuttons */
-          margin-left: 20px; /* Fügt Abstand zwischen Suchfeld und Suchbutton hinzu */
-        }
-        .navbar .navbar-nav .nav-item {
-          margin-right: 25px; /* Fügt Abstand zwischen den Navigationselementen hinzu */
-        }
-        .navbar .btn-light {
-          margin-left: 20px; /* Fügt Abstand zum linken Rand des "Ausloggen"-Buttons hinzu */
-        }
-        .navbar .bi-person-fill {
-          width: 40px; /* Setzt die Breite des Profilsymbols */
-          height: 40px; /* Setzt die Höhe des Profilsymbols */
-        }
-
-        .sidebar {
-          background-color: #28a745;
-          color: white;
-          padding: 10px 30px;
-          border-radius: 10px;
-          width: 300px;
-          font-size: 1.25rem; /* Standard-Schriftgröße für die gesamte Seitenleiste */
-        }
-        .sidebar .fs-5 {
-          padding-left: 10px;
-          font-size: 1.50rem; /* Größere Schriftgröße für "Seitenleiste" */
-        }
-        .sidebar .btn-toggle {
-          color: white;
-          width: 100%;
-          text-align: left;
-          padding-left: 10px; /* Verschiebt die Schrift der Button nach rechts */
-          font-size: 1.25rem; /* Gleiche Schriftgröße wie die Standardgröße der Seitenleiste */
-        }
-        .sidebar .btn-toggle:hover {
-          background-color: #218838;
-        }
-        .sidebar .btn-toggle-nav a {
-          color: white;
-          padding-left: 10px;
-          font-size: 1.25rem; /* Gleiche Schriftgröße wie die Standardgröße der Seitenleiste */
-        }
-        .sidebar .btn-toggle-nav a:hover {
-          text-decoration: underline;
-        }
-
-        .card {
-          background-color: #fff;
-          border: 1px solid #ddd;
-          border-radius: 10px;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          margin: 20px 0;
-          padding: 20px;
-        }
-        .card-body {
-          padding: 20px;
-        }
-        .card-title {
-          font-size: 1.5rem;
-          font-weight: bold;
-          margin-bottom: 20px;
-        }
-        .card-text {
-          font-size: 1.25rem;
-          margin-bottom: 10px;
-        }
-        .footer {
-          background-color: #28a745;
-          color: white;
-          padding: 3px 0;
-          text-align: center;
-          margin-top: auto; /* Damit der Footer am Ende der Seite bleibt */
-        }
-        .footer a {
-          color: white;
-          text-decoration: none;
-        }
-        .footer a:hover {
-          text-decoration: underline;
-        }
-    </style>
 </head>
 <body>
 <!--Header-->
@@ -135,7 +25,8 @@
                     <div class="card flex-grow-1 mr-3">
                         <div class="card-body">
                             <h5 class="card-title">User Information</h5>
-                            <p class="card-text"><strong>Benutzername:</strong> <span th:text="${user.username}"></span></p>
+                            <p class="card-text"><strong>Benutzername:</strong> <span th:text="${user.username}"></span>
+                            </p>
                             <p class="card-text"><strong>Vorname:</strong> <span th:text="${user.firstName}"></span></p>
                             <p class="card-text"><strong>Nachname:</strong> <span th:text="${user.lastName}"></span></p>
                             <p class="card-text"><strong>E-mail:</strong> <span th:text="${user.email}"></span></p>
@@ -144,16 +35,20 @@
                     <div class="card flex-grow-1">
                         <div class="card-body">
                             <p class="card-text"><strong>Level:</strong> <span th:text="${user.level}"></span></p>
-                            <p class="card-text"><strong>Aktuelle XP:</strong> </p>
-                            <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                <div class="progress-bar bg-success" th:style="'width:' + ${user.experiencePoints}*10 + '%'" th:text="${user.experiencePoints} + '/10'"></div>
+                            <div class="d-flex align-items-center">
+                                <p class="card-text mb-0"><strong>Aktuelle XP:</strong></p>
+                                <div class="progress flex-grow-1 ms-3" role="progressbar" aria-label="Success example"
+                                     aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar bg-success"
+                                         th:style="'width:' + ${user.experiencePoints}*10 + '%'"
+                                         th:text="${user.experiencePoints} + '/10'"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class
     </div>
 </div>
 

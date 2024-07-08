@@ -59,7 +59,7 @@ public class ProductService {
         Optional<Product> productOptional = productRepository.findById(id);
         if (productOptional.isPresent()) {
             Product product = productOptional.get();
-            product.setIsSold(true);  // Verwenden Sie den korrekten Setter
+            product.setIsSold(true);
             productRepository.save(product);
         }
     }

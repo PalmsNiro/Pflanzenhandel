@@ -69,6 +69,9 @@ public class MessageController {
             return "error";
         }
         if (!content.trim().isEmpty()) { // Überprüfung auf leeren Inhalt
+            userService.addExperiencePoints(sender,1);
+            userService.incrementMessageQuest(sender);
+            //increment message counter on quests
             messageService.sendMessage(sender, recipient, content);
         }
         return "redirect:/messages/conversation?recipientId=" + recipientId;

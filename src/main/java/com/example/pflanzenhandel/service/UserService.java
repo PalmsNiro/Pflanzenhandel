@@ -235,33 +235,72 @@ public class UserService implements UserDetailsService {
             user.setExperiencePoints(user.getExperiencePoints() + points - 10);
             user.setLevel(user.getLevel() + 1);
             //Schauen ob Level up Quest vorhanden ist
-            for (UserQuest userQuest : userQuests) {
-                if (userQuest.getQuest().getDescription().contains("Level")) {
-                    int progressToAdd = Math.min(points, userQuest.getQuest().getNeededAmount());
-                    userQuest.setProgress(progressToAdd);
-                    if (userQuest.getProgress() >= userQuest.getQuest().getNeededAmount()) {
-                        // Markiere die Quest als abgeschlossen (hier können Sie zusätzliche Logik hinzufügen)
-                        System.out.println("Quest abgeschlossen: " + userQuest.getQuest().getDescription());
-                    }
-                    userQuestRepository.save(userQuest);
-                }
-            }
+            incrementLevelQuest(user);
         } else
             user.setExperiencePoints(user.getExperiencePoints() + points);
 
-        // Aktualisieren des Fortschritts bei den Quests
+        incrementXpQuest(user, points);
+
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public void incrementMessageQuest(Benutzer user) {
+        List<UserQuest> userQuests = userQuestRepository.findByUser(user);
         for (UserQuest userQuest : userQuests) {
-            if (userQuest.getQuest().getDescription().contains("Erfahrungs Punkte.")) {
-                int progressToAdd = Math.min(points, userQuest.getQuest().getNeededAmount());
-                userQuest.setProgress(progressToAdd);
+            if (userQuest.getQuest().getDescription().contains("Nachrichten")) {
+//                int progressToAdd = Math.min(points, userQuest.getQuest().getNeededAmount());
+                userQuest.setProgress(userQuest.getProgress() + 1);
                 if (userQuest.getProgress() >= userQuest.getQuest().getNeededAmount()) {
-                    // Markiere die Quest als abgeschlossen (hier können Sie zusätzliche Logik hinzufügen)
                     System.out.println("Quest abgeschlossen: " + userQuest.getQuest().getDescription());
                 }
                 userQuestRepository.save(userQuest);
             }
         }
+    }
 
-        userRepository.save(user);
+    @Transactional
+    public void incrementLevelQuest(Benutzer user) {
+        List<UserQuest> userQuests = userQuestRepository.findByUser(user);
+        for (UserQuest userQuest : userQuests) {
+            if (userQuest.getQuest().getDescription().contains("Level")) {
+//                int progressToAdd = Math.min(points, userQuest.getQuest().getNeededAmount());
+                userQuest.setProgress(userQuest.getProgress() + 1);
+                if (userQuest.getProgress() >= userQuest.getQuest().getNeededAmount()) {
+                    System.out.println("Quest abgeschlossen: " + userQuest.getQuest().getDescription());
+                }
+                userQuestRepository.save(userQuest);
+            }
+        }
+    }
+
+    @Transactional
+    public void incrementXpQuest(Benutzer user, int points) {
+        List<UserQuest> userQuests = userQuestRepository.findByUser(user);
+        for (UserQuest userQuest : userQuests) {
+            if (userQuest.getQuest().getDescription().contains("Erfahrungs Punkte.")) {
+                int progressToAdd = Math.min(points, userQuest.getQuest().getNeededAmount());
+                userQuest.setProgress(progressToAdd);
+                if (userQuest.getProgress() >= userQuest.getQuest().getNeededAmount()) {
+                    System.out.println("Quest abgeschlossen: " + userQuest.getQuest().getDescription());
+                }
+                userQuestRepository.save(userQuest);
+            }
+        }
+    }
+
+    @Transactional
+    public void incrementFavoritenQuest(Benutzer user) {
+        List<UserQuest> userQuests = userQuestRepository.findByUser(user);
+        for (UserQuest userQuest : userQuests) {
+            if (userQuest.getQuest().getDescription().contains("Favorisiere")) {
+
+                userQuest.setProgress(userQuest.getProgress() + 1);
+                if (userQuest.getProgress() >= userQuest.getQuest().getNeededAmount()) {
+                    System.out.println("Quest abgeschlossen: " + userQuest.getQuest().getDescription());
+                }
+                userQuestRepository.save(userQuest);
+            }
+        }
     }
 }

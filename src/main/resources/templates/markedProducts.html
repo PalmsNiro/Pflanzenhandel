@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+<head>
+    <th:block th:replace="~{fragments/htmlHead :: head}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/homestyle.css}"/>
+    <title>Favoriten</title>
+</head>
+<body>
+<!-- Header -->
+<th:block th:replace="~{fragments/htmlHeader :: header}"></th:block>
+
+<!-- Navbar -->
+<th:block th:replace="~{fragments/htmlNavbar :: navbar}"></th:block>
+
+<!-- Main Content Area -->
+<div class="container flex-grow-1 d-flex flex-column main-content">
+    <div class="row flex-grow-1 mt-3">
+        <div class="col bg-light py-3 d-flex flex-column">
+            <div>
+                <h2>Favoriten</h2>
+            </div>
+
+            <!-- Produktliste in einer Tabelle -->
+            <div th:if="${markedProducts != null && !markedProducts.isEmpty()}">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Pflanzen</th>
+                        <th scope="col">Favorit</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product : ${markedProducts}" class="clickable-row">
+                        <td class="product-cell" th:onclick="window.location.href='/product/' + [[${product.id}]]">
+                            <div class="d-flex">
+                                <div th:if="${product.mainImageUrl != null}">
+                                    <img th:src="@{${product.mainImageUrl}}" alt="Product Image" class="product-image me-3">
+                                </div>
+                                <div th:if="${product.mainImageUrl == null}">
+                                    <div class="no-image me-3">
+                                        No Image
+                                    </div>
+                                </div>
+                                <div class="product-details">
+                                    <div class="product-name" th:text="${product.name}">Produkt Name</div>
+                                    <div class="product-description" th:text="${product.description}">Produkt Beschreibung</div>
+                                    <div class="product-price">
+                                        <span th:text="${product.price}"></span> €
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="favorite-cell">
+                            <a th:href="@{/products/mark(id=${product.id}, marked=${!product.marked}, redirect='favorites')}" th:text="${product.marked ? '★' : '☆'}" th:class="${product.marked ? 'marked' : 'unmarked'}"></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${markedProducts == null || markedProducts.isEmpty()}">
+                <p>Keine Favoriten vorhanden.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<th:block th:replace="~{fragments/htmlFooter :: footer}"></th:block>
+
+<!-- Externe JavaScript-Datei einbinden -->
+<script th:src="@{/js/home.js}"></script>
+
+</body>
+</html>

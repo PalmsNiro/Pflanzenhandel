@@ -1,24 +1,22 @@
 package com.example.pflanzenhandel.controller;
 
+import com.example.pflanzenhandel.entity.Product;
+import com.example.pflanzenhandel.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.List;
-
-import com.example.pflanzenhandel.entity.*;
-import com.example.pflanzenhandel.service.*;
-
 
 @Controller
 public class HomeController {
 
     @Autowired
     private ProductService productService;
+
 
     @Autowired
     private UserService userService;
@@ -39,7 +37,6 @@ public class HomeController {
         }
         model.addAttribute("products", products);
         model.addAttribute("query", query);
-
         if (principal != null) {
             Benutzer user = userService.getUserByUsername(principal.getName());
 

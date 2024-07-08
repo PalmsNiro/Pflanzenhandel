@@ -1,0 +1,47 @@
+body {
+    background-color: #f0f8ff;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container-fluid {
+    padding: 0;
+}
+
+.form-control, .form-check-input, .btn {
+    font-size: 1.1rem;
+}
+
+.form-label {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.input-group-text {
+    font-size: 1.1rem;
+}
+
+.form-control::placeholder {
+    color: #ccc;
+    font-style: italic;
+}
+
+.btn-primary-custom {
+    background-color: #34a853; /* Grünton des Hintergrunds */
+    border-color: #34a853;
+    color: white;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s, border-color 0.3s;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary-custom:hover {
+    background-color: #2e8b47;
+    border-color: #2e8b47;
+}

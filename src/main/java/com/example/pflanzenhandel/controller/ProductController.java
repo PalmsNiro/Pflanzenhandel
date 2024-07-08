@@ -4,6 +4,7 @@ import com.example.pflanzenhandel.entity.Benutzer;
 import com.example.pflanzenhandel.entity.Product;
 import com.example.pflanzenhandel.service.ProductService;
 import com.example.pflanzenhandel.service.StorageService;
+import com.example.pflanzenhandel.repository.ProductRepository;
 import com.example.pflanzenhandel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,9 +14,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Optional;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class ProductController {
@@ -29,6 +33,8 @@ public class ProductController {
     @Autowired
     private StorageService storageService;
 
+    @Autowired
+    private ProductRepository productRepository;
     @GetMapping("/product/{id}")
     public String getProductById(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
         Product product = productService.getProductById(id);
@@ -37,7 +43,53 @@ public class ProductController {
         model.addAttribute("currentUser", currentUser);
         return "productDetails";
     }
+    @PostMapping("/product/markAsSold/{id}")
+    public String markAsSold(@PathVariable Long id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+        if (productOptional.isPresent()) {
+            Product product = productOptional.get();
+            product.setIsSold(true);
+            productRepository.save(product);
+        }
+        return "redirect:/product/" + id;
+    }
+    @PostMapping("/product/confirmPurchase/{id}")
+    public String confirmPurchase(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        Product product = productService.getProductById(id);
+        Benutzer currentUser = userService.getCurrentUser();
+        if (product != null && !product.getVerkaufer().getUsername().equals(currentUser.getUsername())) {
+            product.setConfirmedPurchase(true);
+            product.setBuyer(currentUser);
+            productService.saveProduct(product);
+            return "redirect:/product/" + id;
+        } else {
+            return "redirect:/product/" + id + "?error=not_authorized";
+        }
+    }
 
+    @GetMapping("/myPurchases")
+    public String getMyPurchases(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        Benutzer currentUser = userService.getCurrentUser();
+        List<Product> myPurchases = productService.findPurchasedProducts(currentUser);
+        model.addAttribute("myPurchases", myPurchases);
+        return "myPurchases";
+    }
+
+    @GetMapping("/conversation")
+    public String showConversation(@RequestParam("productId") Long productId, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        Product product = productService.getProductById(productId);
+        Benutzer currentUser = userService.getCurrentUser();
+        Benutzer recipient = userService.getUserByUsername(userDetails.getUsername()); // Annahme, dass recipient der aktuelle Benutzer ist
+
+        model.addAttribute("product", product);
+        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("recipient", recipient);
+        return "conversation";
+    }
+    @GetMapping("/plantCare")
+        public String getPlantCarePage() {
+            return "plantCare";
+        }
 
     @GetMapping("/product/new")
     public String showAddProductForm(Model model) {
@@ -60,16 +112,12 @@ public class ProductController {
                 product.setMainImageUrl(imageUrls.getFirst()); // Set the main image URL as the first image
             }
 
+
             // handle xp increase +3
             Benutzer currentUser = userService.getCurrentUser();
             userService.addExperiencePoints(currentUser, 3);
-//            int currXP = currentUser.getExperiencePoints();
-//            if(currXP==9){
-//                currentUser.setExperiencePoints(0);
-//                currentUser.setLevel(currentUser.getLevel()+1);
-//            }else{
-//                currentUser.setExperiencePoints(currXP+1);
-//            }
+
+            product.setVerkaufer(currentUser);
 
             productService.saveProduct(product);
             model.addAttribute("successMessage", "Produkt erfolgreich hinzugefügt!");
@@ -101,6 +149,7 @@ public class ProductController {
         model.addAttribute("product", product);
         return "editProduct";
     }
+
 
 
     @PostMapping("/product/edit/{id}")
@@ -149,4 +198,47 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/products")
+    public String listProducts(@RequestParam(value = "query", required = false) String searchQuery,
+                               @RequestParam(value = "sort", required = false) String sort,
+                               @RequestParam(value = "sortBy", required = false) String sortBy,
+                               @RequestParam(value = "category", required = false) String category,
+                               @RequestParam(value = "minPrice", required = false) Double minPrice,
+                               @RequestParam(value = "maxPrice", required = false) Double maxPrice,
+                               @RequestParam(value = "hasUebertopf", required = false) Boolean hasUebertopf,
+                               @RequestParam(value = "minHeight", required = false) Double minHeight,
+                               @RequestParam(value = "maxHeight", required = false) Double maxHeight,
+                               Model model) {
+        List<Product> products = productService.filterAndSortProducts(searchQuery, category, minPrice, maxPrice, hasUebertopf, minHeight, maxHeight, sort, sortBy);
+
+        model.addAttribute("products", products);
+        model.addAttribute("keyword", searchQuery);
+        model.addAttribute("sort", sort);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("category", category);
+        model.addAttribute("minPrice", minPrice);
+        model.addAttribute("maxPrice", maxPrice);
+        model.addAttribute("hasUebertopf", hasUebertopf);
+        model.addAttribute("minHeight", minHeight);
+        model.addAttribute("maxHeight", maxHeight);
+        return "home";
+    }
+
+    @GetMapping("/products/mark")
+    public String markProduct(@RequestParam("id") Long productId,
+                              @RequestParam("marked") boolean marked,
+                              @RequestParam(value = "redirect", required = false) String redirect) {
+        productService.markProduct(productId, marked);
+        if ("favorites".equals(redirect)) {
+            return "redirect:/products/marked";
+        }
+        return "redirect:/products";
+    }
+
+    @GetMapping("/products/marked")
+    public String getMarkedProducts(Model model) {
+        List<Product> markedProducts = productService.findMarkedProducts();
+        model.addAttribute("markedProducts", markedProducts);
+        return "markedProducts";
+    }
 }

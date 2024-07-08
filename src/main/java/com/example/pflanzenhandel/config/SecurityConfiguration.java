@@ -23,7 +23,7 @@ public class SecurityConfiguration{
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                         .ignoringRequestMatchers("/console/**"))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/register", "/login", "/messages/**", "/product/**").permitAll()
+                        .requestMatchers("/register", "/login", "/messages/**", "/product/**", "/css/authstyle.css").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin
@@ -45,12 +45,11 @@ public class SecurityConfiguration{
         return http.build();
     }
 
-
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web
                 .ignoring()
-                .requestMatchers("/resources/**", "/static/**", "/static/css/**", "/js/**", "/images/**");
+                .requestMatchers("/resources/**", "/static/**", "/js/**", "/images/**");
     }
 
     @Bean

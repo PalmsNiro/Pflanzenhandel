@@ -1,4 +1,3 @@
-/* authstyle.css */
 body {
         background-color: #f0f8ff;
                display: flex;
@@ -65,4 +64,3 @@ body {
            .card-footer a:hover {
                text-decoration: underline;
            }
-         }

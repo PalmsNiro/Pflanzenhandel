@@ -3,6 +3,7 @@ package com.example.pflanzenhandel.service;
 import com.example.pflanzenhandel.entity.*;
 import com.example.pflanzenhandel.repository.BenutzerRepository;
 import com.example.pflanzenhandel.repository.RolleRepository;
+import com.example.pflanzenhandel.repository.UserQuestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,11 +15,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.pflanzenhandel.entity.Benutzer;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.time.DayOfWeek;
+import java.util.*;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
+import java.util.stream.Collectors;
+
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -30,16 +33,31 @@ public class UserService implements UserDetailsService {
     private RolleRepository roleRepository;
 
     @Autowired
+    private QuestService questService;
+
+    @Autowired
+    private UserQuestRepository userQuestRepository;
+
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     /**
      * Saves a Benutzer entity to the database.
      *
-     * @param benutzer the Benutzer entity to save.
+     * @param user the Benutzer entity to save.
      * @return the saved Benutzer entity.
      */
-    public Benutzer saveUser(Benutzer benutzer) {
-        benutzer.setPassword(passwordEncoder.encode(benutzer.getPassword()));
+    public Benutzer saveUser(Benutzer user) {
+        String rawPassword = user.getPassword();
+
+        // Check if the password is already encoded (BCrypt passwords start with $2a, $2b, or $2y)
+        if (!rawPassword.startsWith("$2a$") && !rawPassword.startsWith("$2b$") && !rawPassword.startsWith("$2y$")) {
+            String encodedPassword = passwordEncoder.encode(rawPassword);
+            System.out.println("Raw Password: " + rawPassword);
+            System.out.println("Encoded Password: " + encodedPassword);
+            user.setPassword(encodedPassword);
+        }
+
         // Assign default role USER to the new user
         Rolle userRole = roleRepository.findByRolename("ROLE_USER");
         if (userRole == null) {
@@ -48,9 +66,9 @@ public class UserService implements UserDetailsService {
         }
         Set<Rolle> roles = new HashSet<>();
         roles.add(userRole);
-        benutzer.setRoles(roles);
+        user.setRoles(roles);
 
-        return userRepository.save(benutzer);
+        return userRepository.save(user);
     }
 
     /**
@@ -111,13 +129,13 @@ public class UserService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Benutzer benutzer = userRepository.findByUsername(username);
-        if (Objects.isNull(benutzer)) {
+        Benutzer user = userRepository.findByUsername(username);
+        if (Objects.isNull(user)) {
             throw new UsernameNotFoundException("Could not find the user for username " + username);
         }
-        List<GrantedAuthority> grantedAuthorities = getUserAuthorities(benutzer.getRoles());
-        return new org.springframework.security.core.userdetails.User(benutzer.getUsername(), benutzer.getPassword(),
-                benutzer.isEnabled(), true, true, benutzer.isEnabled(), grantedAuthorities);
+        List<GrantedAuthority> grantedAuthorities = getUserAuthorities(user.getRoles());
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+                user.isEnabled(), true, true, user.isEnabled(), grantedAuthorities);
     }
 
     /**
@@ -148,5 +166,102 @@ public class UserService implements UserDetailsService {
 
     public List<Benutzer> getConversations(Long userId) {
         return userRepository.findConversationsByUserId(userId);
+    }
+
+    @Transactional
+    public Benutzer assignRandomQuestsToUser(Long userId, int numberOfQuests) {
+        Benutzer user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+        Set<UserQuest> userQuests = user.getUserQuests();
+
+        // Berechnung der Quests in der aktuellen Woche
+        int currentWeekQuestCount = (int) userQuests.stream()
+                .filter(userQuest -> userQuest.getAssignedDate() != null && userQuest.getAssignedDate().isAfter(LocalDateTime.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))))
+                .count();
+
+        System.out.println("Current week quest count: " + currentWeekQuestCount);
+
+        int maxQuestsThisWeek = 7;
+        int maxQuestsAtStartOfWeek = 7;
+
+        // Berechnung der Anzahl der zuzuweisenden Quests unter Berücksichtigung der Limits
+        int questsToAssign = Math.min(numberOfQuests, maxQuestsAtStartOfWeek);
+        if (currentWeekQuestCount + questsToAssign > maxQuestsThisWeek) {
+            questsToAssign = maxQuestsThisWeek - currentWeekQuestCount;
+        }
+
+        System.out.println("Quests to assign: " + questsToAssign);
+
+        // muss final sein für lambda
+        final Benutzer finalUser = user;
+
+        // Zuweisung der Quests, wenn es Quests gibt, die zugewiesen werden müssen
+        if (questsToAssign > 0) {
+            // Sammeln der IDs der bereits zugewiesenen Quests
+            Set<Long> assignedQuestIds = userQuests.stream()
+                    .map(userQuest -> userQuest.getQuest().getId())
+                    .collect(Collectors.toSet());
+
+            List<Quest> randomQuests = questService.getRandomQuests(questsToAssign);
+            randomQuests.stream()
+                    .filter(quest -> !assignedQuestIds.contains(quest.getId())) // Filtere bereits zugewiesene Quests heraus
+                    .limit(questsToAssign) // Begrenze auf die Anzahl der zuzuweisenden Quests
+                    .forEach(quest -> {
+                        UserQuest userQuest = new UserQuest();
+                        userQuest.setUser(finalUser);
+                        userQuest.setQuest(quest);
+                        userQuest.setAssignedDate(LocalDateTime.now());
+                        userQuest.setProgress(0);
+                        userQuests.add(userQuest);
+                        userQuestRepository.save(userQuest); // Speichern der UserQuest
+                    });
+
+            System.out.println("Assigned Quests: " + randomQuests);
+            System.out.println("Number Of Quests assigned to User total: " + userQuests.size());
+
+            user.setUserQuests(userQuests); // Setze die aktualisierten Quests
+
+            user = userRepository.save(user); // Speichern des Benutzers mit den neuen Quests
+        }
+
+        return user;
+    }
+
+    @Transactional
+    public void addExperiencePoints(Benutzer user, int points) {
+        List<UserQuest> userQuests = userQuestRepository.findByUser(user);
+
+        if (user.getExperiencePoints() + points >= 10) {
+            //Level und Xp aktualisieren
+            user.setExperiencePoints(user.getExperiencePoints() + points - 10);
+            user.setLevel(user.getLevel() + 1);
+            //Schauen ob Level up Quest vorhanden ist
+            for (UserQuest userQuest : userQuests) {
+                if (userQuest.getQuest().getDescription().contains("Level")) {
+                    int progressToAdd = Math.min(points, userQuest.getQuest().getNeededAmount());
+                    userQuest.setProgress(progressToAdd);
+                    if (userQuest.getProgress() >= userQuest.getQuest().getNeededAmount()) {
+                        // Markiere die Quest als abgeschlossen (hier können Sie zusätzliche Logik hinzufügen)
+                        System.out.println("Quest abgeschlossen: " + userQuest.getQuest().getDescription());
+                    }
+                    userQuestRepository.save(userQuest);
+                }
+            }
+        } else
+            user.setExperiencePoints(user.getExperiencePoints() + points);
+
+        // Aktualisieren des Fortschritts bei den Quests
+        for (UserQuest userQuest : userQuests) {
+            if (userQuest.getQuest().getDescription().contains("Erfahrungs Punkte.")) {
+                int progressToAdd = Math.min(points, userQuest.getQuest().getNeededAmount());
+                userQuest.setProgress(progressToAdd);
+                if (userQuest.getProgress() >= userQuest.getQuest().getNeededAmount()) {
+                    // Markiere die Quest als abgeschlossen (hier können Sie zusätzliche Logik hinzufügen)
+                    System.out.println("Quest abgeschlossen: " + userQuest.getQuest().getDescription());
+                }
+                userQuestRepository.save(userQuest);
+            }
+        }
+
+        userRepository.save(user);
     }
 }

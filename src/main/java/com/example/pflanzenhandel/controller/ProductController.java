@@ -111,7 +111,12 @@ public class ProductController {
             if (!imageUrls.isEmpty()) {
                 product.setMainImageUrl(imageUrls.getFirst()); // Set the main image URL as the first image
             }
+
+
+            // handle xp increase +3
             Benutzer currentUser = userService.getCurrentUser();
+            userService.addExperiencePoints(currentUser, 3);
+
             product.setVerkaufer(currentUser);
 
             productService.saveProduct(product);

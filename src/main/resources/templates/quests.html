@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <th:block th:replace="~{fragments/htmlHead :: head}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/questsstyle.css}"/>
+    <title>Quests</title>
+</head>
+<body>
+<!--Header-->
+<th:block th:replace="~{fragments/htmlHeader :: header}"></th:block>
+
+<!--Navbar-->
+<th:block th:replace="~{fragments/htmlNavbar :: navbar}"></th:block>
+
+<!-- quests/list.html -->
+<div class="container mt-5">
+    <div th:each="userQuest : ${quests}" class="quest-card">
+        <div class="card" th:classappend="${userQuest.progress >= userQuest.quest.neededAmount} ? 'clickable-card completed-quest' : ''">
+            <div class="card-body"
+                 th:onclick="${userQuest.progress >= userQuest.quest.neededAmount} ? 'redirectToComplete(' + ${userQuest.id} + ')' : ''">
+                <h5 class="card-title quest-description">
+                    <span th:text="${userQuest.quest.description}">Hier steht die Questbeschreibung</span>
+                    <span class="quest-xp" th:text="'XP: ' + ${userQuest.quest.getXpForUser()}">XP</span>
+                </h5>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar"
+                         th:style="'width:' + (${userQuest.progress} / ${userQuest.quest.neededAmount}) * 100 + '%'"
+                         th:text="'Fortschritt: ' + ${userQuest.progress} + '/' + ${userQuest.quest.neededAmount}">
+                        Fortschritt
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function redirectToComplete(questId) {
+        window.location.href = '/quests/complete/' + questId;
+    }
+</script>
+</body>
+</html>

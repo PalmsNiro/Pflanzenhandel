@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <th:block th:replace="~{fragments/htmlHead :: head}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/leaderboardstyle.css}"/>
+    <title>Leaderboard</title>
+</head>
+<body>
+<!--Header-->
+<th:block th:replace="~{fragments/htmlHeader :: header}"></th:block>
+
+<!--Navbar-->
+<th:block th:replace="~{fragments/htmlNavbar :: navbar}"></th:block>
+
+<!--Main section for Leaderboard-->
+<div class="container mt-5">
+    <div th:if="${users != null && !users.isEmpty()}">
+        <table class="table table-striped leaderboard-table">
+            <thead>
+            <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">User</th>
+                <th scope="col">
+                    <a class="sortable" th:href="@{/leaderboard(sort='level')}">Level</a>
+                </th>
+                <th scope="col">
+                    <a class="sortable" th:href="@{/leaderboard(sort='questsCompleted')}">Quests Completed</a>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user, iterStat : ${users}" class="clickable-row">
+                <td class="rank-cell" th:text="${iterStat.index + 1}">Rank</td>
+                <td class="user-cell">
+                    <div class="user-name" th:text="${user.username}">Username</div>
+                </td>
+                <td class="level-cellcell">
+                    <div class="user-level" th:text="${user.level}">Level</div>
+                </td>
+                <td class="quest-completed-cell">
+                    <div class="user-questCompleted" th:text="${user.numberOfQuestsCompleted}">Quests Completed</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+</body>
+</html>

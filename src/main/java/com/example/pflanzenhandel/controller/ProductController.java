@@ -229,6 +229,11 @@ public class ProductController {
                               @RequestParam("marked") boolean marked,
                               @RequestParam(value = "redirect", required = false) String redirect) {
         productService.markProduct(productId, marked);
+        // Gamification inkrement Favoriten Quest
+        if(marked){
+            Benutzer user = userService.getCurrentUser();
+            userService.incrementFavoritenQuest(user);
+        }
         if ("favorites".equals(redirect)) {
             return "redirect:/products/marked";
         }

@@ -27,3 +27,9 @@
     margin: 0;
     color: #d1d1d1; /* Light grey text color */
 }
+
+.custom-border {
+    border-top: 1px solid #777777; /* Custom border color and thickness */
+    /*padding-left: 100px;*/
+    /*padding-right: 100px;*/
+}

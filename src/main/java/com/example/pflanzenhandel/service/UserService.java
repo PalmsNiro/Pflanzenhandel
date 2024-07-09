@@ -248,7 +248,7 @@ public class UserService implements UserDetailsService {
     public void incrementMessageQuest(Benutzer user) {
         List<UserQuest> userQuests = userQuestRepository.findByUser(user);
         for (UserQuest userQuest : userQuests) {
-            if (userQuest.getQuest().getDescription().contains("Nachrichten")) {
+            if (userQuest.getQuest().getDescription().contains("Nachricht")) {
 //                int progressToAdd = Math.min(points, userQuest.getQuest().getNeededAmount());
                 userQuest.setProgress(userQuest.getProgress() + 1);
                 if (userQuest.getProgress() >= userQuest.getQuest().getNeededAmount()) {

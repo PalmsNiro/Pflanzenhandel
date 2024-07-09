@@ -5,7 +5,7 @@
   <link rel="stylesheet" th:href="@{/css/homestyle.css}"/>
   <title>Search Plants</title>
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+
 </head>
 <body>
 <!--Header-->
@@ -15,9 +15,9 @@
 <th:block th:replace="~{fragments/htmlNavbar :: navbar}"></th:block>
 
 <!--Main Content Area-->
-<div class="container flex-grow-1 d-flex flex-column main-content">
-  <div class="row flex-grow-1 mt-3">
-    <div class="col bg-light py-3 d-flex flex-column">
+<div class="container flex-grow-1 d-flex justify-content-center flex-column main-content">
+<!--  <div class="row flex-grow-1 mt-3">-->
+    <div class="col py-3 d-flex flex-column">
       <div>
         <h2 th:text="'Ergebnisse für: ' + ${query}">Suchergebnisse</h2>
       </div>
@@ -69,12 +69,7 @@
       <!-- Produktliste in einer Tabelle -->
       <div th:if="${plants != null && !plants.isEmpty()}">
         <table class="table table-striped">
-          <thead>
-          <tr>
-            <th scope="col">Pflanzen</th>
-            <th scope="col">Favorit</th>
-          </tr>
-          </thead>
+
           <tbody>
           <tr th:each="plant : ${plants}" class="clickable-row">
             <td class="product-cell" th:onclick="'window.location.href=\'/product/' + ${plant.id} + '\';'">
@@ -99,7 +94,7 @@
               </div>
             </td>
             <td class="favorite-cell">
-              <a th:href="@{/products/mark(id=${plant.id}, marked=${!plant.marked})}" th:text="${plant.marked ? '★' : '☆'}"></a>
+              <a class="favorite-link" th:href="@{/products/mark(id=${plant.id}, marked=${!plant.marked})}" th:text="${plant.marked ? '★' : '☆'}"></a>
             </td>
           </tr>
           </tbody>
@@ -108,7 +103,7 @@
       <div th:if="${plants == null || plants.isEmpty()}">
         <p>Keine Pflanzen gefunden.</p>
       </div>
-    </div>
+<!--    </div>-->
   </div>
 </div>
 
@@ -118,6 +113,6 @@
 <!-- Externe JavaScript-Datei einbinden -->
 <script th:src="@{/js/home.js}"></script>
 <!-- Bootstrap JS -->
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<!--<script th:src="@{/js/bootstrap.bundle.min.js}"></script>-->
 </body>
 </html>

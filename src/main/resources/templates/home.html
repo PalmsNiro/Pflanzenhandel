@@ -13,7 +13,7 @@
 <th:block th:replace="~{fragments/htmlNavbar :: navbar}"></th:block>
 
 <!--Main Content Area-->
-<div class="container flex-grow-1 d-flex flex-column main-content">
+<div class="container flex-grow-1 d-flex justify-content-center flex-column main-content">
       <div>
         <h2 th:text="${#strings.isEmpty(keyword) ? 'Neueste Angebote' : 'Ergebnisse für: ' + keyword}">Neue Anzeige</h2>
       </div>

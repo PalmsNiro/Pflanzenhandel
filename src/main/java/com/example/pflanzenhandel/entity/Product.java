@@ -20,6 +20,7 @@ public class Product {
     private boolean confirmedPurchase;
     private Boolean isSold = false;
     private String category;
+    private boolean boosted = false;
 
     @ElementCollection
     private List<String> imageUrls;
@@ -160,5 +161,13 @@ public class Product {
 
     public void setIsSold(Boolean isSold) {
         this.isSold = isSold;
+    }
+
+    public boolean isBoosted() {
+        return boosted;
+    }
+
+    public void setBoosted(boolean boosted) {
+        this.boosted = boosted;
     }
 }

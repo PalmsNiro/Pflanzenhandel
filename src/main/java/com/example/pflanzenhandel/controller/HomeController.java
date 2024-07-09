@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
@@ -37,12 +39,19 @@ public class HomeController {
         } else {
             products = productService.getAllProducts();
         }
+
+        // Produkte sortieren: geboostete Produkte zuerst
+        products = products.stream()
+                .sorted(Comparator.comparing(Product::isBoosted).reversed())
+                .collect(Collectors.toList());
+
         model.addAttribute("products", products);
         model.addAttribute("query", query);
+
         if (principal != null) {
             Benutzer user = userService.getUserByUsername(principal.getName());
 
-            // Assign random quests if the user has no quests assigned
+            // Zufällige Quests zuweisen, wenn der Benutzer keine zugewiesenen Quests hat
             if (user.getUserQuests().isEmpty() && user.isNewQuestsAvailable()) {
                 user = userService.assignRandomQuestsToUser(user.getId(), 5);
                 user.setNewQuestsAvailable(false);
@@ -51,6 +60,7 @@ public class HomeController {
 
             model.addAttribute("user", user);
         }
-        return "home"; // The return value of the method is the name of the view (HTML page) to be displayed
+
+        return "home";
     }
 }

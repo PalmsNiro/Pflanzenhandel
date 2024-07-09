@@ -13,7 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.Optional;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
+
     @GetMapping("/product/{id}")
     public String getProductById(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
         Product product = productService.getProductById(id);
@@ -43,6 +46,7 @@ public class ProductController {
         model.addAttribute("currentUser", currentUser);
         return "productDetails";
     }
+
     @PostMapping("/product/markAsSold/{id}")
     public String markAsSold(@PathVariable Long id) {
         Optional<Product> productOptional = productRepository.findById(id);
@@ -53,6 +57,7 @@ public class ProductController {
         }
         return "redirect:/product/" + id;
     }
+
     @PostMapping("/product/confirmPurchase/{id}")
     public String confirmPurchase(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         Product product = productService.getProductById(id);
@@ -86,10 +91,11 @@ public class ProductController {
         model.addAttribute("recipient", recipient);
         return "conversation";
     }
+
     @GetMapping("/plantCare")
-        public String getPlantCarePage() {
-            return "plantCare";
-        }
+    public String getPlantCarePage() {
+        return "plantCare";
+    }
 
     @GetMapping("/product/new")
     public String showAddProductForm(Model model) {
@@ -129,7 +135,6 @@ public class ProductController {
     }
 
 
-
     private String validateProduct(Product product) {
         if (product.getName() == null || product.getName().isEmpty()) {
             return "Name is mandatory";
@@ -143,13 +148,13 @@ public class ProductController {
 
         return null;
     }
+
     @GetMapping("/product/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
         return "editProduct";
     }
-
 
 
     @PostMapping("/product/edit/{id}")
@@ -181,7 +186,6 @@ public class ProductController {
         productService.saveProduct(existingProduct);
         return "redirect:/product/" + existingProduct.getId();
     }
-
 
 
     @PostMapping("/product/delete/{id}")
@@ -230,7 +234,7 @@ public class ProductController {
                               @RequestParam(value = "redirect", required = false) String redirect) {
         productService.markProduct(productId, marked);
         // Gamification inkrement Favoriten Quest
-        if(marked){
+        if (marked) {
             Benutzer user = userService.getCurrentUser();
             userService.incrementFavoritenQuest(user);
         }
@@ -245,5 +249,26 @@ public class ProductController {
         List<Product> markedProducts = productService.findMarkedProducts();
         model.addAttribute("markedProducts", markedProducts);
         return "markedProducts";
+    }
+
+    @PostMapping("/products/boost/{id}")
+    public String boostProduct(@PathVariable Long id, Principal principal, RedirectAttributes redirectAttributes) {
+        Product product = productService.getProductById(id);
+        Benutzer user = userService.getUserByUsername(principal.getName());
+
+        if (product != null && product.getVerkaufer().getUsername().equals(principal.getName())) {
+            if (product.isBoosted()) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Dieses Produkt ist bereits geboosted.");
+            } else if (user.getNumberOfBoosts() == 0) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Sie haben keine Boosts mehr übrig.");
+            } else {
+                productService.boostProduct(product);
+                user.setNumberOfBoosts(user.getNumberOfBoosts() - 1);
+                userService.saveUser(user);
+                redirectAttributes.addFlashAttribute("successMessage", "Das Produkt wurde erfolgreich geboosted.");
+            }
+        }
+
+        return "redirect:/profile"; // Umleiten auf das Profil nach dem Boosten
     }
 }

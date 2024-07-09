@@ -188,3 +188,35 @@ body {
 .modal-button.cancel:hover {
     background-color: #ccc;
 }
+
+.btn-boost {
+    background-color: #ffb700; /* Goldfarbe */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btn-boost:hover {
+    background-color: #FFA500; /* Dunkleres Gold beim Hover */
+}
+
+.btn-boost-disabled {
+    background-color: #CCCCCC; /* Graue Farbe für deaktivierten Zustand */
+    color: #666666;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: not-allowed;
+    border-radius: 4px;
+}

@@ -42,6 +42,7 @@
                                          th:text="${user.experiencePoints} + '/10'"></div>
                                 </div>
                             </div>
+                                <p class="card-text"><strong>Boost übrig:</strong> <span th:text="${user.numberOfBoosts}"></span></p>
                         </div>
                     </div>
                 </div>
@@ -85,14 +86,19 @@
                                 </div>
                                 <div class="col">
                                     <div th:if="${userProduct.verkaufer != null and user != null and userProduct.verkaufer.username == user.username}">
-                                        <a th:href="@{/product/edit/{id}(id=${userProduct.id})}" class="btn-edit">Pflanze bearbeiten</a>
-                                        <button class="btn-delete"
-                                                th:onclick="'document.getElementById(\'deleteModal-' + ${userProduct.id} + '\').style.display=\'block\'; event.stopPropagation();'">
-                                            Pflanze löschen
-                                        </button>
-                                        <button class="btn-sold"
-                                                th:onclick="'document.getElementById(\'soldModal-' + ${userProduct.id} + '\').style.display=\'block\'; event.stopPropagation();'">
-                                            Als verkauft markieren
+<!--                                        <a th:href="@{/product/edit/{id}(id=${userProduct.id})}" class="btn-edit">Pflanze bearbeiten</a>-->
+<!--                                        <button class="btn-delete"-->
+<!--                                                th:onclick="'document.getElementById(\'deleteModal-' + ${userProduct.id} + '\').style.display=\'block\'; event.stopPropagation();'">-->
+<!--                                            Pflanze löschen-->
+<!--                                        </button>-->
+<!--                                        <button class="btn-sold"-->
+<!--                                                th:onclick="'document.getElementById(\'soldModal-' + ${userProduct.id} + '\').style.display=\'block\'; event.stopPropagation();'">-->
+<!--                                            Als verkauft markieren-->
+<!--                                        </button>-->
+                                        <button th:classappend="${userProduct.boosted or !user.hasBoostsLeft()} ? ' btn-boost-disabled' : ' btn-boost'"
+                                                th:disabled="${userProduct.boosted or !user.hasBoostsLeft()}"
+                                                th:data-product-id="${userProduct.id}">
+                                            Pflanze boosten
                                         </button>
                                     </div>
                                 </div>
@@ -124,9 +130,40 @@
                             </form>
                         </div>
                     </div>
+
+                    <!-- Modal für Boosten -->
+                    <div th:id="'boostModal-' + ${userProduct.id}" class="modal">
+                        <div class="modal-content">
+                            <span class="close" th:onclick="'document.getElementById(\'boostModal-' + ${userProduct.id} + '\').style.display=\'none\';'">&times;</span>
+                            <h2>Boost bestätigen</h2>
+                            <p>Sind Sie sicher, dass Sie dieses Produkt boosten möchten?</p>
+                            <form th:action="@{/products/boost/{id}(id=${userProduct.id})}" method="post">
+                                <button type="submit" class="modal-button confirm">Ja, boosten</button>
+                                <button type="button" class="modal-button cancel" th:onclick="'document.getElementById(\'boostModal-' + ${userProduct.id} + '\').style.display=\'none\';'">Abbrechen</button>
+                            </form>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const boostButtons = document.querySelectorAll('.btn-boost');
+
+                    boostButtons.forEach(button => {
+                        button.addEventListener('click', function(event) {
+                            const productId = button.getAttribute('data-product-id');
+                            showBoostModal(event, productId);
+                        });
+                    });
+                });
+
+                function showBoostModal(event, productId) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    document.getElementById('boostModal-' + productId).style.display = 'block';
+                }
+
                 window.onclick = function(event) {
                     var modals = document.getElementsByClassName('modal');
                     for (var i = 0; i < modals.length; i++) {

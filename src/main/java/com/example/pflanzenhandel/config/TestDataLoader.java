@@ -245,6 +245,30 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product5.setMainImageUrl("https://www.bonsai.saarland/images/product_images/info_images/DSC_0263.JPG");
         productService.saveProduct(product5);
 
+        Product product6 = new Product();
+        product6.setName("Blauregen");
+        product6.setPrice(25.99);
+        product6.setHeight(80);
+        product6.setOverPot(true);
+        product6.setShippingCosts(0.00);
+        product6.setDescription("Wunderschöner Blauregen, winterfest. Nur Abhohlung");
+        product6.setImageUrls(Arrays.asList("https://www.poetschke.de/out/pictures/master/product/1/generated/560__/206586-00-GPIE.jpg.webp"));
+        product6.setVerkaufer(debbyUser);
+        product6.setMainImageUrl("https://www.poetschke.de/out/pictures/master/product/1/generated/560__/206586-00-GPIE.jpg.webp");
+        productService.saveProduct(product6);
+
+        Product product7 = new Product();
+        product7.setName("Lavendel");
+        product7.setPrice(25.99);
+        product7.setHeight(80);
+        product7.setOverPot(true);
+        product7.setShippingCosts(2.00);
+        product7.setDescription("Gut duftender Lavendel, stets gut gepflegt.");
+        product7.setImageUrls(Arrays.asList("upload-dir/lavandula-angustifolia_1920x1920.jpg"));
+        product7.setVerkaufer(debbyUser);
+        product7.setMainImageUrl("upload-dir/lavandula-angustifolia_1920x1920.jpg");
+        productService.saveProduct(product7);
+
 
 
     }

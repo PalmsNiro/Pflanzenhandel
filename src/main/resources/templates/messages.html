@@ -14,58 +14,38 @@
 <th:block th:replace="~{fragments/htmlNavbar :: navbar}"></th:block>
 
 <!--Main Content Area-->
-<div class="container flex-grow-1 d-flex flex-column">
-    <div class="row flex-grow-1 mt-3">
+<div class="container flex-grow-1 d-flex flex-column mt-3">
+    <div class="row flex-grow-1">
         <!--Side Overview-->
-        <div class="col-auto bg-secondary flex-shrink-0 p-3" style="width: 200px;">
-            <span class="fs-5 fw-semibold">Seitenleiste</span>
-            <ul class="list-unstyled ps-0">
-                <li class="mb-1">
-                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-                        Bestellungen
-                    </button>
-                    <div class="collapse" id="orders-collapse">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Neu</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Verarbeitet</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Verschickt</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Zurückgegeben</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="border-top my-3"></li>
-                <li class="mb-1">
-                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-                        Profil
-                    </button>
-                    <div class="collapse" id="account-collapse">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Neu...</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profil</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Einstellungen</a></li>
-                            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Ausloggen</a></li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
+        <div class="col-md-3 bg-light p-3 rounded shadow-sm">
+            <h5 class="border-bottom pb-2 mb-3">Seitenleiste</h5>
+            <div>
+                <h6 class="fw-semibold">Bestellungen</h6>
+                <ul class="list-unstyled ps-3">
+                    <li><a href="#" class="text-decoration-none text-dark">Neu</a></li>
+                    <li><a href="#" class="text-decoration-none text-dark">Verarbeitet</a></li>
+                    <li><a href="#" class="text-decoration-none text-dark">Verschickt</a></li>
+                    <li><a href="#" class="text-decoration-none text-dark">Zurückgegeben</a></li>
+                </ul>
+            </div>
+            <div class="mt-4">
+                <h6 class="fw-semibold">Profil</h6>
+                <ul class="list-unstyled ps-3">
+                    <li><a href="#" class="text-decoration-none text-dark">Neu...</a></li>
+                    <li><a href="#" class="text-decoration-none text-dark">Profil</a></li>
+                    <li><a href="#" class="text-decoration-none text-dark">Einstellungen</a></li>
+                    <li><a href="#" class="text-decoration-none text-dark">Ausloggen</a></li>
+                </ul>
+            </div>
         </div>
         <!--Content Section with Messages-->
-        <div class="col bg-dark-subtle py-3 d-flex flex-column">
+        <div class="col-md-9 bg-white p-3 rounded shadow-sm">
+            <h2 class="border-bottom pb-2 mb-3">Nachrichten</h2>
             <div>
-                <h2>Nachrichten</h2>
-                <ul>
-                    <li th:each="user : ${users}">
-                        <span th:text="${user.username}">Benutzername</span>
-                        <form th:action="@{/messages/conversation}" method="get" style="display:inline;">
-                            <input type="hidden" name="recipientId" th:value="${user.id}" />
-                            <button type="submit" class="btn btn-outline-success">Nachricht</button>
-                        </form>
-                    </li>
-                </ul>
-                <h3>Vorhandene Chats</h3>
-                <ul id="conversationList">
-                    <li th:each="conversation : ${conversationPartners}">
-                        <a th:href="@{/messages/conversation(recipientId=${conversation.id})}" th:text="${conversation.username}">Conversation with Recipient</a>
+                <h4 class="mt-4">Vorhandene Chats</h4>
+                <ul class="list-unstyled" id="conversationList">
+                    <li th:each="conversation : ${conversationPartners}" class="mb-2">
+                        <a th:href="@{/messages/conversation(recipientId=${conversation.id})}" th:text="${conversation.username}" class="text-decoration-none text-dark">Conversation with Recipient</a>
                     </li>
                 </ul>
             </div>
@@ -78,6 +58,5 @@
 
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="/js/chat.js"></script>
 </body>
 </html>

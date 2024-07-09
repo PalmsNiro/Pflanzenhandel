@@ -87,29 +87,66 @@
                                 </div>
                                 <div class="col">
                                     <div th:if="${userProduct.verkaufer != null and user != null and userProduct.verkaufer.username == user.username}">
-                                        <a th:href="@{/product/edit/{id}(id=${userProduct.id})}" class="btn-edit">Pflanze
-                                            bearbeiten</a>
+                                        <a th:href="@{/product/edit/{id}(id=${userProduct.id})}" class="btn-edit">Pflanze bearbeiten</a>
                                         <button class="btn-delete"
-                                                onclick="document.getElementById('deleteModal').style.display='block'">
+                                                th:onclick="'document.getElementById(\'deleteModal-' + ${userProduct.id} + '\').style.display=\'block\'; event.stopPropagation();'">
                                             Pflanze löschen
                                         </button>
                                         <button class="btn-sold"
-                                                onclick="document.getElementById('soldModal').style.display='block'">Als
-                                            verkauft markieren
+                                                th:onclick="'document.getElementById(\'soldModal-' + ${userProduct.id} + '\').style.display=\'block\'; event.stopPropagation();'">
+                                            Als verkauft markieren
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- Delete Confirmation Modal -->
+                    <div th:id="'deleteModal-' + ${userProduct.id}" class="modal">
+                        <div class="modal-content">
+                            <span class="close" th:onclick="'document.getElementById(\'deleteModal-' + ${userProduct.id} + '\').style.display=\'none\';'">&times;</span>
+                            <h2>Pflanze löschen</h2>
+                            <p>Sind Sie sicher, dass Sie diese Pflanze löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.</p>
+                            <form th:action="@{/product/delete/{id}(id=${userProduct.id})}" method="post">
+                                <button type="submit" class="modal-button confirm">Löschen</button>
+                                <button type="button" class="modal-button cancel" th:onclick="'document.getElementById(\'deleteModal-' + ${userProduct.id} + '\').style.display=\'none\';'">Abbrechen</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Sold Confirmation Modal -->
+                    <div th:id="'soldModal-' + ${userProduct.id}" class="modal">
+                        <div class="modal-content">
+                            <span class="close" th:onclick="'document.getElementById(\'soldModal-' + ${userProduct.id} + '\').style.display=\'none\';'">&times;</span>
+                            <h2>Verkauf bestätigen</h2>
+                            <p>Sind Sie sicher, dass Sie dieses Produkt als verkauft markieren möchten?</p>
+                            <form th:action="@{/product/markAsSold/{id}(id=${userProduct.id})}" method="post">
+                                <button type="submit" class="modal-button confirm">Als verkauft markieren</button>
+                                <button type="button" class="modal-button cancel" th:onclick="'document.getElementById(\'soldModal-' + ${userProduct.id} + '\').style.display=\'none\';'">Abbrechen</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <script>
+                window.onclick = function(event) {
+                    var modals = document.getElementsByClassName('modal');
+                    for (var i = 0; i < modals.length; i++) {
+                        if (event.target === modals[i]) {
+                            modals[i].style.display = "none";
+                        }
+                    }
+                }
+            </script>
+
         </div>
     </div>
 </div>
 
 <!-- Footer -->
 <th:block th:replace="~{fragments/htmlFooter :: footer}"></th:block>
+
+
 
 </body>
 </html>

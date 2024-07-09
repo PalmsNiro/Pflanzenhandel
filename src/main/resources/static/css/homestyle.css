@@ -61,9 +61,7 @@
 }
 
 .main-content {
-    /*border: 1px solid #ccc; !* Dünner Rahmen um den Hauptinhalt *!*/
     justify-content: center;
-    /*align-items: center;*/
 }
 
 .favorite-link {

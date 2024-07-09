@@ -6,7 +6,6 @@
 .navbar-nav .nav-link {
     padding-right: 0.5rem;
     padding-left: 0.5rem;
-    /*padding: 10px 15px; !* Vergrößert das Padding der gesamten Leiste *!*/
     font-size: 1.75rem; /* Vergrößert die Schriftgröße der gesamten Leiste */
     font-weight: bold;
 }
@@ -41,10 +40,6 @@
     margin-left: 20px; /* Fügt Abstand zwischen Suchfeld und Suchbutton hinzu */
 }
 
-.navbar .btn-light {
-    margin-left: 20px; /* Fügt Abstand zum linken Rand des "Ausloggen"-Buttons hinzu */
-}
-
 .icon-size {
     width: 40px !important; /* Setzt die Breite des Profilsymbols */
     height: 40px !important; /* Setzt die Höhe des Profilsymbols */
@@ -66,6 +61,8 @@ ul {
 
 .dropdown-menu {
     min-width: 10rem;
+    right: 0;
+    left: auto;
 }
 
 .dropdown:hover .dropdown-menu {

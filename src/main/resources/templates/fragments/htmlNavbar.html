@@ -31,9 +31,9 @@
                     <li><a class="dropdown-item" th:href="@{/products/marked}">Favoriten</a></li>
                     <li><a class="dropdown-item" th:href="@{/messages}">Nachrichten</a></li>
                     <li><a class="dropdown-item" th:href="@{/leaderboard}">Leaderboard</a></li>
-                    <li th:if="${user != null}">
-                        <a class="dropdown-item" th:href="@{/quests(userId=${user.id})}">View Quests</a>
-                    </li>
+<!--                    <li th:if="${user != null}">-->
+                        <a class="dropdown-item" th:href="@{/quests}">View Quests</a>
+<!--                    </li>-->
                     <li><a class="dropdown-item" th:href="@{/plantCare}">Pflanzenpflege</a></li> <!-- Plant-Care Page Link -->
                     <li><a class="dropdown-item" th:href="@{/myPurchases}">Meine Käufe</a></li>
                     <li><hr class="dropdown-divider"></li>

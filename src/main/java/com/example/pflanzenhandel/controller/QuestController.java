@@ -26,8 +26,9 @@ public class QuestController {
     private UserQuestRepository userQuestRepository;
 
     @GetMapping
-    public String getUserQuests(@RequestParam Long userId, Model model) {
-        Benutzer user = userService.findById(userId);
+    public String getUserQuests(Model model) {
+//        Benutzer user = userService.findById(userId);
+        Benutzer user = userService.getCurrentUser();
         if (user != null) {
             List<UserQuest> userQuests = userQuestRepository.findByUser(user);
             model.addAttribute("quests", userQuests);
@@ -37,10 +38,11 @@ public class QuestController {
     }
 
     @GetMapping("/assignRandom")
-    public String assignRandomQuestsToUser(@RequestParam Long userId, Model model) {
-        Benutzer user = userService.assignRandomQuestsToUser(userId, 2);
+    public String assignRandomQuestsToUser(Model model) {
+        Benutzer user = userService.getCurrentUser();
+        userService.assignRandomQuestsToUser(user.getId(), 2);
         model.addAttribute("user", user);
-        return "redirect:/quests?userId=" + userId; // Redirect to the quests page for the user
+        return "redirect:/quests?userId=" + user.getId(); // Redirect to the quests page for the user
     }
 
     @GetMapping("/complete/{id}")

@@ -5,7 +5,7 @@
     <link rel="stylesheet" th:href="@{/css/leaderboardstyle.css}"/>
     <title>Leaderboard</title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <!--Header-->
 <th:block th:replace="~{fragments/htmlHeader :: header}"></th:block>
 
@@ -13,7 +13,7 @@
 <th:block th:replace="~{fragments/htmlNavbar :: navbar}"></th:block>
 
 <!--Main section for Leaderboard-->
-<div class="container mt-5">
+<div class="container flex-grow-1 d-flex flex-column">
     <div th:if="${users != null && !users.isEmpty()}">
         <table class="table table-hover leaderboard-table">
             <thead>
@@ -46,6 +46,7 @@
     </div>
 </div>
 
+<th:block th:replace="~{fragments/htmlFooter :: footer}"></th:block>
 
 </body>
 </html>

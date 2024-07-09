@@ -5,7 +5,7 @@
     <link rel="stylesheet" th:href="@{/css/questsstyle.css}"/>
     <title>Quests</title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <!--Header-->
 <th:block th:replace="~{fragments/htmlHeader :: header}"></th:block>
 
@@ -13,7 +13,7 @@
 <th:block th:replace="~{fragments/htmlNavbar :: navbar}"></th:block>
 
 <!-- quests/list.html -->
-<div class="container mt-5">
+<div class="container flex-grow-1 d-flex flex-column">
     <div th:each="userQuest : ${quests}" class="quest-card">
         <div class="card" th:classappend="${userQuest.progress >= userQuest.quest.neededAmount} ? 'clickable-card completed-quest' : ''">
             <div class="card-body"
@@ -33,6 +33,9 @@
         </div>
     </div>
 </div>
+
+<th:block th:replace="~{fragments/htmlFooter :: footer}"></th:block>
+
 <script>
     function redirectToComplete(questId) {
         window.location.href = '/quests/complete/' + questId;

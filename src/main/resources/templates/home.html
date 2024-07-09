@@ -14,8 +14,6 @@
 
 <!--Main Content Area-->
 <div class="container flex-grow-1 d-flex flex-column main-content">
-<!--  <div class="row flex-grow-1 mt-3">-->
-<!--    <div class="col bg-light py-3 d-flex flex-column">-->
       <div>
         <h2 th:text="${#strings.isEmpty(keyword) ? 'Neueste Angebote' : 'Ergebnisse für: ' + keyword}">Neue Anzeige</h2>
       </div>
@@ -62,12 +60,6 @@
       <!-- Produktliste in einer Tabelle -->
       <div th:if="${products != null && !products.isEmpty()}">
         <table class="table table-striped">
-          <thead>
-<!--          <tr>-->
-<!--            <th scope="col">Pflanzen</th>-->
-<!--            <th scope="col">Favorit</th>-->
-<!--          </tr>-->
-          </thead>
           <tbody>
           <tr th:each="product : ${products}" class="clickable-row" th:classappend="${product.isSold} ? 'sold-product' : ''">
             <td class="product-cell" th:onclick="'window.location.href=\'/product/' + ${product.id} + '\';'">
@@ -105,8 +97,6 @@
         <p>No products available.</p>
       </div>
     </div>
-<!--  </div>-->
-<!--</div>-->
 
 <!-- Footer -->
 <th:block th:replace="~{fragments/htmlFooter :: footer}"></th:block>

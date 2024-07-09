@@ -20,11 +20,7 @@ public class Product {
     private boolean confirmedPurchase;
     private Boolean isSold = false;
     private String category;
-    /*
-    Currently for testing purposes only a String
-    Needs to be replaced with a Set of Strings for Image Urls
-    If you change his, make sure the home controller/home.htlm only pics one image
-     */
+
     @ElementCollection
     private List<String> imageUrls;
 

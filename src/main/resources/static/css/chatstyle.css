@@ -1,4 +1,3 @@
-/* Styling für den Chat-Bereich */
 .chat-container {
     height: 400px; /* Höhe des Chat-Bereichs, kann angepasst werden */
     overflow-y: scroll; /* Ermöglicht vertikales Scrollen */

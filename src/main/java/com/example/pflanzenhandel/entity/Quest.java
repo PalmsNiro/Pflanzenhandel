@@ -38,22 +38,6 @@ public class Quest {
         this.description = description;
     }
 
-//    public int getCurrentAmount() {
-//        return currentAmount;
-//    }
-//
-//    public void setCurrentAmount(int count) {
-//        this.currentAmount = count;
-//    }
-
-//    public boolean isCompleted() {
-//        return completed;
-//    }
-//
-//    public void setCompleted(boolean completed) {
-//        this.completed = completed;
-//    }
-
     public int getNeededAmount() {
         return neededAmount;
     }
@@ -69,10 +53,6 @@ public class Quest {
     public void setPoints(int points) {
         this.points = points;
     }
-
-//    public LocalDateTime getAssignedDate() {return assignedDate;}
-//
-//    public void setAssignedDate(LocalDateTime assignedDate) {this.assignedDate = assignedDate;}
 
     public Set<UserQuest> getUserQuests() {
         return userQuests;

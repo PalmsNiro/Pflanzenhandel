@@ -17,7 +17,7 @@ public class QuestScheduler {
     @Autowired
     private BenutzerRepository userRepository;
 
-    // Schedule this to run every Monday at 00:00 (midnight)
+    // Schedule to run every Monday at 00:00 (midnight)
     // second minute hour day-of-month month day-of-week
     @Scheduled(cron = "00 14 20 * * SUN")
     public void assignWeeklyQuests() {

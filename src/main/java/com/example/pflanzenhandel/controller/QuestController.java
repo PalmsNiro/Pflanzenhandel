@@ -34,7 +34,7 @@ public class QuestController {
             model.addAttribute("quests", userQuests);
             model.addAttribute("user", user); // Add user to the model if needed
         }
-        return "quests"; // This should correspond to quests.html in your templates folder
+        return "quests";
     }
 
     @GetMapping("/assignRandom")

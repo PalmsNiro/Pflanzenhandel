@@ -31,7 +31,6 @@
             <tbody>
             <tr th:each="user, iterStat : ${users}" class="clickable-row">
                 <th scope="row" class="rank-cell" th:text="${iterStat.index + 1}">Rank</th>
-<!--                <td class="rank-cell" th:text="${iterStat.index + 1}">Rank</td>-->
                 <td class="user-cell">
                     <div class="user-name" th:text="${user.username}">Username</div>
                 </td>

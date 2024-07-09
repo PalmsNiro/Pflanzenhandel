@@ -31,14 +31,6 @@ public class Benutzer {
 
     private boolean newQuestsAvailable = true;
 
-    //    @ManyToMany
-//    @JoinTable(
-//            name = "benutzer_quests",
-//            joinColumns = @JoinColumn(name = "benutzer_id"),
-//            inverseJoinColumns = @JoinColumn(name = "quest_id")
-//    )
-//    private Set<Quest> quests = new HashSet<>();
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserQuest> userQuests = new HashSet<>();
 
@@ -57,7 +49,6 @@ public class Benutzer {
     private Set<Rolle> roles;
 
     public Benutzer() {
-        // Empty constructor for Hibernate
     }
 
     // Getter and Setter methods

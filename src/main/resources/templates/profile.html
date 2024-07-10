@@ -90,20 +90,17 @@
                                 </div>
                                 <div class="col">
                                     <div th:if="${userProduct.verkaufer != null and user != null and userProduct.verkaufer.username == user.username}">
-<!--                                        <a th:href="@{/product/edit/{id}(id=${userProduct.id})}" class="btn-edit">Pflanze bearbeiten</a>-->
-<!--                                        <button class="btn-delete"-->
-<!--                                                th:onclick="'document.getElementById(\'deleteModal-' + ${userProduct.id} + '\').style.display=\'block\'; event.stopPropagation();'">-->
-<!--                                            Pflanze löschen-->
-<!--                                        </button>-->
-<!--                                        <button class="btn-sold"-->
-<!--                                                th:onclick="'document.getElementById(\'soldModal-' + ${userProduct.id} + '\').style.display=\'block\'; event.stopPropagation();'">-->
-<!--                                            Als verkauft markieren-->
-<!--                                        </button>-->
                                         <button th:classappend="${userProduct.boosted or !user.hasBoostsLeft()} ? ' btn-boost-disabled' : ' btn-boost'"
                                                 th:disabled="${userProduct.boosted or !user.hasBoostsLeft()}"
                                                 th:data-product-id="${userProduct.id}">
                                             Pflanze boosten
                                         </button>
+                                        <!-- Confirm Purchase Button -->
+                                        <div th:if="${userProduct.purchaseRequested}">
+                                            <form th:action="@{/product/confirmPurchase/{id}(id=${userProduct.id})}" method="post">
+                                                <button type="submit" class="btn btn-primary">Kauf bestätigen</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -147,7 +144,6 @@
                             </form>
                         </div>
                     </div>
-
                 </div>
             </div>
             <script>

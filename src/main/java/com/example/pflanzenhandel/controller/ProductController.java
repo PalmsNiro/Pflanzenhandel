@@ -62,11 +62,10 @@ public class ProductController {
     public String confirmPurchase(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         Product product = productService.getProductById(id);
         Benutzer currentUser = userService.getCurrentUser();
-        if (product != null && !product.getVerkaufer().getUsername().equals(currentUser.getUsername())) {
+        if (product != null && product.getVerkaufer().getUsername().equals(currentUser.getUsername())) {
             product.setConfirmedPurchase(true);
-            product.setBuyer(currentUser);
             productService.saveProduct(product);
-            return "redirect:/product/" + id;
+            return "redirect:/profile";
         } else {
             return "redirect:/product/" + id + "?error=not_authorized";
         }
@@ -270,5 +269,18 @@ public class ProductController {
         }
 
         return "redirect:/profile"; // Umleiten auf das Profil nach dem Boosten
+    }
+    @PostMapping("/product/requestPurchase/{id}")
+    public String requestPurchase(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        Product product = productService.getProductById(id);
+        Benutzer currentUser = userService.getCurrentUser();
+        if (product != null && !product.getVerkaufer().getUsername().equals(currentUser.getUsername())) {
+            product.setPurchaseRequested(true);
+            product.setBuyer(currentUser);
+            productService.saveProduct(product);
+            return "redirect:/product/" + id;
+        } else {
+            return "redirect:/product/" + id + "?error=not_authorized";
+        }
     }
 }

@@ -14,13 +14,13 @@ public class Product {
     private double price;
     private double height;
     private boolean overPot;
-    private double shippingCosts;
     private String description;
     private boolean marked;
     private boolean confirmedPurchase;
     private Boolean isSold = false;
     private String category;
     private boolean boosted = false;
+    private boolean purchaseRequested = false;
 
     @ElementCollection
     private List<String> imageUrls;
@@ -83,14 +83,6 @@ public class Product {
         this.overPot = overPot;
     }
 
-    public double getShippingCosts() {
-        return shippingCosts;
-    }
-
-    public void setShippingCosts(double shippingCosts) {
-        this.shippingCosts = shippingCosts;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -135,16 +127,20 @@ public class Product {
         return category;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
     public boolean isConfirmedPurchase() {
         return confirmedPurchase;
     }
 
     public void setConfirmedPurchase(boolean confirmedPurchase) {
         this.confirmedPurchase = confirmedPurchase;
+    }
+
+    public boolean isPurchaseRequested() {
+        return purchaseRequested;
+    }
+
+    public void setPurchaseRequested(boolean purchaseRequested) {
+        this.purchaseRequested = purchaseRequested;
     }
 
     public Benutzer getBuyer() {

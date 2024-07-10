@@ -14,7 +14,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByBuyer(Benutzer buyer);
 
     List<Product> findByMarked(boolean marked);
-    List<Product> findByIsSold(boolean isSold);
+    List<Product> findByBuyerAndConfirmedPurchase(Benutzer buyer, boolean confirmedPurchase);
+    List<Product> findByVerkaufer(Benutzer verkaufer);
 
 
     @Query("SELECT p FROM Product p WHERE p.name LIKE %:keyword% ORDER BY p.name ASC")

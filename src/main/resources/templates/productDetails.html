@@ -70,14 +70,14 @@
     </div>
 </div>
 
-<!-- Purchase Confirmation Modal -->
+<!-- Purchase Request Confirmation Modal -->
 <div id="purchaseModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="document.getElementById('purchaseModal').style.display='none'">&times;</span>
-        <h2>Kauf bestätigen</h2>
-        <p>Sind Sie sicher, dass Sie dieses Produkt kaufen möchten?</p>
-        <form th:action="@{/product/confirmPurchase/{id}(id=${product.id})}" method="post">
-            <button type="submit" class="modal-button confirm">Kaufen</button>
+        <h2>Kaufanfrage bestätigen</h2>
+        <p>Sind Sie sicher, dass Sie eine Kaufanfrage für dieses Produkt senden möchten?</p>
+        <form th:action="@{/product/requestPurchase/{id}(id=${product.id})}" method="post">
+            <button type="submit" class="modal-button confirm">Anfrage senden</button>
             <button type="button" class="modal-button cancel" onclick="document.getElementById('purchaseModal').style.display='none'">Abbrechen</button>
         </form>
     </div>

@@ -64,6 +64,18 @@ public class ProductService {
         }
     }
 
+    public void requestPurchase(Long id, Benutzer buyer) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Product not found"));
+        product.setBuyer(buyer);
+        product.setPurchaseRequested(true);
+        productRepository.save(product);
+    }
+
+    public List<Product> findProductsByVerkaufer(Benutzer verkaufer) {
+        return productRepository.findByVerkaufer(verkaufer);
+    }
+
+
     public List<Product> filterProducts(List<Product> products, String category, Double minPrice, Double maxPrice, Boolean hasUebertopf, Double minHeight, Double maxHeight) {
         if (category != null && !category.isEmpty()) {
             products = products.stream()
@@ -137,7 +149,7 @@ public class ProductService {
     }
 
     public List<Product> findPurchasedProducts(Benutzer buyer) {
-        return productRepository.findByBuyer(buyer);
+        return productRepository.findByBuyerAndConfirmedPurchase(buyer, true);
     }
 
     public void boostProduct(Product product) {

@@ -32,6 +32,14 @@
     </form>
 </div>
 
+<hr class="my-4">
+
+<!--Countdown to next Quests-->
+<div class="container mt-4 d-flex align-items-center">
+    <h5>Neue Quests in:</h5>
+    <div id="countdown" class ="ml-2"></div>
+</div>
+
 <!-- quests/list.html -->
 <div class="container flex-grow-1 d-flex flex-column mt-5">
     <div th:each="userQuest : ${quests}" class="quest-card">
@@ -80,6 +88,44 @@
                 }
             });
     }
+
+    function getNextMonday() {
+        const now = new Date();
+        const dayOfWeek = now.getDay();
+        const hour = now.getHours();
+        const minute = now.getMinutes();
+
+        let daysUntilNextMonday = (1 - dayOfWeek + 7) % 7;
+        if (daysUntilNextMonday === 0 && (hour > 12 || (hour === 12 && minute >= 54))) {
+            daysUntilNextMonday = 7;
+        }
+
+        const nextMonday = new Date(now);
+        nextMonday.setDate(now.getDate() + daysUntilNextMonday);
+        nextMonday.setHours(12, 54, 0, 0);
+        return nextMonday;
+    }
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const countDownDate = getNextMonday().getTime();
+
+        const distance = countDownDate - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+        if (distance < 0) {
+            document.getElementById("countdown").innerHTML = "Neue Quests sind verfügbar!";
+        }
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
 </script>
 </body>
 </html>

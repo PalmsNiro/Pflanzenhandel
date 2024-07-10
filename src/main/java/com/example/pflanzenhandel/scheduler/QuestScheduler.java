@@ -19,7 +19,7 @@ public class QuestScheduler {
 
     // Schedule to run every Monday at 00:00 (midnight)
     // second minute hour day-of-month month day-of-week
-    @Scheduled(cron = "00 54 12 * * WED")
+    @Scheduled(cron = "00 00 00 * * MON")
     public void assignWeeklyQuests() {
         List<Benutzer> users = userRepository.findAll();
         for (Benutzer user : users) {

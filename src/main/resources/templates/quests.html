@@ -18,7 +18,7 @@
     <div class="progress" th:if="${user.weeklyQuestsProgress < 1}">
         <div class="progress-bar bg-success" role="progressbar"
              th:style="'width:' + (${user.weeklyQuestsProgress} / 5) * 100 + '%'"
-             th:text="'Fortschritt: ' + ${user.weeklyQuestsProgress} + '/5'">
+             th:text="${user.weeklyQuestsProgress} + '/5'">
             Fortschritt
         </div>
     </div>
@@ -56,7 +56,7 @@
                 <div class="progress">
                     <div class="progress-bar" role="progressbar"
                          th:style="'width:' + (${userQuest.progress} / ${userQuest.quest.neededAmount}) * 100 + '%'"
-                         th:text="'Fortschritt: ' + ${userQuest.progress} + '/' + ${userQuest.quest.neededAmount}">
+                         th:text="${userQuest.progress} + '/' + ${userQuest.quest.neededAmount}">
                         Fortschritt
                     </div>
                 </div>

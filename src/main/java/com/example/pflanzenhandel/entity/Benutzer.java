@@ -33,6 +33,8 @@ public class Benutzer {
 
     private int numberOfBoosts = 0;
 
+    private int weeklyQuestsProgress = 0;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserQuest> userQuests = new HashSet<>();
 
@@ -177,5 +179,13 @@ public class Benutzer {
 
     public boolean hasBoostsLeft(){
         return numberOfBoosts > 0;
+    }
+
+    public int getWeeklyQuestsProgress() {
+        return weeklyQuestsProgress;
+    }
+
+    public void setWeeklyQuestsProgress(int weeklyQuestsProgress) {
+        this.weeklyQuestsProgress = weeklyQuestsProgress;
     }
 }

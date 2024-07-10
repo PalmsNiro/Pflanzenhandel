@@ -12,8 +12,28 @@
 <!--Navbar-->
 <th:block th:replace="~{fragments/htmlNavbar :: navbar}"></th:block>
 
+<!-- Weekly Progress -->
+<div class="container mt-4">
+    <h3>Wöchentlicher Fortschritt</h3>
+    <div class="progress" th:if="${user.weeklyQuestsProgress < 1}">
+        <div class="progress-bar bg-success" role="progressbar"
+             th:style="'width:' + (${user.weeklyQuestsProgress} / 5) * 100 + '%'"
+             th:text="'Fortschritt: ' + ${user.weeklyQuestsProgress} + '/5'">
+            Fortschritt
+        </div>
+    </div>
+    <form th:if="${user.weeklyQuestsProgress >= 1}" th:action="@{/quests/resetWeeklyProgress}" method="post" style="width: 100%;">
+        <div class="progress clickable">
+            <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" th:text="'Fortschritt: ' + ${user.weeklyQuestsProgress} + '/5'"
+                 onclick="this.closest('form').submit();">
+                Fortschritt
+            </div>
+        </div>
+    </form>
+</div>
+
 <!-- quests/list.html -->
-<div class="container flex-grow-1 d-flex flex-column">
+<div class="container flex-grow-1 d-flex flex-column mt-5">
     <div th:each="userQuest : ${quests}" class="quest-card">
         <div class="card" th:classappend="${userQuest.progress >= userQuest.quest.neededAmount} ? 'clickable-card completed-quest' : ''">
             <div class="card-body"
@@ -39,6 +59,26 @@
 <script>
     function redirectToComplete(questId) {
         window.location.href = '/quests/complete/' + questId;
+    }
+
+    function resetWeeklyProgress(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        fetch('/quests/resetWeeklyProgress', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRF-TOKEN': /*[[${_csrf.token}]]*/ '' // Adjust as needed if CSRF protection is enabled
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    location.reload(); // Reload the page to reflect the reset progress
+                } else {
+                    alert("Fehler beim Zurücksetzen des wöchentlichen Fortschritts.");
+                }
+            });
     }
 </script>
 </body>

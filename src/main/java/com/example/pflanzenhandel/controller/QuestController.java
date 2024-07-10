@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,6 +55,7 @@ public class QuestController {
             userService.addExperiencePoints(user,userQuest.getQuest().getXpForUser()); // Quest BelohnungsXp dem User geben
             userQuestRepository.delete(userQuest); // Quest löschen wenn fertig
             user.setNumberOfQuestsCompleted(user.getNumberOfQuestsCompleted() + 1); // erhöhen des questcompletedCounters des users
+            user.setWeeklyQuestsProgress(user.getWeeklyQuestsProgress()+1); //Weekly Quests Progress erhöhen
             userService.saveUser(user);
             redirectAttributes.addFlashAttribute("message", "Quest completed successfully!");
         } else {
@@ -62,5 +64,21 @@ public class QuestController {
 
         // Redirect to the homepage
         return "redirect:/quests?userId=" + userQuest.getUser().getId();
+    }
+
+    @PostMapping("/resetWeeklyProgress")
+    public String resetWeeklyProgress(RedirectAttributes redirectAttributes) {
+        Benutzer user = userService.getCurrentUser();
+
+        if (user.getWeeklyQuestsProgress() >= 1) {
+            user.setWeeklyQuestsProgress(0);
+            user.setNumberOfBoosts(user.getNumberOfBoosts() + 1);
+            userService.saveUser(user);
+            redirectAttributes.addFlashAttribute("successMessage", "Der wöchentliche Fortschritt wurde zurückgesetzt.");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Der wöchentliche Fortschritt ist noch nicht voll.");
+        }
+
+        return "redirect:/quests";
     }
 }

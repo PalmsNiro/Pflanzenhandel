@@ -73,6 +73,7 @@ public class QuestController {
         if (user.getWeeklyQuestsProgress() >= 1) {
             user.setWeeklyQuestsProgress(0);
             user.setNumberOfBoosts(user.getNumberOfBoosts() + 1);
+            user.setWeeklyRewardReceived(true);
             userService.saveUser(user);
             redirectAttributes.addFlashAttribute("successMessage", "Der wöchentliche Fortschritt wurde zurückgesetzt.");
         } else {

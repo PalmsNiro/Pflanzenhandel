@@ -220,3 +220,7 @@ body {
     cursor: not-allowed;
     border-radius: 4px;
 }
+
+.green-link {
+    color: green;
+}

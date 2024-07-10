@@ -17,13 +17,12 @@ public class QuestScheduler {
     @Autowired
     private BenutzerRepository userRepository;
 
-    // Schedule to run every Monday at 00:00 (midnight)
-    // second minute hour day-of-month month day-of-week
+    // seconds minutes hours day-of-month month day-of-week
     @Scheduled(cron = "00 00 00 * * MON")
     public void assignWeeklyQuests() {
         List<Benutzer> users = userRepository.findAll();
         for (Benutzer user : users) {
-            userService.assignRandomQuestsToUser(user.getId(), 6);
+            userService.assignRandomQuestsToUser(user.getId(), 7);
             userService.resetWeeklyQuestProgress(user);
             user.setWeeklyRewardReceived(false);
             userService.saveUser(user);

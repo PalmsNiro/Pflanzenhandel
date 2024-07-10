@@ -22,7 +22,7 @@
             Fortschritt
         </div>
     </div>
-    <form th:if="${user.weeklyQuestsProgress >= 1}" th:action="@{/quests/resetWeeklyProgress}" method="post" style="width: 100%;">
+    <form th:if="${user.weeklyQuestsProgress >= 1 && !user.weeklyRewardReceived}" th:action="@{/quests/resetWeeklyProgress}" method="post" style="width: 100%;">
         <div class="progress clickable">
             <div class="progress-bar bg-success full-progress" role="progressbar" style="width: 100%;" th:text="'Fortschritt: ' + ${user.weeklyQuestsProgress} + '/5'"
                  onclick="this.closest('form').submit();">
@@ -30,6 +30,9 @@
             </div>
         </div>
     </form>
+    <div th:if="${user.weeklyRewardReceived}">
+        <p>Sie haben die Wöchentlichen Belohnugnen bereits erhalten</p>
+    </div>
 </div>
 
 <hr class="my-4">
@@ -77,12 +80,12 @@
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'X-CSRF-TOKEN': /*[[${_csrf.token}]]*/ '' // Adjust as needed if CSRF protection is enabled
+                'X-CSRF-TOKEN': /*[[${_csrf.token}]]*/ ''
             }
         })
             .then(response => {
                 if (response.ok) {
-                    location.reload(); // Reload the page to reflect the reset progress
+                    location.reload();
                 } else {
                     alert("Fehler beim Zurücksetzen des wöchentlichen Fortschritts.");
                 }

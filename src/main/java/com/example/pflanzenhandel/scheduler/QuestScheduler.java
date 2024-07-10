@@ -25,8 +25,6 @@ public class QuestScheduler {
         for (Benutzer user : users) {
             userService.assignRandomQuestsToUser(user.getId(), 6);
             userService.resetWeeklyQuestProgress(user);
-            user.setWeeklyRewardReceived(false);
-            userService.saveUser(user);
         }
     }
 }

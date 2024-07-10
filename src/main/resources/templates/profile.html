@@ -49,10 +49,6 @@
             </div>
             <div class="container">
                 <h3>Eingestellte Produkte</h3>
-                <div th:if="${#lists.isEmpty(userProducts)}">
-                    <p>Sie haben noch keine Produkte hochgeladen.</p>
-                    <a class="green-link" th:href="@{/product/new}">Neue Anzeige</a>
-                </div>
                 <div th:each="userProduct : ${userProducts}" class="product-card">
                     <div class="card clickable-card">
                         <div class="card-body"

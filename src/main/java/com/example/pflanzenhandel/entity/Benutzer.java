@@ -35,7 +35,9 @@ public class Benutzer {
 
     private int weeklyQuestsProgress = 0;
 
-    private boolean weeklyRewardReceived;
+    private boolean weeklyRewardReceived= false;
+
+    private int numberOfProductsBought = 0;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserQuest> userQuests = new HashSet<>();
@@ -197,5 +199,13 @@ public class Benutzer {
 
     public void setWeeklyRewardReceived(boolean weeklyRewardReceived) {
         this.weeklyRewardReceived = weeklyRewardReceived;
+    }
+
+    public int getNumberOfProductsBought() {
+        return numberOfProductsBought;
+    }
+
+    public void setNumberOfProductsBought(int numberOfProductsBought) {
+        this.numberOfProductsBought = numberOfProductsBought;
     }
 }

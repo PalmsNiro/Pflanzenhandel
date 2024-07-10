@@ -28,7 +28,9 @@ public class LeaderboardController {
             users.sort((u1, u2) -> Integer.compare(u2.getLevel(), u1.getLevel()));
         } else if ("questsCompleted".equals(sort)) {
             users.sort((u1, u2) -> Integer.compare(u2.getNumberOfQuestsCompleted(), u1.getNumberOfQuestsCompleted()));
-        } else {
+        }else if("plantsBought".equals(sort)){
+            users.sort((u1, u2) -> Integer.compare(u2.getNumberOfProductsBought(), u1.getNumberOfProductsBought()));
+        }else {
             // Standard-Sortierung (z.B. nach Level)
             users.sort((u1, u2) -> Integer.compare(u2.getLevel(), u1.getLevel()));
         }

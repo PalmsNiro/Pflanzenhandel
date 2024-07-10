@@ -28,7 +28,7 @@
     text-decoration: underline;
 }
 
-.level-cell, .quest-completed-cell {
+.level-cell, .quest-completed-cell, .bought-plants-cell {
     text-decoration: none;
     color: inherit;
 }

@@ -6,10 +6,7 @@ import com.example.pflanzenhandel.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-import java.util.Comparator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -79,7 +76,7 @@ public class ProductService {
     public List<Product> filterProducts(List<Product> products, String category, Double minPrice, Double maxPrice, Boolean hasUebertopf, Double minHeight, Double maxHeight) {
         if (category != null && !category.isEmpty()) {
             products = products.stream()
-                    .filter(p -> p.getCategory().equalsIgnoreCase(category))
+                    .filter(p -> p.getCategory() != null && p.getCategory().equalsIgnoreCase(category))
                     .collect(Collectors.toList());
         }
         if (minPrice != null) {
@@ -155,5 +152,8 @@ public class ProductService {
     public void boostProduct(Product product) {
         product.setBoosted(true);
         productRepository.save(product);
+    }
+    public List<String> getAllCategories() {
+        return Arrays.asList("Zimmerpflanze", "Gartenpflanze", "Kräuter", "Sukkulente", "Baum");
     }
 }

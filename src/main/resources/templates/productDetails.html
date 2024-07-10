@@ -30,6 +30,7 @@
             <p th:text="'Preis: ' + ${#numbers.formatDecimal(product.price, 1, 'COMMA', 2, 'POINT')} + ' €'">Preis: 0.00 €</p>
             <p th:text="'Höhe: ' + ${#numbers.formatDecimal(product.height, 1, 'COMMA', 2, 'POINT')} + ' cm'">Höhe: 0.00 cm</p>
             <p th:text="'Übertopf: ' + (${product.overPot} ? '✔' : '✘')">Übertopf: ✔</p>
+            <p th:text="'Kategorie: ' + ${product.category}">Kategorie: </p> <!-- Kategorie hinzugefügt -->
 
             <div th:if="${product.isSold != null and product.isSold}">
                 <span class="badge bg-danger">Verkauft</span>

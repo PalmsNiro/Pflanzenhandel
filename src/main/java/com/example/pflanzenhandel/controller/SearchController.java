@@ -28,14 +28,17 @@ public class SearchController {
                          @RequestParam(value = "maxHeight", required = false) Double maxHeight,
                          Model model) {
 
+        List<Product> plants;
         if (category == null && minPrice == null && maxPrice == null && hasUebertopf == null && minHeight == null && maxHeight == null) {
-            List<Product> plants = productService.searchProducts(query);
-            model.addAttribute("plants", plants);
+            plants = productService.searchProducts(query);
         } else {
-            List<Product> plants = productService.filterAndSortProducts(query, category, minPrice, maxPrice, hasUebertopf, minHeight, maxHeight, sort, sortBy);
-            model.addAttribute("plants", plants);
+            plants = productService.filterAndSortProducts(query, category, minPrice, maxPrice, hasUebertopf, minHeight, maxHeight, sort, sortBy);
         }
 
+        List<String> categories = productService.getAllCategories();
+        model.addAttribute("categories", categories);
+
+        model.addAttribute("plants", plants);
         model.addAttribute("query", query);
         model.addAttribute("sort", sort);
         model.addAttribute("sortBy", sortBy);

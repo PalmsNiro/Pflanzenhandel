@@ -259,6 +259,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product1.setOverPot(false);
         product1.setDescription("Die Pflanze wurde regelmäßig gegossen und ist in einem guten Zustand. Bei Fragen gerne eine Nachricht an mich.");
         product1.setVerkaufer(yannicUser);
+        product1.setCategory("Zimmerpflanze");
         product1.setImageUrls(Arrays.asList("https://eastgate.megapaints.co.za/wp-content/uploads/671826-1.jpg"));
         product1.setMainImageUrl("https://eastgate.megapaints.co.za/wp-content/uploads/671826-1.jpg");
         productService.saveProduct(product1);
@@ -271,6 +272,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product6.setDescription("Wunderschöner Blauregen, winterfest. Nur Abhohlung");
         product6.setImageUrls(Arrays.asList("https://www.poetschke.de/out/pictures/master/product/1/generated/560__/206586-00-GPIE.jpg.webp"));
         product6.setVerkaufer(debbyUser);
+        product6.setCategory("Baum");
         product6.setMainImageUrl("https://www.poetschke.de/out/pictures/master/product/1/generated/560__/206586-00-GPIE.jpg.webp");
         productService.saveProduct(product6);
 
@@ -281,6 +283,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product2.setOverPot(false);
         product2.setDescription("Großer Pachira aquatica Baum in gutem Zustand. Perfekt für Ihr Zuhause oder Büro.");
         product2.setVerkaufer(bastiUser);
+        product2.setCategory("Zimmerpflanze");
         product2.setImageUrls(Arrays.asList("https://cf.ltkcdn.net/feng-shui/images/std-xs/270900-340x340-money-tree-feng-shui.jpg"));
         product2.setMainImageUrl("https://cf.ltkcdn.net/feng-shui/images/std-xs/270900-340x340-money-tree-feng-shui.jpg");
         productService.saveProduct(product2);
@@ -293,6 +296,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product7.setDescription("Gut duftender Lavendel, stets gut gepflegt.");
         product7.setImageUrls(Arrays.asList("https://garten-von-ehren.imgbolt.de/thumbnail/56/38/68/1675700630/lavandula-angustifolia_1920x1920.jpg"));
         product7.setVerkaufer(debbyUser);
+        product7.setCategory("Gartenpflanze");
         product7.setMainImageUrl("https://garten-von-ehren.imgbolt.de/thumbnail/56/38/68/1675700630/lavandula-angustifolia_1920x1920.jpg");
         productService.saveProduct(product7);
 
@@ -303,6 +307,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product3.setOverPot(false);
         product3.setDescription("Schöne Palme, ideal für den Innenbereich. Bei Rückfragen stehe ich per Nachricht zur Verfügung.");
         product3.setVerkaufer(isikUser);
+        product3.setCategory("Baum");
         product3.setImageUrls(Arrays.asList("https://img.kleinanzeigen.de/api/v1/prod-ads/images/78/78ce54d4-f1b0-48c4-9299-325d63c9d880?rule=$_59.JPG"));
         product3.setMainImageUrl("https://img.kleinanzeigen.de/api/v1/prod-ads/images/78/78ce54d4-f1b0-48c4-9299-325d63c9d880?rule=$_59.JPG");
         productService.saveProduct(product3);
@@ -314,6 +319,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product4.setOverPot(true);
         product4.setDescription("Wunderschöne Orchidee mit lila Blüten. Mein Übertopf ist im Preis natürlich enthalten.");
         product4.setVerkaufer(debbyUser);
+        product4.setCategory("Zimmerpflanze");
         product4.setImageUrls(Arrays.asList("https://cdn.mdr.de/mdr-garten/pflanzen/phalaenopsis-orchideen-zimmerpflanze-bluete-102_v-variantBig1x1_w-1280_zc-3061602c.jpg?version=58136", "https://cdn.pflanzen-koelle.de/media/26/20/17/1683680685/0215152627-Phalaenopsis-Midi-Dark-Pink-2R-12cmT-H65cm2_124057.jpg?width=520&quality=80"));
         product4.setMainImageUrl("https://cdn.mdr.de/mdr-garten/pflanzen/phalaenopsis-orchideen-zimmerpflanze-bluete-102_v-variantBig1x1_w-1280_zc-3061602c.jpg?version=58136");
         productService.saveProduct(product4);
@@ -326,6 +332,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product5.setDescription("Regelmäßig gepflegter Bonsai Baum, perfekt fürs Büro.");
         product5.setImageUrls(Arrays.asList("https://www.bonsai.saarland/images/product_images/info_images/DSC_0262.JPG", "https://www.bonsai.saarland/images/product_images/info_images/DSC_0263.JPG"));
         product5.setVerkaufer(bastiUser);
+        product5.setCategory("Baum");
         product5.setMainImageUrl("https://www.bonsai.saarland/images/product_images/info_images/DSC_0263.JPG");
         productService.saveProduct(product5);
 
@@ -337,6 +344,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product8.setDescription("Gut gewachsener Schnittlauch. Muss leider wegen Platzmangel meinerseits verkauft werden.");
         product8.setImageUrls(Arrays.asList("https://www.gwenys-haus.de/media/image/product/5262/lg/kunstpflanze-schnittlauch-at-topf.webp"));
         product8.setVerkaufer(phillipUser);
+        product8.setCategory("Kräuter");
         product8.setMainImageUrl("https://www.gwenys-haus.de/media/image/product/5262/lg/kunstpflanze-schnittlauch-at-topf.webp");
         productService.saveProduct(product8);
 

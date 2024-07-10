@@ -151,7 +151,12 @@ public class ProductController {
     @GetMapping("/product/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         Product product = productService.getProductById(id);
+        if (product == null) {
+            return "redirect:/product";
+        }
+        List<String> categories = productService.getAllCategories();
         model.addAttribute("product", product);
+        model.addAttribute("categories", categories);
         return "editProduct";
     }
 
@@ -164,6 +169,7 @@ public class ProductController {
         existingProduct.setPrice(product.getPrice());
         existingProduct.setHeight(product.getHeight());
         existingProduct.setOverPot(product.getOverPot());
+        existingProduct.setCategory(product.getCategory());
 
         try {
             List<String> imageUrls = existingProduct.getImageUrls();

@@ -48,6 +48,17 @@
                         <span class="input-group-text">cm</span>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <label for="category" class="form-label">Kategorie</label>
+                    <select id="category" th:field="*{category}" class="form-control" required>
+                        <option value="">Kategorie wählen...</option>
+                        <option value="Zimmerpflanze">Zimmerpflanze</option>
+                        <option value="Gartenpflanze">Gartenpflanze</option>
+                        <option value="Kräuter">Kräuter</option>
+                        <option value="Sukkulente">Sukkulente</option>
+                        <option value="Baum">Baum</option>
+                    </select>
+                </div>
                 <div class="col-md-12">
                     <div class="form-check">
                         <input type="checkbox" id="overPot" th:field="*{overPot}" class="form-check-input" />

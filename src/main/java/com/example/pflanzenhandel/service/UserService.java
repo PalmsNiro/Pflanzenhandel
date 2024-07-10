@@ -228,8 +228,6 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void addExperiencePoints(Benutzer user, int points) {
-        List<UserQuest> userQuests = userQuestRepository.findByUser(user);
-
         if (user.getExperiencePoints() + points >= 10) {
             //Level und Xp aktualisieren
             user.setExperiencePoints(user.getExperiencePoints() + points - 10);
@@ -279,7 +277,8 @@ public class UserService implements UserDetailsService {
         List<UserQuest> userQuests = userQuestRepository.findByUser(user);
         for (UserQuest userQuest : userQuests) {
             if (userQuest.getQuest().getDescription().contains("Erfahrungs Punkte.")) {
-                int progressToAdd = Math.min(points, userQuest.getQuest().getNeededAmount());
+                int newProgress = userQuest.getProgress() + points;
+                int progressToAdd = Math.min(newProgress, userQuest.getQuest().getNeededAmount());
                 userQuest.setProgress(progressToAdd);
                 if (userQuest.getProgress() >= userQuest.getQuest().getNeededAmount()) {
                     System.out.println("Quest abgeschlossen: " + userQuest.getQuest().getDescription());
@@ -302,5 +301,11 @@ public class UserService implements UserDetailsService {
                 userQuestRepository.save(userQuest);
             }
         }
+    }
+
+    @Transactional
+    public void resetWeeklyQuestProgress(Benutzer user){
+        user.setWeeklyQuestsProgress(0);
+        userRepository.save(user);
     }
 }

@@ -135,6 +135,13 @@ public class ProductService {
 
         return products;
     }
+
     public List<Product> findPurchasedProducts(Benutzer buyer) {
         return productRepository.findByBuyer(buyer);
-    }}
+    }
+
+    public void boostProduct(Product product) {
+        product.setBoosted(true);
+        productRepository.save(product);
+    }
+}

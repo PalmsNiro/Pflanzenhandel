@@ -39,3 +39,8 @@
 .completed-quest:hover {
     transform: scale(1.05);
 }
+
+.full-progress:hover{
+    transform: scale(1.05);
+    cursor: pointer;
+}

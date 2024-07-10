@@ -39,12 +39,14 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         logger.info("Initialisiere Datenbank mit Testdaten...");
 
         /*-------------------------------------------------Quests----------------------------------------------*/
+        // Funktional
         Quest quest1 = new Quest();
         quest1.setDescription("Schreibe 100 Nachrichten.");
         quest1.setNeededAmount(100);
         quest1.setXpForUser(10);
         questService.save(quest1);
 
+        //Funktional
         Quest quest2 = new Quest();
         quest2.setDescription("Erhalte insgesammt 50 Erfahrungs Punkte.");
         quest2.setNeededAmount(50);
@@ -57,24 +59,28 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         quest3.setXpForUser(5);
         questService.save(quest3);
 
+        //Funktional
         Quest quest4 = new Quest();
         quest4.setDescription("Favorisiere 10 Pflanzen");
         quest4.setNeededAmount(10);
         quest4.setXpForUser(1);
         questService.save(quest4);
 
+        //Funktional
         Quest quest5 = new Quest();
         quest5.setDescription("Erhöhe dein Level ein mal");
         quest5.setNeededAmount(1);
         quest5.setXpForUser(2);
         questService.save(quest5);
 
+        // Funktional
         Quest quest6 = new Quest();
         quest6.setDescription("Schreibe 50 Nachrichten");
         quest6.setNeededAmount(50);
         quest6.setXpForUser(5);
         questService.save(quest6);
 
+        //Funktional
         Quest quest7 = new Quest();
         quest7.setDescription("Erhalte insgesammt 25 Erfahrungs Punkte.");
         quest7.setNeededAmount(25);
@@ -87,6 +93,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         questForTest2.setXpForUser(3);
         questService.save(questForTest2);
 
+        //Funktional
         Quest questForTest = new Quest();
         questForTest.setDescription("Erhalte insgesammt 3 Erfahrungs Punkte.");
         questForTest.setNeededAmount(3);
@@ -170,6 +177,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         }
 
         Benutzer admin = new Benutzer();
+        admin.setNumberOfBoosts(1);
         admin.setUsername("admin");
         admin.setPassword("admin");
         admin.setExperiencePoints(9);

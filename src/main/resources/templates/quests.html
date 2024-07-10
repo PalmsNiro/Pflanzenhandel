@@ -24,7 +24,7 @@
     </div>
     <form th:if="${user.weeklyQuestsProgress >= 1}" th:action="@{/quests/resetWeeklyProgress}" method="post" style="width: 100%;">
         <div class="progress clickable">
-            <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" th:text="'Fortschritt: ' + ${user.weeklyQuestsProgress} + '/5'"
+            <div class="progress-bar bg-success full-progress" role="progressbar" style="width: 100%;" th:text="'Fortschritt: ' + ${user.weeklyQuestsProgress} + '/5'"
                  onclick="this.closest('form').submit();">
                 Fortschritt
             </div>

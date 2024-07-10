@@ -81,11 +81,11 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         quest7.setXpForUser(3);
         questService.save(quest7);
 
-        Quest quest8 = new Quest();
-        quest8.setDescription("Schreibe 1 Nachricht");
-        quest8.setNeededAmount(1);
-        quest8.setXpForUser(3);
-        questService.save(quest8);
+        Quest questForTest2 = new Quest();
+        questForTest2.setDescription("Schreibe 1 Nachricht");
+        questForTest2.setNeededAmount(1);
+        questForTest2.setXpForUser(3);
+        questService.save(questForTest2);
 
         Quest questForTest = new Quest();
         questForTest.setDescription("Erhalte insgesammt 3 Erfahrungs Punkte.");
@@ -133,7 +133,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         debbyQuest1.setUser(debbyUser);
         debbyQuest1.setQuest(quest5);
         debbyQuest2.setUser(debbyUser);
-        debbyQuest2.setQuest(quest8);
+        debbyQuest2.setQuest(questForTest2);
         debbyQuest3.setUser(debbyUser);
         debbyQuest3.setQuest(questForTest);
         debbyQuest4.setUser(debbyUser);
@@ -197,6 +197,18 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product1.setMainImageUrl("https://eastgate.megapaints.co.za/wp-content/uploads/671826-1.jpg");
         productService.saveProduct(product1);
 
+        Product product6 = new Product();
+        product6.setName("Blauregen");
+        product6.setPrice(25.99);
+        product6.setHeight(80);
+        product6.setOverPot(true);
+        product6.setShippingCosts(0.00);
+        product6.setDescription("Wunderschöner Blauregen, winterfest. Nur Abhohlung");
+        product6.setImageUrls(Arrays.asList("https://www.poetschke.de/out/pictures/master/product/1/generated/560__/206586-00-GPIE.jpg.webp"));
+        product6.setVerkaufer(debbyUser);
+        product6.setMainImageUrl("https://www.poetschke.de/out/pictures/master/product/1/generated/560__/206586-00-GPIE.jpg.webp");
+        productService.saveProduct(product6);
+
         Product product2 = new Product();
         product2.setName("Pachira aquatica");
         product2.setPrice(65.99);
@@ -208,6 +220,18 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product2.setImageUrls(Arrays.asList("https://cf.ltkcdn.net/feng-shui/images/std-xs/270900-340x340-money-tree-feng-shui.jpg"));
         product2.setMainImageUrl("https://cf.ltkcdn.net/feng-shui/images/std-xs/270900-340x340-money-tree-feng-shui.jpg");
         productService.saveProduct(product2);
+
+        Product product7 = new Product();
+        product7.setName("Lavendel");
+        product7.setPrice(25.99);
+        product7.setHeight(80);
+        product7.setOverPot(true);
+        product7.setShippingCosts(2.00);
+        product7.setDescription("Gut duftender Lavendel, stets gut gepflegt.");
+        product7.setImageUrls(Arrays.asList("https://garten-von-ehren.imgbolt.de/thumbnail/56/38/68/1675700630/lavandula-angustifolia_1920x1920.jpg"));
+        product7.setVerkaufer(debbyUser);
+        product7.setMainImageUrl("https://garten-von-ehren.imgbolt.de/thumbnail/56/38/68/1675700630/lavandula-angustifolia_1920x1920.jpg");
+        productService.saveProduct(product7);
 
         Product product3 = new Product();
         product3.setName("Palme");
@@ -245,31 +269,17 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product5.setMainImageUrl("https://www.bonsai.saarland/images/product_images/info_images/DSC_0263.JPG");
         productService.saveProduct(product5);
 
-        Product product6 = new Product();
-        product6.setName("Blauregen");
-        product6.setPrice(25.99);
-        product6.setHeight(80);
-        product6.setOverPot(true);
-        product6.setShippingCosts(0.00);
-        product6.setDescription("Wunderschöner Blauregen, winterfest. Nur Abhohlung");
-        product6.setImageUrls(Arrays.asList("https://www.poetschke.de/out/pictures/master/product/1/generated/560__/206586-00-GPIE.jpg.webp"));
-        product6.setVerkaufer(debbyUser);
-        product6.setMainImageUrl("https://www.poetschke.de/out/pictures/master/product/1/generated/560__/206586-00-GPIE.jpg.webp");
-        productService.saveProduct(product6);
-
-        Product product7 = new Product();
-        product7.setName("Lavendel");
-        product7.setPrice(25.99);
-        product7.setHeight(80);
-        product7.setOverPot(true);
-        product7.setShippingCosts(2.00);
-        product7.setDescription("Gut duftender Lavendel, stets gut gepflegt.");
-        product7.setImageUrls(Arrays.asList("upload-dir/lavandula-angustifolia_1920x1920.jpg"));
-        product7.setVerkaufer(debbyUser);
-        product7.setMainImageUrl("upload-dir/lavandula-angustifolia_1920x1920.jpg");
-        productService.saveProduct(product7);
-
-
+        Product product8 = new Product();
+        product8.setName("Schnittlauch");
+        product8.setPrice(8.99);
+        product8.setHeight(30);
+        product8.setOverPot(false);
+        product8.setShippingCosts(3.99);
+        product8.setDescription("Gut gewachsener Schnittlauch. Muss leider wegen Platzmangel meinerseits verkauft werden.");
+        product8.setImageUrls(Arrays.asList("https://www.gwenys-haus.de/media/image/product/5262/lg/kunstpflanze-schnittlauch-at-topf.webp"));
+        product8.setVerkaufer(admin);
+        product8.setMainImageUrl("https://www.gwenys-haus.de/media/image/product/5262/lg/kunstpflanze-schnittlauch-at-topf.webp");
+        productService.saveProduct(product8);
 
     }
 }

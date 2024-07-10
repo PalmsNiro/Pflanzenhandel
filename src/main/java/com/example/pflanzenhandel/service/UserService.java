@@ -234,6 +234,8 @@ public class UserService implements UserDetailsService {
             user.setLevel(user.getLevel() + 1);
             //Schauen ob Level up Quest vorhanden ist
             incrementLevelQuest(user);
+            if(user.getLevel()%10==0)
+                user.setNumberOfBoosts(user.getNumberOfBoosts() + 1);
         } else
             user.setExperiencePoints(user.getExperiencePoints() + points);
 

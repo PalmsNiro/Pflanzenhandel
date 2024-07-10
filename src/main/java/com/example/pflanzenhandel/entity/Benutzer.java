@@ -35,6 +35,8 @@ public class Benutzer {
 
     private int weeklyQuestsProgress = 0;
 
+    private boolean weeklyRewardReceived = false;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserQuest> userQuests = new HashSet<>();
 
@@ -187,5 +189,13 @@ public class Benutzer {
 
     public void setWeeklyQuestsProgress(int weeklyQuestsProgress) {
         this.weeklyQuestsProgress = weeklyQuestsProgress;
+    }
+
+    public boolean isWeeklyRewardReceived() {
+        return weeklyRewardReceived;
+    }
+
+    public void setWeeklyRewardReceived(boolean weeklyRewardReceived) {
+        this.weeklyRewardReceived = weeklyRewardReceived;
     }
 }

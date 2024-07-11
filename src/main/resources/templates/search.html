@@ -29,11 +29,14 @@
         <form id="sortForm" action="/search" method="get" class="mb-3">
           <input type="hidden" name="query" th:value="${query}">
           <div class="input-group mb-3">
+            <select name="sortBy" class="form-select">
+              <option value="name" th:selected="${sortBy == 'name'}">Name</option>
+              <option value="price" th:selected="${sortBy == 'price'}">Preis</option>
+              <option value="height" th:selected="${sortBy == 'height'}">Größe</option>
+            </select>
             <select name="sort" class="form-select">
-              <option value="asc" th:selected="${sort == 'asc'}">Preis aufsteigend</option>
-              <option value="desc" th:selected="${sort == 'desc'}">Preis absteigend</option>
-              <option value="sizeAsc" th:selected="${sort == 'sizeAsc'}">Größe aufsteigend</option>
-              <option value="sizeDesc" th:selected="${sort == 'sizeDesc'}">Größe absteigend</option>
+              <option value="asc" th:selected="${sort == 'asc'}">Aufsteigend</option>
+              <option value="desc" th:selected="${sort == 'desc'}">Absteigend</option>
             </select>
             <button type="submit" class="btn btn-secondary">Sortieren</button>
           </div>

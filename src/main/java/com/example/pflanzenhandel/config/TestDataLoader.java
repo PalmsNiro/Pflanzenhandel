@@ -348,5 +348,41 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product8.setMainImageUrl("https://www.gwenys-haus.de/media/image/product/5262/lg/kunstpflanze-schnittlauch-at-topf.webp");
         productService.saveProduct(product8);
 
+        Product product9 = new Product();
+        product9.setName("Philodendron Birkin");
+        product9.setPrice(12.99);
+        product9.setHeight(30);
+        product9.setOverPot(false);
+        product9.setDescription("Schöner Philodendron Birkin mit einzigartig gemusterten Blättern.");
+        product9.setImageUrls(Arrays.asList("https://goldleafbotanicals.ca/cdn/shop/products/RareandExoticTropicalHousePlantsKitchenerTorontoOntarioCanada-6094.jpg?v=1652849405&width=990","https://goldleafbotanicals.ca/cdn/shop/products/RareandExoticTropicalHousePlantsKitchenerTorontoOntarioCanada-6101.jpg?v=1652849416&width=990","https://goldleafbotanicals.ca/cdn/shop/products/RareandExoticTropicalHousePlantsKitchenerTorontoOntarioCanada-6098.jpg?v=1652849413&width=990"));
+        product9.setVerkaufer(isikUser);
+        product9.setCategory("Zimmerpflanze");
+        product9.setMainImageUrl("https://goldleafbotanicals.ca/cdn/shop/products/RareandExoticTropicalHousePlantsKitchenerTorontoOntarioCanada-6094.jpg?v=1652849405&width=990");
+        productService.saveProduct(product9);
+
+        Product product12 = new Product();
+        product12.setName("Weiße Orchidee");
+        product12.setPrice(15.99);
+        product12.setHeight(60);
+        product12.setOverPot(true);
+        product12.setDescription("Elegante weiße Orchidee mit zarten Blüten. Kommt mit einem passenden Übertopf.");
+        product12.setImageUrls(Arrays.asList("https://m.media-amazon.com/images/I/514CZVTRL3L._AC_SY879_.jpg","https://m.media-amazon.com/images/I/511w0mas1jL._AC_SY879_.jpg"));
+        product12.setVerkaufer(phillipUser);
+        product12.setCategory("Baum");
+        product12.setMainImageUrl("https://m.media-amazon.com/images/I/514CZVTRL3L._AC_SY879_.jpg");
+        productService.saveProduct(product12);
+
+        Product product13 = new Product();
+        product13.setName("Lila Orchidee");
+        product13.setPrice(12.00);
+        product13.setHeight(50);
+        product13.setOverPot(false);
+        product13.setDescription("Schöne lila Orchidee mit auffälligen Blüten. Perfekt als Geschenk oder zur Dekoration.");
+        product13.setImageUrls(Arrays.asList("https://cdn.pflanzen-koelle.de/media/26/20/17/1683680685/0215152627-Phalaenopsis-Midi-Dark-Pink-2R-12cmT-H65cm2_124057.jpg?width=520&quality=80"));
+        product13.setVerkaufer(debbyUser);
+        product13.setCategory("Zimmerpflanze");
+        product13.setMainImageUrl("https://cdn.pflanzen-koelle.de/media/26/20/17/1683680685/0215152627-Phalaenopsis-Midi-Dark-Pink-2R-12cmT-H65cm2_124057.jpg?width=520&quality=80");
+        productService.saveProduct(product13);
     }
+
 }

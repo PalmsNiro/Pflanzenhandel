@@ -98,7 +98,10 @@
                                         <!-- Confirm Purchase Button -->
                                         <div th:if="${userProduct.purchaseRequested}">
                                             <form th:action="@{/product/confirmPurchase/{id}(id=${userProduct.id})}" method="post">
-                                                <button type="submit" class="btn btn-primary">Kauf bestätigen</button>
+                                                <button type="submit" class="btn btn-primary"
+                                                    th:disabled="${userProduct.isConfirmedPurchase()}"
+                                                >Kauf bestätigen
+                                                </button>
                                             </form>
                                         </div>
                                     </div>

@@ -165,6 +165,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         debbyUser.setLevel(5);
         debbyUser.setExperiencePoints(8);
         debbyUser.setRoles(userRolles);
+        
         debbyUser.setNumberOfQuestsCompleted(2);
         debbyUser.setUserQuests(debbyUserQuest);
         userService.saveUser(debbyUser);
@@ -256,6 +257,8 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product1.setName("Clivia Mininata");
         product1.setPrice(6.99);
         product1.setHeight(40);
+
+        product1.setConfirmedPurchase(true);
         product1.setOverPot(false);
         product1.setDescription("Die Pflanze wurde regelmäßig gegossen und ist in einem guten Zustand. Bei Fragen gerne eine Nachricht an mich.");
         product1.setVerkaufer(yannicUser);
@@ -263,6 +266,7 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product1.setImageUrls(Arrays.asList("https://eastgate.megapaints.co.za/wp-content/uploads/671826-1.jpg"));
         product1.setMainImageUrl("https://eastgate.megapaints.co.za/wp-content/uploads/671826-1.jpg");
         productService.saveProduct(product1);
+        product1.setBuyer(debbyUser);
 
         Product product6 = new Product();
         product6.setName("Blauregen");
@@ -345,8 +349,10 @@ public class TestDataLoader implements ApplicationListener<ContextRefreshedEvent
         product8.setImageUrls(Arrays.asList("https://www.gwenys-haus.de/media/image/product/5262/lg/kunstpflanze-schnittlauch-at-topf.webp"));
         product8.setVerkaufer(phillipUser);
         product8.setCategory("Kräuter");
+        product8.setConfirmedPurchase(true);
         product8.setMainImageUrl("https://www.gwenys-haus.de/media/image/product/5262/lg/kunstpflanze-schnittlauch-at-topf.webp");
         productService.saveProduct(product8);
+        product8.setBuyer(debbyUser);
 
         Product product9 = new Product();
         product9.setName("Philodendron Birkin");

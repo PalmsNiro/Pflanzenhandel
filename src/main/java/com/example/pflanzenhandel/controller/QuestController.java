@@ -70,7 +70,7 @@ public class QuestController {
     public String resetWeeklyProgress(RedirectAttributes redirectAttributes) {
         Benutzer user = userService.getCurrentUser();
 
-        if (user.getWeeklyQuestsProgress() >= 1) {
+        if (user.getWeeklyQuestsProgress() >= 5) {
             user.setWeeklyQuestsProgress(0);
             user.setNumberOfBoosts(user.getNumberOfBoosts() + 1);
             user.setWeeklyRewardReceived(true);

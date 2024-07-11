@@ -218,8 +218,10 @@ public class ProductController {
                                @RequestParam(value = "minHeight", required = false) Double minHeight,
                                @RequestParam(value = "maxHeight", required = false) Double maxHeight,
                                Model model) {
+        // Hole die gefilterten und sortierten Produkte
         List<Product> products = productService.filterAndSortProducts(searchQuery, category, minPrice, maxPrice, hasUebertopf, minHeight, maxHeight, sort, sortBy);
 
+        // Attribute zum Modell hinzufügen
         model.addAttribute("products", products);
         model.addAttribute("keyword", searchQuery);
         model.addAttribute("sort", sort);
@@ -232,6 +234,7 @@ public class ProductController {
         model.addAttribute("maxHeight", maxHeight);
         return "home";
     }
+
 
     @GetMapping("/products/mark")
     public String markProduct(@RequestParam("id") Long productId,

@@ -32,4 +32,17 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT p FROM Product p WHERE p.isSold = false")
     List<Product> findAllUnsoldProducts();
+
+    @Query("SELECT p FROM Product p ORDER BY p.price ASC")
+    List<Product> findAllByOrderByPriceAsc();
+
+    @Query("SELECT p FROM Product p ORDER BY p.price DESC")
+    List<Product> findAllByOrderByPriceDesc();
+
+    @Query("SELECT p FROM Product p ORDER BY p.height ASC")
+    List<Product> findAllByOrderByHeightAsc();
+
+    @Query("SELECT p FROM Product p ORDER BY p.height DESC")
+    List<Product> findAllByOrderByHeightDesc();
+
 }

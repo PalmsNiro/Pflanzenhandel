@@ -27,7 +27,7 @@
                     <a class="sortable" th:href="@{/leaderboard(sort='questsCompleted')}">Quests abgeschlossen</a>
                 </th>
                 <th scope="col">
-                    <a class="sortable" th:href="@{/leaderboard(sort='plantsBought')}">gekaufte Pflanzen</a>
+                    <a class="sortable" th:href="@{/leaderboard(sort='plantsSold')}">verkaufte Pflanzen</a>
                 </th>
             </tr>
             </thead>
@@ -44,7 +44,7 @@
                     <div class="user-questCompleted" th:text="${user.numberOfQuestsCompleted}">Quests abgeschlossen</div>
                 </td>
                 <td class="bought-plants-cell">
-                    <div class="user-plants-bought" th:text="${user.numberOfProductsBought}">gekaufte Pflanzen</div>
+                    <div class="user-plants-bought" th:text="${user.numberOfProductsSold}">verkaufte Pflanzen</div>
                 </td>
             </tr>
             </tbody>

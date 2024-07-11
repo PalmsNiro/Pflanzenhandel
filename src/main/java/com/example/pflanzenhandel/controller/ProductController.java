@@ -65,6 +65,9 @@ public class ProductController {
         if (product != null && product.getVerkaufer().getUsername().equals(currentUser.getUsername())) {
             product.setConfirmedPurchase(true);
             productService.saveProduct(product);
+            currentUser.setNumberOfProductsSold(currentUser.getNumberOfProductsSold() + 1);
+            userService.addExperiencePoints(currentUser,3);
+            userService.saveUser(currentUser);
             return "redirect:/profile";
         } else {
             return "redirect:/product/" + id + "?error=not_authorized";
